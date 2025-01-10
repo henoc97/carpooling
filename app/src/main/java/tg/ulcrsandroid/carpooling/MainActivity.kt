@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Commentaire fait pas Sylvain GOSSOU
+
         // Par défaut, stratégie Email/Password
         authContext = AuthContext(EmailPasswordAuthStrategy())
 
