@@ -4,6 +4,7 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+
 android {
     namespace = "tg.ulcrsandroid.carpooling"
     compileSdk = 35
@@ -43,7 +44,9 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
     implementation(libs.firebase.messaging)
-    implementation("io.socket:socket.io-client:2.0.1")
+    implementation (libs.play.services.auth)
+    implementation (libs.firebase.ui.auth)
+    implementation(libs.socket.io.client)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
