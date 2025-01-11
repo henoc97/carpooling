@@ -19,17 +19,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Par défaut, stratégie Email/Password
-        authContext = AuthContext(EmailPasswordAuthStrategy())
+        val emailPasswordAuthStrategy = EmailPasswordAuthStrategy()
+        authContext = AuthContext()
+        authContext.updateStrategy(emailPasswordAuthStrategy)
 
         // Bouton pour l'inscription par Email/Password
         findViewById<Button>(R.id.emailSignUpButton).setOnClickListener {
-            authContext.sInscrire("test@example.com", "password123", "John Doe")
+            authContext.sInscrire("test9785@example.com", "password123", "John Doe")
         }
 
         // Bouton pour l'inscription via Google
         findViewById<Button>(R.id.googleSignInButton).setOnClickListener {
             val googleStrategy = GoogleAuthStrategy(this)
-            authContext.setStrategy(googleStrategy)
+            authContext.updateStrategy(googleStrategy)
             startActivityForResult(googleStrategy.getSignInIntent(), 100)
         }
     }
@@ -43,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                     println("Connexion réussie via Google")
                 },
                 onError = { error ->
-                    println("Erreur : $error")
+                    println("Erreur : $error") // This is where you're printing the error
                 }
             )
         }
