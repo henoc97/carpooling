@@ -1,14 +1,12 @@
-package tg.ulcrsandroid.carpooling.presentation
+package tg.ulcrsandroid.carpooling
 
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import tg.ulcrsandroid.carpooling.R
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.AuthContext
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
-import tg.ulcrsandroid.carpooling.infrastructure.externalServices.push.MyFireBaseMessagingService
 
 class MainActivity : AppCompatActivity() {
     private lateinit var authContext: AuthContext
