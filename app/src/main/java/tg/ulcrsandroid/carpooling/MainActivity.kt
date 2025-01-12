@@ -26,16 +26,16 @@ class MainActivity : AppCompatActivity() {
         authContext.updateStrategy(emailPasswordAuthStrategy)
 
         // Bouton pour l'inscription par Email/Password
-        findViewById<Button>(R.id.emailSignUpButton).setOnClickListener {
-            authContext.sInscrire("test9785@example.com", "password123", "John Doe")
-        }
+       findViewById<Button>(R.id.emailSignUpButton).setOnClickListener {
+           authContext.sInscrire("test9785@example.com", "password123", "John Doe")
+       }
 
-        // Bouton pour l'inscription via Google
-        findViewById<Button>(R.id.googleSignInButton).setOnClickListener {
-            val googleStrategy = GoogleAuthStrategy(this)
-            authContext.updateStrategy(googleStrategy)
-            startActivityForResult(googleStrategy.getSignInIntent(), 100)
-        }
+       // Bouton pour l'inscription via Google
+       findViewById<Button>(R.id.googleSignInButton).setOnClickListener {
+           val googleStrategy = GoogleAuthStrategy(this)
+           authContext.updateStrategy(googleStrategy)
+           startActivityForResult(googleStrategy.getSignInIntent(), 100)
+       }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
