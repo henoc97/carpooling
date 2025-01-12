@@ -5,9 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
+    android:background="@color/black"
     android:gravity="center">
 
     <!-- Logo ou Image -->
+
     <ImageView
         android:id="@+id/logoImageView"
         android:layout_width="150dp"

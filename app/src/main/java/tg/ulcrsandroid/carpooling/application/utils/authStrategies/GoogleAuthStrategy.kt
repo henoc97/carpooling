@@ -17,7 +17,7 @@ class GoogleAuthStrategy(private val activity: Activity) : IAuthStrategy {
 
     init {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(activity.getString(R.string.app_name))
+            .requestIdToken(activity.getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(activity, gso)
