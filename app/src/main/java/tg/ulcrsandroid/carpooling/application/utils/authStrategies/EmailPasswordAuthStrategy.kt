@@ -7,8 +7,8 @@ class EmailPasswordAuthStrategy : IAuthStrategy {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance().reference
 
-    override fun sInscrire(email: String?, password: String?, fullName: String?) {
-        if (email == null || password == null || fullName == null) {
+    override fun sInscrire(email: String?, password: String?, nomComplet: String?) {
+        if (email == null || password == null || nomComplet == null) {
             println("Email, mot de passe ou nom complet manquant.")
             return
         }
@@ -20,7 +20,7 @@ class EmailPasswordAuthStrategy : IAuthStrategy {
                         val user = mapOf(
                             "userId" to userId,
                             "email" to email,
-                            "fullName" to fullName
+                            "nomComplet" to nomComplet
                         )
                         database.child("users").child(userId).setValue(user)
                             .addOnSuccessListener {

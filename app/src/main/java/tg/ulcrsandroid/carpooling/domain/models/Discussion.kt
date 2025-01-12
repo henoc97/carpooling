@@ -2,8 +2,9 @@ package tg.ulcrsandroid.carpooling.domain.models
 
 import java.util.Date
 
-class Notification(
-    var idNotification: String,
+class Discussion(
+    var idDiscussion: String,
+    var expediteur: Utilisateur,
     var destinataire: Utilisateur,
     var message: String,
     var horodatage: Date

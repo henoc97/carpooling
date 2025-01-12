@@ -8,8 +8,8 @@ class AuthContext {
         strategy = newStrategy
     }
 
-    fun sInscrire(email: String? = null, password: String? = null, fullName: String? = null) {
-        strategy?.sInscrire(email, password, fullName)
+    fun sInscrire(email: String? = null, password: String? = null, nomComplet: String? = null) {
+        strategy?.sInscrire(email, password, nomComplet)
     }
 
     fun seConnecter(email: String? = null, password: String? = null) {

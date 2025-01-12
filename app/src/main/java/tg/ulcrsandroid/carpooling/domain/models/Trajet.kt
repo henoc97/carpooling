@@ -3,11 +3,11 @@ package tg.ulcrsandroid.carpooling.domain.models
 import java.util.Date
 
 class Trajet(
-    var tripId: String,
-    var startLocation: String,
-    var endLocation: String,
-    var departureTime: Date,
-    var pricePerPassenger: Float,
-    var driver: Conducteur,
-    var seatsAvailable: Int
+    var idTrajet: String,
+    var lieuDepart: String,
+    var lieuArrivee: String,
+    var heureDepart: Date,
+    var prixParPassager: Float,
+    var conducteur: Conducteur,
+    var placesDisponibles: Int
 )
