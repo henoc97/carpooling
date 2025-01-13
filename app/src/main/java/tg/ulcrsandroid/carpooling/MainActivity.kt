@@ -3,32 +3,42 @@ package tg.ulcrsandroid.carpooling
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.AuthContext
+import tg.ulcrsandroid.carpooling.infrastructure.externalServices.push.MyFireBaseMessagingService
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.android.play.core.integrity.m
 
 class MainActivity : AppCompatActivity() {
     private lateinit var authContext: AuthContext
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
         setContentView(R.layout.activity_notification)
-        val tokentext=  findViewById<TextView>(R.id.token)
 
+        val btnSendNotification = findViewById<Button>(R.id.btnSendNotification)
 
+        // Tester l'envoi de notification
+        btnSendNotification.setOnClickListener {
+            val messagingService = MyFireBaseMessagingService()
 
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w("FCM", "Fetching FCM registration token failed", task.exception)
-                return@addOnCompleteListener
+            // Récupérer le token actuel (assurez-vous que l'application est bien connectée à Firebase)
+            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("FCM", "Erreur lors de la récupération du token", task.exception)
+                    return@addOnCompleteListener
+                }
+
+                // Récupérer le token
+                val userToken = task.result
+                Log.d("FCM", "Token actuel : $userToken")
+
+                // Appeler la méthode `sendNotification`
+                val message = "Votre trajet a été confirmé !"
+                messagingService.sendNotification(this, message, userToken)
             }
-
-            // Obtenir le token
-            val token = task.result
-            Log.d("FCM Token", token ?: "Token non disponible")
-            tokentext.text= token
         }
 
         // Commentaire fait pas Sylvain GOSSOU
