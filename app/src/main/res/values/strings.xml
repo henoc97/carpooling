@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Carpooling</string>
     <string name="default_web_client_id">44286377723-gbar5ear4f27br8oh4lvl86b9h7tn1fv.apps.googleusercontent.com</string>
+    <string name="title_activity_sign_up">signUpActivity</string>
 </resources>

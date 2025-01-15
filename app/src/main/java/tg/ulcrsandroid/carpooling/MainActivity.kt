@@ -2,40 +2,52 @@ package tg.ulcrsandroid.carpooling
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.airbnb.lottie.LottieAnimationView
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.AuthContext
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.EmailPasswordAuthStrategy
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.GoogleAuthStrategy
+import tg.ulcrsandroid.carpooling.application.utils.lottie.loadJsonFromRaw
+import tg.ulcrsandroid.carpooling.presentation.activities.LogInActivity
+import tg.ulcrsandroid.carpooling.presentation.activities.signUpActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var authContext: AuthContext
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_landing)
 
-        // Commentaire fait pas Sylvain GOSSOU
+        // Initialiser l'animation de landings
+        val landingAnimation: LottieAnimationView = findViewById(R.id.landingAnimation)
+        landingAnimation.visibility = View.VISIBLE
 
-        // Par défaut, stratégie Email/Password
-        val emailPasswordAuthStrategy = EmailPasswordAuthStrategy()
-        authContext = AuthContext()
-        authContext.updateStrategy(emailPasswordAuthStrategy)
+        // Initialiser les boutons
+        val signUpButton: Button = findViewById(R.id.signUpButton)
+        val loginButton: Button = findViewById(R.id.loginButton)
+        val googleButton: Button = findViewById(R.id.googleSignInButton)
 
-        // Bouton pour l'inscription par Email/Password
-       findViewById<Button>(R.id.emailSignUpButton).setOnClickListener {
-           authContext.sInscrire("test9785@example.com", "password123", "John Doe")
-       }
-
-       // Bouton pour l'inscription via Google
-       findViewById<Button>(R.id.googleSignInButton).setOnClickListener {
+        // Configurer les clics sur les boutons
+        signUpButton.setOnClickListener {
+            val intent = Intent(this, signUpActivity::class.java)
+            startActivity(intent)
+        }
+        loginButton.setOnClickListener {
+            val intent = Intent(this, LogInActivity::class.java)
+            startActivity(intent)
+        }
+        googleButton.setOnClickListener {
            val googleStrategy = GoogleAuthStrategy(this)
            authContext.updateStrategy(googleStrategy)
            startActivityForResult(googleStrategy.getSignInIntent(), 100)
-       }
+        }
+
+        // Commentaire fait pas Sylvain GOSSOU
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
