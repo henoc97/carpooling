@@ -19,6 +19,11 @@
             android:exported="false"
             android:label="@string/title_activity_sign_up"
             android:theme="@style/Theme.Carpooling" />
+        <activity
+            android:name=".presentation.activities.LogInActivity"
+            android:exported="false"
+            android:label="logInActivity"
+            android:theme="@style/Theme.Carpooling" />
 
         <meta-data
             android:name="com.google.android.gms.auth.api.credentials.ClientId"
@@ -34,14 +39,15 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".infrastructure.externalServices.push.MyFirebaseMessagingService"
-            android:exported="true"
-            android:permission="TODO">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+
+<!--        <service-->
+<!--            android:name=".infrastructure.externalServices.push.MyFirebaseMessagingService"-->
+<!--            android:exported="true"-->
+<!--            android:permission="TODO">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
     </application>
 
 </manifest>

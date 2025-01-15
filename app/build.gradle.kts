@@ -2,7 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+    alias(libs.plugins.kotlin.compose)
 }
+
 
 android {
     namespace = "tg.ulcrsandroid.carpooling"
@@ -35,20 +37,22 @@ android {
         jvmTarget = "17"
     }
     buildFeatures {
+        compose = true
         viewBinding = true
     }
 }
 
 dependencies {
+
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
     implementation(libs.firebase.messaging)
-    implementation(libs.lottie)
-    implementation(libs.material.v1110)
-    implementation(libs.play.services.auth)
-    implementation(libs.firebase.ui.auth)
+    implementation (libs.lottie)
+    implementation (libs.material.v1110)
+    implementation (libs.play.services.auth)
+    implementation (libs.firebase.ui.auth)
     implementation(libs.socket.io.client)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -62,6 +66,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.play.services.maps)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -70,5 +75,3 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
-
-apply(plugin = "com.google.gms.google-services")

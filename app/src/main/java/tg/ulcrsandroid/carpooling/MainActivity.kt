@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
 
+        authContext = AuthContext()
+
         // Initialiser l'animation de landings
         val landingAnimation: LottieAnimationView = findViewById(R.id.landingAnimation)
         landingAnimation.visibility = View.VISIBLE
