@@ -1,6 +1,7 @@
 package tg.ulcrsandroid.carpooling.application.services
 
 import android.content.Context
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
@@ -13,13 +14,19 @@ object UtilisateurService : IUtilisateur {
     var utilisateurID: String? = null
 
     fun sauvegarderUtilisateurID(context: Context) {
+        Log.i("Carpooling", "SAUVEGARDE DE L'ID $utilisateurID")
         val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         sharedPreferences.edit().putString("user_id", utilisateurID).apply()
     }
 
-    fun recupererUtilisateurID(context: Context): String? {
+    private fun recupererUtilisateurID(context: Context): String? {
         val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        return sharedPreferences.getString("user_id", null)
+        utilisateurID = sharedPreferences.getString("user_id", null)
+        return utilisateurID
+    }
+
+    fun initialiserIdUtilisateur(context: Context) {
+        utilisateurID = recupererUtilisateurID(context)
     }
 
     override fun mettreAJourProfil(email: String, nomComplet: String) {

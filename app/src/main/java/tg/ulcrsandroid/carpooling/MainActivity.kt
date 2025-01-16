@@ -2,6 +2,7 @@ package tg.ulcrsandroid.carpooling
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
@@ -9,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.airbnb.lottie.LottieAnimationView
+import com.google.firebase.Firebase
+import com.google.firebase.database.database
+import com.google.firebase.database.getValue
 import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.AuthContext
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.EmailPasswordAuthStrategy
@@ -27,14 +31,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initialiserUtilisateur()
+//        Log.i("Carpooling", "MainActivity ---> UTILISATEUR ACTUEL : ${UtilisateurService.utilisateurActuel?.nomComplet}")
+
         setContentView(R.layout.activity_landing)
 
-        utilisateur = UtilisateurService.utilisateurActuel
-        if (utilisateur != null) {
-            println("Utilisateur connecté : ${utilisateur?.nomComplet}")
+        val idUtilisateur = UtilisateurService.utilisateurID
+        if (idUtilisateur != null) {
+            Log.i("Carpooling", "Utilisateur connecté : ${utilisateur?.nomComplet}")
             // Appeler HomeActivity si l'utilisateur est déjà connecté
             val intent  = Intent(this, ChatActivity::class.java)
             startActivity(intent)
+        } else {
+            Log.i("Carpooling", "MainActivity ---> UTILISATEUR ACTUEL : NULL")
         }
 
         authContext = AuthContext()
@@ -63,7 +72,22 @@ class MainActivity : AppCompatActivity() {
            startActivityForResult(googleStrategy.getSignInIntent(), 100)
         }
 
-        // Commentaire fait pas Sylvain GOSSOU
+    }
+
+    private fun initialiserUtilisateur() {
+        val databas = Firebase.database
+        val idUtilisateur = UtilisateurService.utilisateurID
+        val userRef = databas.getReference("users/${idUtilisateur}")
+        userRef.get().addOnSuccessListener { dataSnapshot ->
+            if (dataSnapshot.exists()) {
+                UtilisateurService.utilisateurActuel = dataSnapshot.getValue<Utilisateur>() // Récupérer l'utilisateur depuis Firebase
+                Log.i("Carpooling", "MainActivity ---> UTILISATEUR ACTUEL : ${UtilisateurService.utilisateurActuel?.nomComplet}")
+            } else {
+                println("L'utilisateur référencé par $idUtilisateur n'existe pas")
+            }
+        }.addOnFailureListener { exception ->
+            println("Erreur lors de la récupération de l'utilisateur : $exception")
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -1,6 +1,7 @@
 package tg.ulcrsandroid.carpooling.presentation.activities
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -36,12 +37,17 @@ class LogInActivity : AppCompatActivity(){
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 authContext.seConnecter(email, password)
-                UtilisateurService.sauvegarderUtilisateurID(this)
                 Toast.makeText(this, "Connexion en cours...", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onDestroy() {
+        UtilisateurService.sauvegarderUtilisateurID(this)
+        Log.i("Carpooling", "SAUVEGARDE DE L'ID DE L'UTILISATEUR !")
+        super.onDestroy()
     }
 
 }

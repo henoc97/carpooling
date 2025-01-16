@@ -6,4 +6,6 @@ open class Utilisateur(
     var nomComplet: String,
     var motDePasse: String,
     var typeUtilisateur: String
-)
+) {
+    constructor() : this("", "", "", "", "")
+}

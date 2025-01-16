@@ -38,12 +38,16 @@ class signUpActivity : AppCompatActivity(){
 
             if (email.isNotEmpty() && password.isNotEmpty() && fullName.isNotEmpty()) {
                 authContext.sInscrire(email, password, fullName)
-                UtilisateurService.sauvegarderUtilisateurID(this)
                 Toast.makeText(this, "Inscription en cours...", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onDestroy() {
+        UtilisateurService.sauvegarderUtilisateurID(this)
+        super.onDestroy()
     }
 
 }

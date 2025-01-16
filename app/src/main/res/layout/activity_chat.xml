@@ -9,13 +9,14 @@
     <TextView
         android:id="@+id/headerTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:background="@drawable/header_background"
         android:padding="16dp"
         android:text="Chats"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:gravity="bottom"
         app:layout_constraintTop_toTopOf="parent"
         />
 
