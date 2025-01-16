@@ -4,7 +4,7 @@ import java.util.Date
 
 class Notification(
     var notificationId: String,
-    var recipient: Utilisateur,
+    //var recipient: Utilisateur,
     var message: String,
     var timestamp: Date
 )

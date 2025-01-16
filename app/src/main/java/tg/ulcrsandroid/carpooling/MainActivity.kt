@@ -7,13 +7,25 @@ import androidx.appcompat.app.AppCompatActivity
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.AuthContext
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
+import tg.ulcrsandroid.carpooling.application.services.NotificationService
+import tg.ulcrsandroid.carpooling.domain.models.Notification
+import java.util.Date
 
 class MainActivity : AppCompatActivity() {
     private lateinit var authContext: AuthContext
+    private val notificationService : NotificationService = NotificationService
+    private val notification = Notification(
+        notificationId = "12345",
+        message = "Votre trajet est confirmé !",
+        timestamp = Date()
+    )
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
-        FirebaseApp.initializeApp(this)
+        notificationService.envoyerNotification(notification)
+       /* FirebaseApp.initializeApp(this)
         setContentView(R.layout.activity_notification)
         val tokentext=  findViewById<TextView>(R.id.token)
 
@@ -29,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             val token = task.result
             Log.d("FCM Token", token ?: "Token non disponible")
             tokentext.text= token
-        }
+        }*/
 
         // Commentaire fait pas Sylvain GOSSOU
 
