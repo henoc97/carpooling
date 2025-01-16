@@ -9,19 +9,33 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.airbnb.lottie.LottieAnimationView
+import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.AuthContext
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.EmailPasswordAuthStrategy
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.GoogleAuthStrategy
 import tg.ulcrsandroid.carpooling.application.utils.lottie.loadJsonFromRaw
+import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
+import tg.ulcrsandroid.carpooling.presentation.activities.ChatActivity
 import tg.ulcrsandroid.carpooling.presentation.activities.LogInActivity
 import tg.ulcrsandroid.carpooling.presentation.activities.signUpActivity
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var authContext: AuthContext
+    private var utilisateur: Utilisateur? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
+
+        utilisateur = UtilisateurService.utilisateurActuel
+        if (utilisateur != null) {
+            println("Utilisateur connecté : ${utilisateur?.nomComplet}")
+            // Appeler HomeActivity si l'utilisateur est déjà connecté
+            val intent  = Intent(this, ChatActivity::class.java)
+            startActivity(intent)
+        }
 
         authContext = AuthContext()
 

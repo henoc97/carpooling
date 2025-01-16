@@ -2,6 +2,9 @@ package tg.ulcrsandroid.carpooling.application.utils.authStrategies
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import okhttp3.internal.Util
+import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
+import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
 
 class EmailPasswordAuthStrategy : IAuthStrategy {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -22,9 +25,11 @@ class EmailPasswordAuthStrategy : IAuthStrategy {
                             "email" to email,
                             "nomComplet" to nomComplet
                         )
-                        database.child("users").child(userId).setValue(user)
+                        val utilisateur = Utilisateur(userId, email, nomComplet, password, "client")
+                        database.child("users").child(userId).setValue(utilisateur)
                             .addOnSuccessListener {
                                 println("Utilisateur enregistré avec succès.")
+                                UtilisateurService.utilisateurID = userId
                             }
                             .addOnFailureListener { e ->
                                 println("Erreur d'enregistrement : ${e.message}")
@@ -43,8 +48,12 @@ class EmailPasswordAuthStrategy : IAuthStrategy {
         }
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
+                val userId = task.result?.user?.uid
+
+                // Récupérer l'id de l'utilisateur et le stocker dans sharred preferences
                 if (task.isSuccessful) {
-                    println("Connexion réussie.")
+                    println("Connexion réussie. ${userId}")
+                    UtilisateurService.utilisateurID = userId
                 } else {
                     println("Erreur de connexion : ${task.exception?.message}")
                 }

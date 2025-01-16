@@ -1,12 +1,26 @@
 package tg.ulcrsandroid.carpooling.application.services
 
+import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
 import tg.ulcrsandroid.carpooling.domain.repositories.IUtilisateur
 
 object UtilisateurService : IUtilisateur {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance().reference
+    var utilisateurActuel: Utilisateur? = null
+    var utilisateurID: String? = null
+
+    fun sauvegarderUtilisateurID(context: Context) {
+        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("user_id", utilisateurID).apply()
+    }
+
+    fun recupererUtilisateurID(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("user_id", null)
+    }
 
     override fun mettreAJourProfil(email: String, nomComplet: String) {
         val currentUser = auth.currentUser

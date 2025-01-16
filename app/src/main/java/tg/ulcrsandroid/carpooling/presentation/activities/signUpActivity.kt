@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import tg.ulcrsandroid.carpooling.R
+import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.AuthContext
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.EmailPasswordAuthStrategy
 import tg.ulcrsandroid.carpooling.databinding.ActivityLoginBinding
@@ -37,6 +38,7 @@ class signUpActivity : AppCompatActivity(){
 
             if (email.isNotEmpty() && password.isNotEmpty() && fullName.isNotEmpty()) {
                 authContext.sInscrire(email, password, fullName)
+                UtilisateurService.sauvegarderUtilisateurID(this)
                 Toast.makeText(this, "Inscription en cours...", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
