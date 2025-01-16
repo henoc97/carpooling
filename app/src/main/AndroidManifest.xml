@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -24,11 +25,11 @@
             android:exported="false"
             android:label="logInActivity"
             android:theme="@style/Theme.Carpooling" />
-        <!--        <activity-->
-        <!--            android:name=".presentation.activities.HomeActivity"-->
-        <!--            android:exported="false"-->
-        <!--            android:label="logInActivity"-->
-        <!--            android:theme="@style/Theme.Carpooling" />-->
+<!--        <activity-->
+<!--            android:name=".presentation.activities.HomeActivity"-->
+<!--            android:exported="false"-->
+<!--            android:label="logInActivity"-->
+<!--            android:theme="@style/Theme.Carpooling" />-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCNwArZMo4NfCOfE6ANRi-vNmzFZeEtBaM" />
@@ -38,7 +39,7 @@
             android:value="@string/default_web_client_id" />
 
         <activity
-            android:name=".presentation.activities.HomeActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,14 +49,14 @@
         </activity>
 
 
-        <!--        <service-->
-        <!--            android:name=".infrastructure.externalServices.push.MyFirebaseMessagingService"-->
-        <!--            android:exported="true"-->
-        <!--            android:permission="TODO">-->
-        <!--            <intent-filter>-->
-        <!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
-        <!--            </intent-filter>-->
-        <!--        </service>-->
+        <service
+            android:name=".infrastructure.externalServices.push.MyFireBaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
