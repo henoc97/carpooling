@@ -26,7 +26,10 @@ class EmailPasswordAuthStrategy : IAuthStrategy {
                             "nomComplet" to nomComplet
                         )
                         val utilisateur = Utilisateur(userId, email, nomComplet, password, "client")
-                        database.child("users").child(userId).setValue(utilisateur)
+                        email.replace("@", "$")
+//                        database.child("users").child(userId).setValue(utilisateur)
+                        // Utilisation de l'email plutot que l'id pour référencer un utilisateur
+                        database.child("users").child(email).setValue(utilisateur)
                             .addOnSuccessListener {
                                 println("Utilisateur enregistré avec succès.")
                                 UtilisateurService.utilisateurID = userId

@@ -7,5 +7,7 @@ open class Utilisateur(
     var motDePasse: String,
     var typeUtilisateur: String
 ) {
+
+    var contactsEmails: MutableList<String> = mutableListOf()
     constructor() : this("", "", "", "", "")
 }

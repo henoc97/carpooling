@@ -2,8 +2,11 @@ package tg.ulcrsandroid.carpooling.application.services
 
 import android.content.Context
 import android.util.Log
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.database
+import com.google.firebase.database.getValue
 import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
 import tg.ulcrsandroid.carpooling.domain.repositories.IUtilisateur
 
@@ -27,6 +30,32 @@ object UtilisateurService : IUtilisateur {
 
     fun initialiserIdUtilisateur(context: Context) {
         utilisateurID = recupererUtilisateurID(context)
+    }
+
+    fun getUsersList(liste: MutableList<String>): MutableList<Utilisateur?> {
+        val database = Firebase.database
+        val users: MutableList<Utilisateur?> = mutableListOf()
+        liste.forEach { s ->
+            val ref = database.getReference("users/$s")
+            ref.get().addOnSuccessListener { dataSnapshot ->
+                if (dataSnapshot.exists()) {
+                    val utilisateur = dataSnapshot.getValue<Utilisateur>()
+                    users.add(utilisateur);
+                } else {
+                    Log.i("Carpooling", "UtilisateurService ---> L'UTILISATEUR REFÉRENCÉ PAR $s N'EXISTE PAS")
+                }
+            }
+        }
+        return users
+    }
+
+    private fun concatenerUsersEmail(s: String?): String? {
+        if (s != null) {
+            var liste = mutableListOf<String>(s, utilisateurActuel?.email!!).sorted()
+//            val concatened = liste.joinToString("#").replace("@", "$")
+            return liste.joinToString("-").replace("@", "$")
+        }
+        return null
     }
 
     override fun mettreAJourProfil(email: String, nomComplet: String) {
