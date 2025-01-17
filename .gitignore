@@ -34,4 +34,4 @@ render.experimental.xml
 *.hprof
 
 #serviceAccountKey for firebase
-assets/serviceAccountKey.json
+serviceAccountKey.json
