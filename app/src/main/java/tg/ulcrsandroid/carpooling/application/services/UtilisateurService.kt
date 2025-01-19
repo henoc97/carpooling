@@ -53,7 +53,7 @@ object UtilisateurService : IUtilisateur {
         if (s != null) {
             var liste = mutableListOf<String>(s, utilisateurActuel?.email!!).sorted()
 //            val concatened = liste.joinToString("#").replace("@", "$")
-            return liste.joinToString("-").replace("@", "$")
+            return liste.joinToString("-").replace(".", "")
         }
         return null
     }

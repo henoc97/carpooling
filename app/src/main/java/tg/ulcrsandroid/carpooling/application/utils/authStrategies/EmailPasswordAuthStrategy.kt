@@ -1,5 +1,6 @@
 package tg.ulcrsandroid.carpooling.application.utils.authStrategies
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import okhttp3.internal.Util
@@ -26,10 +27,13 @@ class EmailPasswordAuthStrategy : IAuthStrategy {
                             "nomComplet" to nomComplet
                         )
                         val utilisateur = Utilisateur(userId, email, nomComplet, password, "client")
-                        email.replace("@", "$")
+                        val newEmail = email.replace(".", "")
+                        Log.i("Carpooling", "EmailPasswordAuthStrategy ---> EMAIL ENVOYE --> $newEmail")
+//                        email.replace(".", "")
+
 //                        database.child("users").child(userId).setValue(utilisateur)
                         // Utilisation de l'email plutot que l'id pour référencer un utilisateur
-                        database.child("users").child(email).setValue(utilisateur)
+                        database.child("users").child(newEmail).setValue(utilisateur)
                             .addOnSuccessListener {
                                 println("Utilisateur enregistré avec succès.")
                                 UtilisateurService.utilisateurID = userId
