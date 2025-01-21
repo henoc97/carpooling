@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+<<<<<<< HEAD
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
+=======
 >>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
     <application
         android:allowBackup="true"
@@ -19,7 +22,10 @@
         android:theme="@style/Theme.Carpooling"
         tools:targetApi="31">
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
         <activity
             android:name=".presentation.activities.signUpActivity"
             android:exported="false"
@@ -43,6 +49,9 @@
             android:name="com.google.android.gms.auth.api.credentials.ClientId"
             android:value="@string/default_web_client_id" />
 
+<<<<<<< HEAD
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
+=======
 >>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
         <activity
             android:name=".MainActivity"
@@ -57,7 +66,11 @@
 
         <service
 <<<<<<< HEAD
+<<<<<<< HEAD
             android:name=".MyFireBaseMessagingService"
+=======
+            android:name=".infrastructure.externalServices.push.MyFireBaseMessagingService"
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
 =======
             android:name=".infrastructure.externalServices.push.MyFireBaseMessagingService"
 >>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2

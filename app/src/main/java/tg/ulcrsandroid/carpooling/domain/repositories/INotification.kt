@@ -4,7 +4,11 @@ import tg.ulcrsandroid.carpooling.domain.models.Notification
 
 interface INotification {
 <<<<<<< HEAD
+<<<<<<< HEAD
     fun envoyerNotification(notification:Notification)
+=======
+    fun envoyerNotification(deviceToken: String, title: String, body: String)
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
 =======
     fun envoyerNotification(deviceToken: String, title: String, body: String)
 >>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2

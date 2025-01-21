@@ -3,6 +3,7 @@ package tg.ulcrsandroid.carpooling
 import android.os.Bundle
 import android.util.Log
 <<<<<<< HEAD
+<<<<<<< HEAD
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.AuthContext
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     )
 
 =======
+=======
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -49,11 +52,15 @@ import tg.ulcrsandroid.carpooling.presentation.activities.signUpActivity
 class MainActivity : AppCompatActivity() {
     private lateinit var authContext: AuthContext
     var token = "";
+<<<<<<< HEAD
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
+=======
 >>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+<<<<<<< HEAD
 <<<<<<< HEAD
         notificationService.envoyerNotification(notification)
        /* FirebaseApp.initializeApp(this)
@@ -82,6 +89,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_landing)
         requestNotificationPermission(this)
 >>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
+=======
+        setContentView(R.layout.activity_landing)
+        requestNotificationPermission(this)
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
         authContext = AuthContext()
 
         // Initialisation l'animation de landings
@@ -102,6 +113,7 @@ class MainActivity : AppCompatActivity() {
             // NotificationService.envoyerNotification(token, "Title henoc 2", "Body benito 2")
         }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         // Bouton pour l'inscription via Google
         findViewById<Button>(R.id.googleSignInButton).setOnClickListener {
@@ -124,6 +136,19 @@ class MainActivity : AppCompatActivity() {
            startActivityForResult(googleStrategy.getSignInIntent(), 100)
         }
     }
+=======
+        loginButton.setOnClickListener {
+            val intent = Intent(this, LogInActivity::class.java)
+            startActivity(intent)
+        }
+
+        googleButton.setOnClickListener {
+           val googleStrategy = GoogleAuthStrategy(this)
+           authContext.updateStrategy(googleStrategy)
+           startActivityForResult(googleStrategy.getSignInIntent(), 100)
+        }
+    }
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 >>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
         super.onActivityResult(requestCode, resultCode, data)
