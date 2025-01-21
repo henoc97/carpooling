@@ -25,29 +25,29 @@
                 android:layout_height="48dp"
                 android:src="@drawable/ic_menu"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Menu"/>
+                android:contentDescription="Menu" />
 
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="8dp"-->
-<!--                android:layout_marginEnd="16dp"-->
-<!--                android:background="@drawable/search_background"-->
-<!--                app:boxStrokeWidth="0dp"-->
-<!--                app:boxStrokeWidthFocused="0dp">-->
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="8dp"-->
+            <!--                android:layout_marginEnd="16dp"-->
+            <!--                android:background="@drawable/search_background"-->
+            <!--                app:boxStrokeWidth="0dp"-->
+            <!--                app:boxStrokeWidthFocused="0dp">-->
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/searchInput"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="40dp"-->
-<!--                    android:background="@null"-->
-<!--                    android:hint="Recherche un trajet"-->
-<!--                    android:textColorHint="#78909C"-->
-<!--                    android:textSize="14sp"-->
-<!--                    android:paddingStart="16dp"-->
-<!--                    android:paddingEnd="16dp"/>-->
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/searchInput"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="40dp"-->
+            <!--                    android:background="@null"-->
+            <!--                    android:hint="Recherche un trajet"-->
+            <!--                    android:textColorHint="#78909C"-->
+            <!--                    android:textSize="14sp"-->
+            <!--                    android:paddingStart="16dp"-->
+            <!--                    android:paddingEnd="16dp"/>-->
 
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -112,7 +112,6 @@
             </androidx.cardview.widget.CardView>
 
 
-
             <!-- Quick Actions -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -140,7 +139,7 @@
                             android:layout_width="45dp"
                             android:layout_height="43dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/gerer_trajets"/>
+                            android:src="@drawable/gerer_trajets" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView
@@ -148,7 +147,7 @@
                         android:layout_height="wrap_content"
                         android:text="Gérer vos trajets"
                         android:textSize="12sp"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_marginTop="8dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -170,7 +169,7 @@
                             android:layout_width="45dp"
                             android:layout_height="43dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/suivre_reservations"/>
+                            android:src="@drawable/suivre_reservations" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView
@@ -178,7 +177,7 @@
                         android:layout_height="wrap_content"
                         android:text="Vos réservations"
                         android:textSize="12sp"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_marginTop="8dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -200,7 +199,7 @@
                             android:layout_width="45dp"
                             android:layout_height="43dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/notifications"/>
+                            android:src="@drawable/notifications" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView
@@ -208,7 +207,7 @@
                         android:layout_height="wrap_content"
                         android:text="Notifications"
                         android:textSize="12sp"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_marginTop="8dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -245,14 +244,14 @@
                         android:padding="16dp">
 
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Planifiez un nouveau Trajet"
-                                android:textColor="@color/white"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Planifiez un nouveau Trajet"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
 
@@ -264,7 +263,7 @@
                 android:text="Historiques"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_margin="16dp"/>
+                android:layout_margin="16dp" />
 
             <!-- Trip History Items -->
             <androidx.cardview.widget.CardView
@@ -286,14 +285,14 @@
                         android:layout_height="wrap_content"
                         android:text="Trajet"
                         android:textSize="16sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Description"
                         android:textColor="#666666"
-                        android:layout_marginTop="4dp"/>
+                        android:layout_marginTop="4dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -316,14 +315,14 @@
                         android:layout_height="wrap_content"
                         android:text="Trajet"
                         android:textSize="16sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Description"
                         android:textColor="#666666"
-                        android:layout_marginTop="4dp"/>
+                        android:layout_marginTop="4dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
@@ -334,16 +333,18 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph" />
 
-    <!-- Bottom Navigation View -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+        android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         app:menu="@menu/bottom_nav_menu"
-        android:background="#FFFFFF"
-        android:elevation="8dp" />
+        app:labelVisibilityMode="labeled"
+        android:background="@color/white"
+        app:itemIconTint="@color/primary"
+        app:itemTextColor="@color/primary" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
