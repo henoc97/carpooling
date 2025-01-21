@@ -1,5 +1,7 @@
 package tg.ulcrsandroid.carpooling.application.services
 
+import android.app.Activity
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import tg.ulcrsandroid.carpooling.domain.repositories.IUtilisateur
@@ -8,44 +10,7 @@ object UtilisateurService : IUtilisateur {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance().reference
 
-    override fun sInscrire(email: String, password: String, fullName: String) {
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val userId = task.result?.user?.uid
-                    if (userId != null) {
-                        // Ajout des informations utilisateur dans Firebase Realtime Database
-                        val user = mapOf(
-                            "userId" to userId,
-                            "email" to email,
-                            "fullName" to fullName
-                        )
-                        database.child("users").child(userId).setValue(user)
-                            .addOnSuccessListener {
-                                println("Utilisateur enregistré avec succès.")
-                            }
-                            .addOnFailureListener { e ->
-                                println("Erreur d'enregistrement : ${e.message}")
-                            }
-                    }
-                } else {
-                    println("Erreur d'inscription : ${task.exception?.message}")
-                }
-            }
-    }
-
-    override fun seConnecter(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    println("Connexion réussie")
-                } else {
-                    println("Erreur de connexion : ${task.exception?.message}")
-                }
-            }
-    }
-
-    override fun mettreAJourProfil(email: String, fullName: String) {
+    override fun mettreAJourProfil(email: String, nomComplet: String) {
         val currentUser = auth.currentUser
         currentUser?.let { user ->
             // Mise à jour de l'email dans Firebase Authentication
@@ -55,7 +20,7 @@ object UtilisateurService : IUtilisateur {
                         // Mise à jour des informations dans Firebase Realtime Database
                         val updates = mapOf(
                             "email" to email,
-                            "fullName" to fullName
+                            "nomComplet" to nomComplet
                         )
                         database.child("users").child(user.uid).updateChildren(updates)
                             .addOnSuccessListener {
@@ -79,8 +44,8 @@ object UtilisateurService : IUtilisateur {
             database.child("users").child(user.uid).get()
                 .addOnSuccessListener { snapshot ->
                     val email = snapshot.child("email").value.toString()
-                    val fullName = snapshot.child("fullName").value.toString()
-                    println("Profil utilisateur : Email = $email, Nom = $fullName")
+                    val nomComplet = snapshot.child("nomComplet").value.toString()
+                    println("Profil utilisateur : Email = $email, Nom = $nomComplet")
                 }
                 .addOnFailureListener { e ->
                     println("Erreur lors de la récupération du profil : ${e.message}")
@@ -89,4 +54,47 @@ object UtilisateurService : IUtilisateur {
             println("Aucun utilisateur connecté")
         }
     }
+
+    fun updateTokenInDatabase(newToken: String) {
+        val currentUser = auth.currentUser
+        currentUser?.let { user ->
+            database.child("users").child(user.uid).child("notifications").child("fcmToken")
+                .setValue(newToken)
+                .addOnSuccessListener {
+                    Log.d("FCM", "Token mis à jour dans la base de données.")
+                }
+                .addOnFailureListener { e ->
+                    Log.e("FCM", "Erreur lors de la mise à jour du token : ${e.message}")
+                }
+        }
+
+    }
+
+    fun getFcmTokenById(userId: String, onSuccess: (String?) -> Unit, onError: (String) -> Unit) {
+        database.child("users").child(userId).child("notifications").child("fcmToken")
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val token = snapshot.value as? String
+                onSuccess(token) // Retourner le token via le callback
+            }
+            .addOnFailureListener { e ->
+                onError("Erreur lors de la récupération du token FCM : ${e.message}")
+            }
+    }
+
+    // Exemple d'utilisation de la fonction
+//    UtilisateurService.getFcmTokenById(
+//    userId = "someUserId",
+//    onSuccess = { token ->
+//        if (token != null) {
+//            println("Token FCM récupéré : $token")
+//        } else {
+//            println("Aucun token FCM trouvé pour cet utilisateur.")
+//        }
+//    },
+//    onError = { errorMessage ->
+//        println(errorMessage)
+//    }
+//    )
+
 }

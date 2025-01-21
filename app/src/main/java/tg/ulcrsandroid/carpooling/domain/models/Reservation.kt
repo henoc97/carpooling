@@ -3,9 +3,9 @@ package tg.ulcrsandroid.carpooling.domain.models
 import java.util.Date
 
 class Reservation(
-    var bookingId: String,
-    var passenger: Passager,
-    var trip: Trajet,
-    var bookingTime: Date,
-    var status: String
+    var idReservation: String,
+    var passager: Passager,
+    var trajet: Trajet,
+    var heureReservation: Date,
+    var statut: String
 )

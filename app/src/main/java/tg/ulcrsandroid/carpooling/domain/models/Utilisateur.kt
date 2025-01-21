@@ -1,9 +1,9 @@
 package tg.ulcrsandroid.carpooling.domain.models
 
 open class Utilisateur(
-    var userId: String,
+    var idUtilisateur: String,
     var email: String,
-    var fullName: String,
-    var password: String,
-    var userType: String
+    var nomComplet: String,
+    var motDePasse: String,
+    var typeUtilisateur: String
 )

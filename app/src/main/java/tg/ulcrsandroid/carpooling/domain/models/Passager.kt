@@ -1,10 +1,10 @@
 package tg.ulcrsandroid.carpooling.domain.models
 
 class Passager(
-    userId: String,
+    idUtilisateur: String,
     email: String,
-    fullName: String,
-    password: String,
-    userType: String,
-    var bookingHistory: List<Reservation>
-) : Utilisateur(userId, email, fullName, password, userType)
+    nomComplet: String,
+    motDePasse: String,
+    typeUtilisateur: String,
+    var historiqueReservations: List<Reservation>
+) : Utilisateur(idUtilisateur, email, nomComplet, motDePasse, typeUtilisateur)

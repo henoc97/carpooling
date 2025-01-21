@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
 import tg.ulcrsandroid.carpooling.R
+import tg.ulcrsandroid.carpooling.application.utils.notification.FirebaseTokenManager
 
 class GoogleAuthStrategy(private val activity: Activity) : IAuthStrategy {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -49,10 +50,11 @@ class GoogleAuthStrategy(private val activity: Activity) : IAuthStrategy {
                         val userMap = mapOf(
                             "userId" to it.uid,
                             "email" to it.email,
-                            "fullName" to it.displayName
+                            "nomComplet" to it.displayName
                         )
                         database.child("users").child(it.uid).setValue(userMap)
                             .addOnSuccessListener {
+                                FirebaseTokenManager.updateToken(user.uid) // Mise à jour du token
                                 onSuccess()
                             }
                             .addOnFailureListener { e ->
@@ -65,7 +67,7 @@ class GoogleAuthStrategy(private val activity: Activity) : IAuthStrategy {
             }
     }
 
-    override fun sInscrire(email: String?, password: String?, fullName: String?) {
+    override fun sInscrire(email: String?, password: String?, nomComplet: String?) {
         println("L'inscription avec Google se fait via l'intent Google Sign-In.")
     }
 

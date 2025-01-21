@@ -1,8 +1,13 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+<<<<<<< HEAD
     id("com.google.gms.google-services") apply true
 
+=======
+    id("com.google.gms.google-services")
+    alias(libs.plugins.kotlin.compose)
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
 }
 
 
@@ -36,6 +41,15 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    buildFeatures {
+        compose = true
+        viewBinding = true
+    }
+    packagingOptions {
+        resources {
+            excludes += "META-INF/DEPENDENCIES"
+        }
+    }
 }
 
 dependencies {
@@ -45,7 +59,11 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
     implementation(libs.firebase.messaging)
+    implementation (libs.lottie)
+    implementation (libs.material.v1110)
     implementation (libs.play.services.auth)
+    implementation ("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation ("com.google.auth:google-auth-library-oauth2-http:1.16.0")
     implementation (libs.firebase.ui.auth)
     implementation(libs.socket.io.client)
     implementation(libs.androidx.core.ktx)
@@ -53,10 +71,26 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+<<<<<<< HEAD
     implementation ("com.google.firebase:firebase-messaging:24.1.0")
     implementation ("com.google.firebase:firebase-bom:32.2.2")
     implementation ("com.squareup.okhttp3:okhttp:4.11.0")
+=======
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    implementation(libs.play.services.maps)
+    implementation(libs.androidx.core)
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
 }
