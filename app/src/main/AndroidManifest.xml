@@ -39,7 +39,7 @@
             android:value="@string/default_web_client_id" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.activities.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
