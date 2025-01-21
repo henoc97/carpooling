@@ -1,5 +1,6 @@
 package tg.ulcrsandroid.carpooling.presentation.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -41,6 +42,10 @@ class LogInActivity : AppCompatActivity(){
             } else {
                 Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
             }
+
+            // Démarrer une nouvelle activité
+            val intent = Intent(this, ChatActivity::class.java)
+            startActivity(intent)
         }
     }
 

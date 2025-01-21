@@ -9,6 +9,8 @@ import tg.ulcrsandroid.carpooling.presentation.viewholders.ChatViewHolder
 
 class ChatAdapter(val utilisateurList: List<Utilisateur?>) : RecyclerView.Adapter<ChatViewHolder>() {
 
+    lateinit var onItemClick: (String?, String?) -> Unit
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
         val ui = ItemChatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ChatViewHolder(ui)
@@ -20,6 +22,7 @@ class ChatAdapter(val utilisateurList: List<Utilisateur?>) : RecyclerView.Adapte
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         holder.chat = utilisateurList[position]
+        holder.onItemClick = onItemClick
     }
 
 }

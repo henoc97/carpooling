@@ -49,10 +49,13 @@ object UtilisateurService : IUtilisateur {
         return users
     }
 
+    fun formaterEmail(email: String): String {
+        return email.replace(".", "")
+    }
+
     private fun concatenerUsersEmail(s: String?): String? {
         if (s != null) {
-            var liste = mutableListOf<String>(s, utilisateurActuel?.email!!).sorted()
-//            val concatened = liste.joinToString("#").replace("@", "$")
+            var liste = mutableListOf<String>(formaterEmail(s), formaterEmail(utilisateurActuel?.email!!)).sorted()
             return liste.joinToString("-").replace(".", "")
         }
         return null

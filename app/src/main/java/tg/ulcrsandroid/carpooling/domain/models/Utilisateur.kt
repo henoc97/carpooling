@@ -10,4 +10,8 @@ open class Utilisateur(
 
     var contactsEmails: MutableList<String> = mutableListOf()
     constructor() : this("", "", "", "", "")
+
+    fun ajouterContact(email: String) {
+        contactsEmails.add(email)
+    }
 }

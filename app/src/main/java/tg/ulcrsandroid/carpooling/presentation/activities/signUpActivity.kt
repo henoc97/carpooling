@@ -1,6 +1,8 @@
 package tg.ulcrsandroid.carpooling.presentation.activities
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -37,11 +39,16 @@ class signUpActivity : AppCompatActivity(){
             val password = passwordInput.text.toString().trim()
 
             if (email.isNotEmpty() && password.isNotEmpty() && fullName.isNotEmpty()) {
+                Log.d("Carpooling", "Calling function to add user")
                 authContext.sInscrire(email, password, fullName)
                 Toast.makeText(this, "Inscription en cours...", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
             }
+
+//            Start a new activity
+            val intent = Intent(this, ChatActivity::class.java)
+            startActivity(intent)
         }
     }
 

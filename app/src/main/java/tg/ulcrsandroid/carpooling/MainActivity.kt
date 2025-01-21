@@ -26,54 +26,63 @@ import tg.ulcrsandroid.carpooling.presentation.activities.signUpActivity
 class MainActivity : AppCompatActivity() {
 
     private lateinit var authContext: AuthContext
-    private var utilisateur: Utilisateur? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initialiserUtilisateur()
+        setContentView(R.layout.activity_landing)
+//        initialiserUtilisateur()
 //        Log.i("Carpooling", "MainActivity ---> UTILISATEUR ACTUEL : ${UtilisateurService.utilisateurActuel?.nomComplet}")
 
-        setContentView(R.layout.activity_landing)
-
-        val idUtilisateur = UtilisateurService.utilisateurID
-        if (idUtilisateur != null) {
-            Log.i("Carpooling", "Utilisateur connecté : ${utilisateur?.nomComplet}")
-            // Appeler HomeActivity si l'utilisateur est déjà connecté
-            val intent  = Intent(this, ChatActivity::class.java)
-            startActivity(intent)
-        } else {
-            Log.i("Carpooling", "MainActivity ---> UTILISATEUR ACTUEL : NULL")
-        }
-
-        authContext = AuthContext()
-
-        // Initialiser l'animation de landings
-        val landingAnimation: LottieAnimationView = findViewById(R.id.landingAnimation)
-        landingAnimation.visibility = View.VISIBLE
-
-        // Initialiser les boutons
-        val signUpButton: Button = findViewById(R.id.signUpButton)
-        val loginButton: Button = findViewById(R.id.loginButton)
-        val googleButton: Button = findViewById(R.id.googleSignInButton)
-
-        // Configurer les clics sur les boutons
-        signUpButton.setOnClickListener {
-            val intent = Intent(this, signUpActivity::class.java)
-            startActivity(intent)
-        }
-        loginButton.setOnClickListener {
-            val intent = Intent(this, LogInActivity::class.java)
-            startActivity(intent)
-        }
-        googleButton.setOnClickListener {
-           val googleStrategy = GoogleAuthStrategy(this)
-           authContext.updateStrategy(googleStrategy)
-           startActivityForResult(googleStrategy.getSignInIntent(), 100)
-        }
+        val intent  = Intent(this, ChatActivity::class.java)
+        startActivity(intent)
+//
+//        val idUtilisateur = UtilisateurService.utilisateurID
+//        if (idUtilisateur != null) {
+//            // Appeler HomeActivity si l'utilisateur est déjà connecté
+//            val intent  = Intent(this, ChatActivity::class.java)
+//            startActivity(intent)
+//        } else {
+//            Log.i("Carpooling", "MainActivity ---> UTILISATEUR ACTUEL : NULL")
+//        }
+//
+//        authContext = AuthContext()
+//
+//        // Initialiser l'animation de landings
+//        val landingAnimation: LottieAnimationView = findViewById(R.id.landingAnimation)
+//        landingAnimation.visibility = View.VISIBLE
+//
+//        // Initialiser les boutons
+//        val signUpButton: Button = findViewById(R.id.signUpButton)
+//        val loginButton: Button = findViewById(R.id.loginButton)
+//        val googleButton: Button = findViewById(R.id.googleSignInButton)
+//
+//        // Configurer les clics sur les boutons
+//        signUpButton.setOnClickListener {
+//            val intent = Intent(this, signUpActivity::class.java)
+//            startActivity(intent)
+//        }
+//        loginButton.setOnClickListener {
+//            val intent = Intent(this, LogInActivity::class.java)
+//            startActivity(intent)
+//        }
+//        googleButton.setOnClickListener {
+//           val googleStrategy = GoogleAuthStrategy(this)
+//           authContext.updateStrategy(googleStrategy)
+//           startActivityForResult(googleStrategy.getSignInIntent(), 100)
+//        }
 
     }
 
+    fun initialiserContactList() {
+        val utilisateur = UtilisateurService.utilisateurActuel
+        if (utilisateur != null) {
+            // TODO : Ajouter un contact à la liste des contacts de l'utilisateur
+            utilisateur.ajouterContact("")
+            // Démarrer l'activité de discussion
+//            val databas = Firebase.database
+//            val userRef = databas.getReference("users")
+        }
+    }
     private fun initialiserUtilisateur() {
         val databas = Firebase.database
         val idUtilisateur = UtilisateurService.utilisateurID

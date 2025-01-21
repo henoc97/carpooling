@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/headerTitle"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:background="@drawable/header_background"
         android:padding="16dp"
         android:text="Chats"

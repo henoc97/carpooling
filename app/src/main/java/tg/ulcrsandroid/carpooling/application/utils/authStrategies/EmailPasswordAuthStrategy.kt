@@ -27,18 +27,19 @@ class EmailPasswordAuthStrategy : IAuthStrategy {
                             "nomComplet" to nomComplet
                         )
                         val utilisateur = Utilisateur(userId, email, nomComplet, password, "client")
-                        val newEmail = email.replace(".", "")
-                        Log.i("Carpooling", "EmailPasswordAuthStrategy ---> EMAIL ENVOYE --> $newEmail")
-//                        email.replace(".", "")
+//                        val newEmail = UtilisateurService.formaterEmail(email)
+//                        Log.i("Carpooling", "EmailPasswordAuthStrategy ---> EMAIL ENVOYE --> $newEmail")
 
-//                        database.child("users").child(userId).setValue(utilisateur)
                         // Utilisation de l'email plutot que l'id pour référencer un utilisateur
-                        database.child("users").child(newEmail).setValue(utilisateur)
+                        Log.d("Carpooling", "Utilisateur Id ---> ${userId}")
+                        database.child("users").child(userId).setValue(utilisateur)
                             .addOnSuccessListener {
-                                println("Utilisateur enregistré avec succès.")
+                                println("Utilisateur enregistré avec succès. ${userId}")
+                                Log.d("Carpooling", "Utilisateur enregistré avec succès. ${userId}")
                                 UtilisateurService.utilisateurID = userId
                             }
                             .addOnFailureListener { e ->
+                                Log.d("Carpooling", "Erreur d'enregistrement : ${e.message}")
                                 println("Erreur d'enregistrement : ${e.message}")
                             }
                     }
