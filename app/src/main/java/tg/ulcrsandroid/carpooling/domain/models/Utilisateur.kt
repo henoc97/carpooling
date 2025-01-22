@@ -5,13 +5,14 @@ open class Utilisateur(
     var email: String,
     var nomComplet: String,
     var motDePasse: String,
-    var typeUtilisateur: String
+    var typeUtilisateur: String,
+    var mesDiscussions: MutableList<String> = mutableListOf()
 ) {
 
-    var contactsEmails: MutableList<String> = mutableListOf()
     constructor() : this("", "", "", "", "")
 
-    fun ajouterContact(email: String) {
-        contactsEmails.add(email)
+    fun ajouterIdDiscussion(idDiscussion: String) {
+        mesDiscussions.add(idDiscussion)
     }
+
 }

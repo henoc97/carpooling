@@ -50,18 +50,6 @@ object UtilisateurService : IUtilisateur {
         return users
     }
 
-    fun formaterEmail(email: String): String {
-        return email.replace(".", "")
-    }
-
-    private fun concatenerUsersEmail(s: String?): String? {
-        if (s != null) {
-            var liste = mutableListOf<String>(formaterEmail(s), formaterEmail(utilisateurActuel?.email!!)).sorted()
-            return liste.joinToString("-").replace(".", "")
-        }
-        return null
-    }
-
     override fun mettreAJourProfil(email: String, nomComplet: String) {
         val currentUser = auth.currentUser
         currentUser?.let { user ->

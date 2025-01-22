@@ -44,6 +44,13 @@ class MainActivity : AppCompatActivity() {
         requestNotificationPermission(this)
         authContext = AuthContext()
 
+        // Vérifier si l'id de l'utilisateur et différent de null
+        if (UtilisateurService.utilisateurID != null) {
+            initialiserUtilisateur() // Récupérer les infos utilisateur et créer un objet utilisateur
+            val intent  = Intent(this, ChatActivity::class.java)
+            startActivity(intent)
+        }
+
         // Initialisation l'animation de landings
         val landingAnimation: LottieAnimationView = findViewById(R.id.landingAnimation)
         landingAnimation.visibility = View.VISIBLE
@@ -74,17 +81,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun initialiserContactList() {
-        val utilisateur = UtilisateurService.utilisateurActuel
-        if (utilisateur != null) {
-            // TODO : Ajouter un contact à la liste des contacts de l'utilisateur
-            utilisateur.ajouterContact("")
-            // Démarrer l'activité de discussion
-//            val databas = Firebase.database
-//            val userRef = databas.getReference("users")
-        }
-    }
-
     private fun initialiserUtilisateur() {
         val databas = Firebase.database
         val idUtilisateur = UtilisateurService.utilisateurID
@@ -92,14 +88,15 @@ class MainActivity : AppCompatActivity() {
         userRef.get().addOnSuccessListener { dataSnapshot ->
             if (dataSnapshot.exists()) {
                 UtilisateurService.utilisateurActuel = dataSnapshot.getValue<Utilisateur>() // Récupérer l'utilisateur depuis Firebase
-                Log.i("Carpooling", "MainActivity ---> UTILISATEUR ACTUEL : ${UtilisateurService.utilisateurActuel?.nomComplet}")
+                Log.d("Carpooling", "MainActivity ---> UTILISATEUR ACTUEL : ${UtilisateurService.utilisateurActuel?.nomComplet}")
             } else {
-                println("L'utilisateur référencé par $idUtilisateur n'existe pas")
+                Log.d("Carpooling", "MainActivity ---> L'UTILISATEUR REFERENCE PAR $idUtilisateur N'EXISTE PAS")
             }
         }.addOnFailureListener { exception ->
-            println("Erreur lors de la récupération de l'utilisateur : $exception")
+            Log.d("Carpooling", "MainActivity ----> ERREUR LORS DE LA RECUPERATION DE L'UTILISATEUR: $exception")
         }
-        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100) {

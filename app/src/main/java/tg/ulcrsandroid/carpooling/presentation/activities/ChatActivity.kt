@@ -22,8 +22,7 @@ class ChatActivity : AppCompatActivity() {
         ui = ActivityChatBinding.inflate(layoutInflater)
         setContentView(ui.root)
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
-
+//        J2jvzJuupSgRyupfk4cEzFOjh8e2 sylvaingossou
 //        utilisateur = UtilisateurService.utilisateurActuel!!
 //        val utilisateurList = UtilisateurService.getUsersList(utilisateur.contactsEmails)
         val adapter = ChatAdapter(createTestUsers())
@@ -32,14 +31,14 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun onItemClick(idUtilisateur: String?, nomComplet: String?) {
-        Log.d("Carpooling", "Utilisateur sélectionné : $nomComplet")
+        Log.d("Carpooling", "ChatActivity ---> UTILISATEUR SELECTIONNE ---> $nomComplet")
         val intent = Intent(this, DiscussionActivity::class.java)
         intent.putExtra("idUtilisateur", idUtilisateur)
         intent.putExtra("nomComplet", nomComplet)
         startActivity(intent)
     }
 
-    fun createTestUsers(): List<Utilisateur> {
+    private fun createTestUsers(): List<Utilisateur> {
         val testUsers = mutableListOf<Utilisateur>();
         for (i in 1..10) {
             val user = Utilisateur()
@@ -48,7 +47,6 @@ class ChatActivity : AppCompatActivity() {
             user.idUtilisateur = "a${i}"
             testUsers.add(user)
         }
-
         return testUsers
     }
 
