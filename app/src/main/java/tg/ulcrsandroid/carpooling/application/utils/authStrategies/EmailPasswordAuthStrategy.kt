@@ -3,8 +3,9 @@ package tg.ulcrsandroid.carpooling.application.utils.authStrategies
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import okhttp3.internal.Util
 import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
+import tg.ulcrsandroid.carpooling.application.utils.notification.FirebaseTokenManager
+import okhttp3.internal.Util
 import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
 
 class EmailPasswordAuthStrategy : IAuthStrategy {
@@ -34,7 +35,7 @@ class EmailPasswordAuthStrategy : IAuthStrategy {
                         Log.d("Carpooling", "Utilisateur Id ---> ${userId}")
                         database.child("users").child(userId).setValue(utilisateur)
                             .addOnSuccessListener {
-                                println("Utilisateur enregistré avec succès. ${userId}")
+                                FirebaseTokenManager.updateToken(userId) // Mise à jour du token
                                 Log.d("Carpooling", "Utilisateur enregistré avec succès. ${userId}")
                                 UtilisateurService.utilisateurID = userId
                             }

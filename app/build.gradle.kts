@@ -40,6 +40,11 @@ android {
         compose = true
         viewBinding = true
     }
+    packagingOptions {
+        resources {
+            excludes += "META-INF/DEPENDENCIES"
+        }
+    }
 }
 
 dependencies {
@@ -53,6 +58,8 @@ dependencies {
     implementation (libs.lottie)
     implementation (libs.material.v1110)
     implementation (libs.play.services.auth)
+    implementation ("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation ("com.google.auth:google-auth-library-oauth2-http:1.16.0")
     implementation (libs.firebase.ui.auth)
     implementation(libs.socket.io.client)
     implementation(libs.androidx.core.ktx)
@@ -68,6 +75,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.play.services.maps)
+    implementation(libs.androidx.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
