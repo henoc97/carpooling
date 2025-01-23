@@ -1,11 +1,14 @@
 package tg.ulcrsandroid.carpooling.presentation.activities
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import tg.ulcrsandroid.carpooling.R
+import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.AuthContext
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.EmailPasswordAuthStrategy
 import tg.ulcrsandroid.carpooling.databinding.ActivityLoginBinding
@@ -36,12 +39,22 @@ class signUpActivity : AppCompatActivity(){
             val password = passwordInput.text.toString().trim()
 
             if (email.isNotEmpty() && password.isNotEmpty() && fullName.isNotEmpty()) {
+                Log.d("Carpooling", "Calling function to add user")
                 authContext.sInscrire(email, password, fullName)
                 Toast.makeText(this, "Inscription en cours...", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
             }
+
+//            Start a new activity
+            val intent = Intent(this, ChatActivity::class.java)
+            startActivity(intent)
         }
+    }
+
+    override fun onDestroy() {
+        UtilisateurService.sauvegarderUtilisateurID(this)
+        super.onDestroy()
     }
 
 }

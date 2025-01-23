@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
 import tg.ulcrsandroid.carpooling.R
+import tg.ulcrsandroid.carpooling.application.utils.notification.FirebaseTokenManager
 
 class GoogleAuthStrategy(private val activity: Activity) : IAuthStrategy {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -53,6 +54,7 @@ class GoogleAuthStrategy(private val activity: Activity) : IAuthStrategy {
                         )
                         database.child("users").child(it.uid).setValue(userMap)
                             .addOnSuccessListener {
+                                FirebaseTokenManager.updateToken(user.uid) // Mise à jour du token
                                 onSuccess()
                             }
                             .addOnFailureListener { e ->

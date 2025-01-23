@@ -1,7 +1,12 @@
 package tg.ulcrsandroid.carpooling.application.utils.authStrategies
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
+import tg.ulcrsandroid.carpooling.application.utils.notification.FirebaseTokenManager
+//import okhttp3.internal.Util
+import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
 
 class EmailPasswordAuthStrategy : IAuthStrategy {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -22,11 +27,20 @@ class EmailPasswordAuthStrategy : IAuthStrategy {
                             "email" to email,
                             "nomComplet" to nomComplet
                         )
-                        database.child("users").child(userId).setValue(user)
+                        val utilisateur = Utilisateur(userId, email, nomComplet, password, "client")
+//                        val newEmail = UtilisateurService.formaterEmail(email)
+//                        Log.i("Carpooling", "EmailPasswordAuthStrategy ---> EMAIL ENVOYE --> $newEmail")
+
+                        // Utilisation de l'email plutot que l'id pour référencer un utilisateur
+                        Log.d("Carpooling", "Utilisateur Id ---> ${userId}")
+                        database.child("users").child(userId).setValue(utilisateur)
                             .addOnSuccessListener {
-                                println("Utilisateur enregistré avec succès.")
+                                FirebaseTokenManager.updateToken(userId) // Mise à jour du token
+                                Log.d("Carpooling", "Utilisateur enregistré avec succès. ${userId}")
+                                UtilisateurService.utilisateurID = userId
                             }
                             .addOnFailureListener { e ->
+                                Log.d("Carpooling", "Erreur d'enregistrement : ${e.message}")
                                 println("Erreur d'enregistrement : ${e.message}")
                             }
                     }
@@ -43,8 +57,12 @@ class EmailPasswordAuthStrategy : IAuthStrategy {
         }
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
+                val userId = task.result?.user?.uid
+
+                // Récupérer l'id de l'utilisateur et le stocker dans sharred preferences
                 if (task.isSuccessful) {
-                    println("Connexion réussie.")
+                    println("Connexion réussie. ${userId}")
+                    UtilisateurService.utilisateurID = userId
                 } else {
                     println("Erreur de connexion : ${task.exception?.message}")
                 }
