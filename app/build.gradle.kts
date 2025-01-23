@@ -57,6 +57,7 @@ dependencies {
     implementation (libs.lottie)
     implementation (libs.material.v1110)
     implementation (libs.play.services.auth)
+    implementation("com.google.android.gms:play-services-location:21.0.1")
     implementation ("com.squareup.okhttp3:okhttp:4.11.0")
     implementation ("com.google.auth:google-auth-library-oauth2-http:1.16.0")
     implementation (libs.firebase.ui.auth)
