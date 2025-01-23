@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity() {
 
         // Vérifier si l'id de l'utilisateur et différent de null
         if (UtilisateurService.utilisateurID != null) {
-            initialiserUtilisateur() // Récupérer les infos utilisateur et créer un objet utilisateur
             val intent  = Intent(this, ChatActivity::class.java)
             startActivity(intent)
         }
@@ -78,22 +77,6 @@ class MainActivity : AppCompatActivity() {
             val googleStrategy = GoogleAuthStrategy(this)
             authContext.updateStrategy(googleStrategy)
             startActivityForResult(googleStrategy.getSignInIntent(), 100)
-        }
-    }
-
-    private fun initialiserUtilisateur() {
-        val databas = Firebase.database
-        val idUtilisateur = UtilisateurService.utilisateurID
-        val userRef = databas.getReference("users/${idUtilisateur}")
-        userRef.get().addOnSuccessListener { dataSnapshot ->
-            if (dataSnapshot.exists()) {
-                UtilisateurService.utilisateurActuel = dataSnapshot.getValue<Utilisateur>() // Récupérer l'utilisateur depuis Firebase
-                Log.d("Carpooling", "MainActivity ---> UTILISATEUR ACTUEL : ${UtilisateurService.utilisateurActuel?.nomComplet}")
-            } else {
-                Log.d("Carpooling", "MainActivity ---> L'UTILISATEUR REFERENCE PAR $idUtilisateur N'EXISTE PAS")
-            }
-        }.addOnFailureListener { exception ->
-            Log.d("Carpooling", "MainActivity ----> ERREUR LORS DE LA RECUPERATION DE L'UTILISATEUR: $exception")
         }
     }
 

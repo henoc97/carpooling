@@ -5,11 +5,16 @@ import android.util.Log
 import com.google.firebase.Firebase
 import android.app.Activity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
 import com.google.firebase.database.getValue
+import kotlinx.coroutines.suspendCancellableCoroutine
 import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
 import tg.ulcrsandroid.carpooling.domain.repositories.IUtilisateur
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 object UtilisateurService : IUtilisateur {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -78,6 +83,16 @@ object UtilisateurService : IUtilisateur {
         }
     }
 
+    fun mettreAJourProfil(utilisateur: Utilisateur) {
+        database.child("users").child(utilisateur.idUtilisateur).setValue(utilisateur)
+            .addOnSuccessListener {
+                println("Profil mis à jour avec succès.")
+            }
+            .addOnFailureListener { e ->
+                println("Erreur de mise à jour : ${e.message}")
+            }
+    }
+
     override fun consulterProfil() {
         val currentUser = auth.currentUser
         currentUser?.let { user ->
@@ -121,6 +136,44 @@ object UtilisateurService : IUtilisateur {
                 onError("Erreur lors de la récupération du token FCM : ${e.message}")
             }
     }
+
+    suspend fun initialiserUtilisateurSynchronement() {
+        val database = FirebaseDatabase.getInstance()
+        val idUtilisateur = UtilisateurService.utilisateurID
+        val userRef = database.getReference("users/$idUtilisateur")
+
+        try {
+            val utilisateurSnapshot = userRef.awaitGetValue() // Fonction utilitaire
+            if (utilisateurSnapshot.exists()) {
+                UtilisateurService.utilisateurActuel =
+                    utilisateurSnapshot.getValue(Utilisateur::class.java)
+                Log.d(
+                    "Carpooling",
+                    "MainActivity ---> UTILISATEUR ACTUEL : ${UtilisateurService.utilisateurActuel?.nomComplet}"
+                )
+            } else {
+                Log.d(
+                    "Carpooling",
+                    "MainActivity ---> L'UTILISATEUR REFERENCE PAR $idUtilisateur N'EXISTE PAS"
+                )
+            }
+        } catch (exception: Exception) {
+            Log.d(
+                "Carpooling",
+                "MainActivity ----> ERREUR LORS DE LA RECUPERATION DE L'UTILISATEUR: $exception"
+            )
+        }
+    }
+
+    // Extension pour transformer l'écoute de Firebase en coroutine
+    private suspend fun DatabaseReference.awaitGetValue(): DataSnapshot =
+        suspendCancellableCoroutine { continuation ->
+            this.get().addOnSuccessListener { dataSnapshot ->
+                continuation.resume(dataSnapshot)
+            }.addOnFailureListener { exception ->
+                continuation.resumeWithException(exception)
+            }
+        }
 
     // Exemple d'utilisation de la fonction
 //    UtilisateurService.getFcmTokenById(

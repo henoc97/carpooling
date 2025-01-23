@@ -6,13 +6,13 @@ open class Utilisateur(
     var nomComplet: String,
     var motDePasse: String,
     var typeUtilisateur: String,
-    var mesDiscussions: MutableList<String> = mutableListOf()
+    var mesChats: MutableList<String> = mutableListOf()
 ) {
 
     constructor() : this("", "", "", "", "")
 
     fun ajouterIdDiscussion(idDiscussion: String) {
-        mesDiscussions.add(idDiscussion)
+        mesChats.add(idDiscussion)
     }
 
 }

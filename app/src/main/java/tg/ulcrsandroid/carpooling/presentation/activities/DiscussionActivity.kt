@@ -25,7 +25,7 @@ class DiscussionActivity : AppCompatActivity() {
         setContentView(ui.root)
 
         // Récupérer l'extra contenant l'id de l'utilisateur
-        val idRecepteur = intent.getStringExtra("idUtilisateur")
+        val idRecepteur = intent.getStringExtra("idChat")
         val nomRecepteur = intent.getStringExtra("nomComplet")
 
         ui.nomDestinataire.text = nomRecepteur
