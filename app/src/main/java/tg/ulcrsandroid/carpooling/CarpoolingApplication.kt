@@ -23,20 +23,6 @@ class CarpoolingApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         UtilisateurService.initialiserIdUtilisateur(this)
-
-
-//        // Vérifier si l'id de l'utilisateur et différent de null
-//        if (UtilisateurService.utilisateurID != null) {
-//            runBlocking {
-//                initialiserUtilisateurSynchronement() // Récupérer les infos utilisateur et créer un objet utilisateur
-//            }
-////            initialiserUtilisateur()
-//        }
-
-        Log.d(
-            "Carpooling",
-            "CarpoolingApplication:onCreate ---> INITIALISATION DE L'ID DE L'UTILISATEUR ---> ${UtilisateurService.utilisateurID}"
-        )
     }
 
     private fun initialiserUtilisateur() {
@@ -64,43 +50,4 @@ class CarpoolingApplication: Application() {
             )
         }
     }
-
-//    private suspend fun initialiserUtilisateurSynchronement() {
-//        val database = FirebaseDatabase.getInstance()
-//        val idUtilisateur = UtilisateurService.utilisateurID
-//        val userRef = database.getReference("users/$idUtilisateur")
-//
-//        try {
-//            val utilisateurSnapshot = userRef.awaitGetValue() // Fonction utilitaire
-//            if (utilisateurSnapshot.exists()) {
-//                UtilisateurService.utilisateurActuel =
-//                    utilisateurSnapshot.getValue(Utilisateur::class.java)
-//                Log.d(
-//                    "Carpooling",
-//                    "MainActivity ---> UTILISATEUR ACTUEL : ${UtilisateurService.utilisateurActuel?.nomComplet}"
-//                )
-//            } else {
-//                Log.d(
-//                    "Carpooling",
-//                    "MainActivity ---> L'UTILISATEUR REFERENCE PAR $idUtilisateur N'EXISTE PAS"
-//                )
-//            }
-//        } catch (exception: Exception) {
-//            Log.d(
-//                "Carpooling",
-//                "MainActivity ----> ERREUR LORS DE LA RECUPERATION DE L'UTILISATEUR: $exception"
-//            )
-//        }
-//    }
-//
-//    // Extension pour transformer l'écoute de Firebase en coroutine
-//    private suspend fun DatabaseReference.awaitGetValue(): DataSnapshot =
-//        suspendCancellableCoroutine { continuation ->
-//            this.get().addOnSuccessListener { dataSnapshot ->
-//                continuation.resume(dataSnapshot)
-//            }.addOnFailureListener { exception ->
-//                continuation.resumeWithException(exception)
-//            }
-//        }
-
 }

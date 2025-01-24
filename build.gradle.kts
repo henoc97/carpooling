@@ -13,6 +13,7 @@ buildscript {
     }
     dependencies {
         classpath ("com.google.gms:google-services:4.4.2")
+        classpath("io.realm:realm-gradle-plugin:10.15.1")
     }
 }
 

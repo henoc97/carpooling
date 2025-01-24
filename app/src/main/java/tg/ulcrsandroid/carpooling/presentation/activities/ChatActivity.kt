@@ -64,32 +64,13 @@ class ChatActivity : AppCompatActivity() {
     private fun createTestChats(): List<Chat> {
         val testChat = mutableListOf<Chat>();
         val utililsateurActuel = UtilisateurService.utilisateurActuel
-//        if (utililsateurActuel == null) {
-//            Log.d("Carpooling", "ChatActivity:createTestChats ---> PAUSE DE L'APP")
-////            Thread.sleep(10000)
-//        }
-//        if (utililsateurActuel == null) {
-//            Log.d("Carpooling", "ChatActivity:createTestChats ---> UTILISATEUR ACTUEL EST TOUJOURS NULL")
-//            return testChat
-//        }
-
-//        val chat = Chat(
-//            DiscussionService.generateUniqueKey(),
-//            utililsateurActuel.nomComplet,
-//            utililsateurActuel.idUtilisateur,
-//            "Sylvain GG",
-//            "kXllXFn3lLaHzGX2njswBogitiP2"
-//        )
         val chat = Chat(
-            DiscussionService.generateUniqueKey(),
-            "Sylvain GOSSOU",
-            UtilisateurService.utilisateurID!!,
-            "Sylvain GG",
-            "kXllXFn3lLaHzGX2njswBogitiP2"
+            idChat = DiscussionService.generateUniqueKey(),
+            nomInitialisateur = "",
+            idInitialisateur = "",
+            nomMembreSecondaire = "",
+            idMembreSecondaire = "",
         )
-//        utililsateurActuel.ajouterIdDiscussion(chat.idChat)
-
-//        UtilisateurService.mettreAJourProfil(UtilisateurService.utilisateurActuel!!)
 
         ChatService.creerRemoteChat(chat) // Ajouter le chat au remote
         // Ajouter l'id du chat à l'utilisateur secondqire
