@@ -9,6 +9,7 @@
 
     <application
         android:allowBackup="true"
+        android:enableOnBackInvokedCallback="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -28,7 +29,12 @@
             android:label="logInActivity"
             android:theme="@style/Theme.Carpooling" />
 <!--        <activity-->
-<!--            android:name=".presentation.activities.HomeActivity"-->
+<!--            android:name=".presentation.activities.TrajetListeDetailActivity"-->
+<!--            android:exported="false"-->
+<!--            android:label="logInActivity"-->
+<!--            android:theme="@style/Theme.Carpooling" />-->
+        <!--        <activity-->
+        <!--            android:name=".presentation.activities.HomeActivity"-->
 <!--            android:exported="false"-->
 <!--            android:label="logInActivity"-->
 <!--            android:theme="@style/Theme.Carpooling" />-->
@@ -41,7 +47,7 @@
             android:value="@string/default_web_client_id" />
 
         <activity
-            android:name=".presentation.activities.HomeActivity"
+            android:name=".presentation.activities.TrajetListeDetailActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
