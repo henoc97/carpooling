@@ -37,31 +37,32 @@ class MainActivity : AppCompatActivity() {
         authContext = AuthContext()
 
         // Initialiser l'animation de landings
-//        val landingAnimation: LottieAnimationView = findViewById(R.id.landingAnimation)
-//        landingAnimation.visibility = View.VISIBLE
-//
-//        // Initialiser les boutons
-        val signUpButton: Button = findViewById(R.id.signUpButton)
-//        val loginButton: Button = findViewById(R.id.loginButton)
-//        val googleButton: Button = findViewById(R.id.googleSignInButton)
-//
-//        // Configurer les clics sur les boutons
-        signUpButton.setOnClickListener {
-            // val intent = Intent(this, signUpActivity::class.java)
-            // startActivity(intent)
-            performNetworkOperation(token)
-        }
-//        loginButton.setOnClickListener {
-//            val intent = Intent(this, LogInActivity::class.java)
-//            startActivity(intent)
-//        }
-//        googleButton.setOnClickListener {
-//           val googleStrategy = GoogleAuthStrategy(this)
-//           authContext.updateStrategy(googleStrategy)
-//           startActivityForResult(googleStrategy.getSignInIntent(), 100)
-//        }
+        val landingAnimation: LottieAnimationView = findViewById(R.id.landingAnimation)
+        landingAnimation.visibility = View.VISIBLE
 
-        // Commentaire fait pas Sylvain GOSSOU
+        // Initialiser les boutons
+        val signUpButton: Button = findViewById(R.id.signUpButton)
+        val loginButton: Button = findViewById(R.id.loginButton)
+        val googleButton: Button = findViewById(R.id.googleSignInButton)
+
+        // Configurer les clics sur les boutons
+        signUpButton.setOnClickListener {
+             val intent = Intent(this, signUpActivity::class.java)
+             startActivity(intent)
+            // performNetworkOperation(token)
+        }
+
+        loginButton.setOnClickListener {
+            val intent = Intent(this, LogInActivity::class.java)
+            startActivity(intent)
+        }
+
+        googleButton.setOnClickListener {
+           val googleStrategy = GoogleAuthStrategy(this)
+           authContext.updateStrategy(googleStrategy)
+           startActivityForResult(googleStrategy.getSignInIntent(), 100)
+        }
+
 
         // Demander à Firebase d'obtenir un token
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->

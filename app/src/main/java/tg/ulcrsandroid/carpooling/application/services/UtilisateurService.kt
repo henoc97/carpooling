@@ -1,8 +1,12 @@
 package tg.ulcrsandroid.carpooling.application.services
 
+import com.firebase.ui.auth.data.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.tasks.await
+import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
 import tg.ulcrsandroid.carpooling.domain.repositories.IUtilisateur
+import kotlin.text.get
 
 object UtilisateurService : IUtilisateur {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -50,6 +54,35 @@ object UtilisateurService : IUtilisateur {
                 }
         } ?: run {
             println("Aucun utilisateur connecté")
+        }
+    }
+
+    fun getCurrentUserId(): String? {
+        val currentUser = auth.currentUser
+        return currentUser?.let { user -> user.uid}
+    }
+
+    suspend fun getCurrentUser(): Utilisateur? {
+        val currentUser = auth.currentUser
+        return currentUser?.let { user ->
+            // Fetch the user data from the database
+            val userSnapshot = database.child("users").child(user.uid).get().await()
+
+            // Check if the user data exists
+            if (userSnapshot.exists()) {
+                // Map the data to the Utilisateur class
+                val idUtilisateur = userSnapshot.child("idUtilisateur").getValue(String::class.java) ?: ""
+                val email = userSnapshot.child("email").getValue(String::class.java) ?: ""
+                val nomComplet = userSnapshot.child("nomComplet").getValue(String::class.java) ?: ""
+                val motDePasse = userSnapshot.child("motDePasse").getValue(String::class.java) ?: ""
+                val typeUtilisateur = userSnapshot.child("typeUtilisateur").getValue(String::class.java) ?: ""
+
+                // Create and return the Utilisateur object
+                Utilisateur(idUtilisateur, email, nomComplet, motDePasse, typeUtilisateur)
+            } else {
+                // If the user data doesn't exist, return null
+                null
+            }
         }
     }
 }

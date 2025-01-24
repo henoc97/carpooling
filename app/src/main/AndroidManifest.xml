@@ -28,16 +28,21 @@
             android:exported="false"
             android:label="logInActivity"
             android:theme="@style/Theme.Carpooling" />
-<!--        <activity-->
-<!--            android:name=".presentation.activities.TrajetListeDetailActivity"-->
-<!--            android:exported="false"-->
-<!--            android:label="logInActivity"-->
-<!--            android:theme="@style/Theme.Carpooling" />-->
-        <!--        <activity-->
-        <!--            android:name=".presentation.activities.HomeActivity"-->
-<!--            android:exported="false"-->
-<!--            android:label="logInActivity"-->
-<!--            android:theme="@style/Theme.Carpooling" />-->
+        <activity
+            android:name=".presentation.activities.HomeActivity"
+            android:exported="false"
+            android:label="logInActivity"
+            android:theme="@style/Theme.Carpooling" />
+        <activity
+            android:name=".presentation.activities.CreateTrajetActivity"
+            android:exported="false"
+            android:label="logInActivity"
+            android:theme="@style/Theme.Carpooling" />
+        <activity
+            android:name=".presentation.activities.TrajetListeDetailActivity"
+            android:exported="false"
+            android:label="logInActivity"
+            android:theme="@style/Theme.Carpooling" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCNwArZMo4NfCOfE6ANRi-vNmzFZeEtBaM" />
@@ -47,7 +52,7 @@
             android:value="@string/default_web_client_id" />
 
         <activity
-            android:name=".presentation.activities.TrajetListeDetailActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
