@@ -13,6 +13,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import tg.ulcrsandroid.carpooling.R
+import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
 
 class MyFireBaseMessagingService : FirebaseMessagingService() {
 
@@ -42,11 +43,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-        sendRegistrationToServer(token)
-    }
-
-    private fun sendRegistrationToServer(token: String?) {
-        // TODO: Implement this method to send token to your app server.
+        UtilisateurService.updateTokenInDatabase(token)
     }
 
     @SuppressLint("MissingPermission")

@@ -1,12 +1,11 @@
 package tg.ulcrsandroid.carpooling.application.services
 
-import com.firebase.ui.auth.data.model.User
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
 import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
 import tg.ulcrsandroid.carpooling.domain.repositories.IUtilisateur
-import kotlin.text.get
 
 object UtilisateurService : IUtilisateur {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -57,6 +56,33 @@ object UtilisateurService : IUtilisateur {
         }
     }
 
+    fun updateTokenInDatabase(newToken: String) {
+        val currentUser = auth.currentUser
+        currentUser?.let { user ->
+            database.child("users").child(user.uid).child("notifications").child("fcmToken")
+                .setValue(newToken)
+                .addOnSuccessListener {
+                    Log.d("FCM", "Token mis à jour dans la base de données.")
+                }
+                .addOnFailureListener { e ->
+                    Log.e("FCM", "Erreur lors de la mise à jour du token : ${e.message}")
+                }
+        }
+
+    }
+
+    fun getFcmTokenById(userId: String, onSuccess: (String?) -> Unit, onError: (String) -> Unit) {
+        database.child("users").child(userId).child("notifications").child("fcmToken")
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val token = snapshot.value as? String
+                onSuccess(token) // Retourner le token via le callback
+            }
+            .addOnFailureListener { e ->
+                onError("Erreur lors de la récupération du token FCM : ${e.message}")
+            }
+    }
+
     fun getCurrentUserId(): String? {
         val currentUser = auth.currentUser
         return currentUser?.let { user -> user.uid}
@@ -85,4 +111,20 @@ object UtilisateurService : IUtilisateur {
             }
         }
     }
+
+    // Exemple d'utilisation de la fonction
+//    UtilisateurService.getFcmTokenById(
+//    userId = "someUserId",
+//    onSuccess = { token ->
+//        if (token != null) {
+//            println("Token FCM récupéré : $token")
+//        } else {
+//            println("Aucun token FCM trouvé pour cet utilisateur.")
+//        }
+//    },
+//    onError = { errorMessage ->
+//        println(errorMessage)
+//    }
+//    )
+
 }

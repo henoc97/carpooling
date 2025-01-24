@@ -1,29 +1,36 @@
 package tg.ulcrsandroid.carpooling.application.services
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import tg.ulcrsandroid.carpooling.MainActivity
 import tg.ulcrsandroid.carpooling.domain.repositories.INotification
 
+@SuppressLint("StaticFieldLeak")
 object NotificationService : INotification {
+    private var currentActivity: Activity? = null
+
+    fun setActivity(activity: Activity) {
+        currentActivity = activity
+    }
+
     override fun envoyerNotification(deviceToken: String, title: String, body: String) {
-        // Implémentation de l'envoi de notification
-        performNetworkOperation(deviceToken, title, body)
+        currentActivity?.let {
+            performNetworkOperation(it, deviceToken, title, body)
+        } ?: Log.e("NotificationService", "Activity is not set. Call setActivity() first.")
     }
 
     override fun consulterNotification() {
         // Implémentation de la consultation de notification
     }
 
-    private fun performNetworkOperation(deviceToken: String, title: String, body: String, activity: Activity = MainActivity()) {
+    private fun performNetworkOperation(activity: Activity, deviceToken: String, title: String, body: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 // Perform network operation here
-                val activity = MainActivity()
                 tg.ulcrsandroid.carpooling.infrastructure.externalServices.push.envoyerNotification(
                     activity,
                     deviceToken,
