@@ -12,8 +12,8 @@ class Trajet(
     var lieuArrivee: String,
     var heureDepart: Date,
     var prixParPassager: Float,
-    var conducteur: Conducteur,
-    var placesDisponibles: Int
+    var placesDisponibles: Int,
+    var conducteur: Conducteur?,
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
@@ -21,8 +21,8 @@ class Trajet(
         parcel.readString() ?: "",
         Date(parcel.readLong()),
         parcel.readFloat(),
+        parcel.readInt(),
         parcel.readParcelable(Conducteur::class.java.classLoader)!!,
-        parcel.readInt()
     )
 
     override fun writeToParcel(dest: Parcel, flags: Int) {

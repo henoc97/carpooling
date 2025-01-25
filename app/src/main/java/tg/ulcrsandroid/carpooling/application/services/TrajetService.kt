@@ -3,14 +3,26 @@ package tg.ulcrsandroid.carpooling.application.services
 import com.google.firebase.database.FirebaseDatabase
 import tg.ulcrsandroid.carpooling.domain.models.Trajet
 import tg.ulcrsandroid.carpooling.domain.repositories.ITrajet
+import java.util.Date
 
 object TrajetService : ITrajet {
     private val database = FirebaseDatabase.getInstance().reference.child("trajets")
 
-    override fun creerTrajet(trajet: Trajet) {
+    override fun creerTrajet(trajet: Trajet, idConducteur: String) {
+
         val newTrajetRef = database.push()
-        trajet.idTrajet = newTrajetRef.key ?: ""
-        newTrajetRef.setValue(trajet)
+        val idTrajet = newTrajetRef.key ?: ""
+        val trajetMap = mapOf(
+            "idTrajet" to idTrajet,
+            "lieuDepart" to trajet.lieuDepart,
+            "lieuArrivee" to trajet.lieuArrivee,
+            "heureDepart" to trajet.heureDepart,
+            "prixParPassager" to trajet.prixParPassager,
+            "placesDisponibles" to trajet.placesDisponibles,
+            "idConducteur" to idConducteur,
+            "creeA" to Date()
+        )
+        newTrajetRef.setValue(trajetMap)
             .addOnSuccessListener {
                 println("Trajet créé avec succès.")
             }
@@ -20,7 +32,7 @@ object TrajetService : ITrajet {
     }
 
     override fun mettreAJourTrajet(trajet: Trajet) {
-        database.child(trajet.idTrajet).setValue(trajet)
+        database.child(trajet.idTrajet.toString()).setValue(trajet)
             .addOnSuccessListener {
                 println("Trajet mis à jour avec succès.")
             }

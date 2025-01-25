@@ -1,6 +1,7 @@
 package tg.ulcrsandroid.carpooling.presentation.fragments
 
 import android.Manifest
+import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import tg.ulcrsandroid.carpooling.R
 import tg.ulcrsandroid.carpooling.databinding.FragmentHomeBinding
+import tg.ulcrsandroid.carpooling.presentation.activities.CreateTrajetActivity
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
 
@@ -47,8 +49,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         // Initialiser la carte
-        val mapFragment = childFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+//        val mapFragment = childFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
+//        mapFragment.getMapAsync(this)
+
+        // Ajouter un ClickListener sur le New Trip Card
+        binding.newTripCard.setOnClickListener {
+            // Rediriger vers CreateTrajetActivity
+            val intent = Intent(requireActivity(), CreateTrajetActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

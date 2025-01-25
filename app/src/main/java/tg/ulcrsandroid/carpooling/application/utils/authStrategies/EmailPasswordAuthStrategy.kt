@@ -23,16 +23,16 @@ class EmailPasswordAuthStrategy : IAuthStrategy {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val userId = task.result?.user?.uid
-                    if (userId != null) {
+                    val idUtilisateur = task.result?.user?.uid
+                    if (idUtilisateur != null) {
                         val user = mapOf(
-                            "userId" to userId,
+                            "idUtilisateur" to idUtilisateur,
                             "email" to email,
                             "nomComplet" to nomComplet
                         )
-                        database.child("users").child(userId).setValue(user)
+                        database.child("users").child(idUtilisateur).setValue(user)
                             .addOnSuccessListener {
-                                FirebaseTokenManager.updateToken(userId) // Mise à jour du token
+                                FirebaseTokenManager.updateToken(idUtilisateur) // Mise à jour du token
                                 onSuccess() // Appeler onSuccess si tout est réussi
                             }
                             .addOnFailureListener { e ->
@@ -63,8 +63,8 @@ class EmailPasswordAuthStrategy : IAuthStrategy {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     if (user != null) {
-                        val userId = user.uid // Récupérer l'ID de l'utilisateur
-                        FirebaseTokenManager.updateToken(userId) // Mettre à jour le token
+                        val idUtilisateur = user.uid // Récupérer l'ID de l'utilisateur
+                        FirebaseTokenManager.updateToken(idUtilisateur) // Mettre à jour le token
                         onSuccess() // Appeler onSuccess si tout est réussi
                     } else {
                         onError("Erreur : Utilisateur non trouvé après connexion.") // Appeler onError en cas d'échec

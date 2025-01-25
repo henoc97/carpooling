@@ -81,7 +81,7 @@ class GoogleAuthStrategy(private val activity: Activity) : IAuthStrategy {
                     if (user != null) {
                         // Enregistrer les informations de l'utilisateur dans la base de données
                         val userMap = mapOf(
-                            "userId" to user.uid,
+                            "idUtilisateur" to user.uid,
                             "email" to user.email,
                             "nomComplet" to user.displayName
                         )

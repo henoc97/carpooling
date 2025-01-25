@@ -29,7 +29,7 @@ class TrajetsAdapter(
     override fun onBindViewHolder(holder: trajetViewHolder, position: Int) {
         val trajet = trajets[position]
         holder.locationName.text = trajet.lieuArrivee
-        holder.carInfo.text = trajet.conducteur.detailsVehicule
+        holder.carInfo.text = trajet.conducteur?.detailsVehicule
         holder.trajetTime.text = trajet.heureDepart.toString()
         holder.itemView.setOnClickListener { ontrajetClick(trajet) }
     }
