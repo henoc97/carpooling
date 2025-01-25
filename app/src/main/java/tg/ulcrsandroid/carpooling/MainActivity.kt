@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
@@ -44,40 +45,46 @@ class MainActivity : AppCompatActivity() {
         requestNotificationPermission(this)
         authContext = AuthContext()
 
-        // Vérifier si l'id de l'utilisateur et différent de null
-        if (UtilisateurService.utilisateurID != null) {
-            val intent  = Intent(this, ChatActivity::class.java)
+        lifecycleScope.launch {
+            val utilisateurActuel = UtilisateurService.initialiserUtilisateurActuel(
+                UtilisateurService.recupererUtilisateurID(this@MainActivity)!!)
+            Log.d("Carpooling", "MainActivity:onCreate ---> UTILISATEUR ACTUEL : ${utilisateurActuel?.nomComplet}")
+            val intent  = Intent(this@MainActivity, ChatActivity::class.java)
             startActivity(intent)
         }
 
-        // Initialisation l'animation de landings
-        val landingAnimation: LottieAnimationView = findViewById(R.id.landingAnimation)
-        landingAnimation.visibility = View.VISIBLE
-
-        // Initialisation les boutons
-        val signUpButton: Button = findViewById(R.id.signUpButton)
-        val loginButton: Button = findViewById(R.id.loginButton)
-        val googleButton: Button = findViewById(R.id.googleSignInButton)
-
-        // Configuration les clics sur les boutons
-        signUpButton.setOnClickListener {
-            val intent = Intent(this, signUpActivity::class.java)
-            startActivity(intent)
-            // Définition de l'activité actuelle dans NotificationService
-            // NotificationService.setActivity(this)
-            // NotificationService.envoyerNotification(token, "Title henoc 2", "Body benito 2")
-        }
-
-        loginButton.setOnClickListener {
-            val intent = Intent(this, LogInActivity::class.java)
-            startActivity(intent)
-        }
-
-        googleButton.setOnClickListener {
-            val googleStrategy = GoogleAuthStrategy(this)
-            authContext.updateStrategy(googleStrategy)
-            startActivityForResult(googleStrategy.getSignInIntent(), 100)
-        }
+//        // Vérifier si l'id de l'utilisateur et différent de null
+//        if (UtilisateurService.utilisateurID != null) {
+//        }
+//
+//        // Initialisation l'animation de landings
+//        val landingAnimation: LottieAnimationView = findViewById(R.id.landingAnimation)
+//        landingAnimation.visibility = View.VISIBLE
+//
+//        // Initialisation les boutons
+//        val signUpButton: Button = findViewById(R.id.signUpButton)
+//        val loginButton: Button = findViewById(R.id.loginButton)
+//        val googleButton: Button = findViewById(R.id.googleSignInButton)
+//
+//        // Configuration les clics sur les boutons
+//        signUpButton.setOnClickListener {
+//            val intent = Intent(this, signUpActivity::class.java)
+//            startActivity(intent)
+//            // Définition de l'activité actuelle dans NotificationService
+//            // NotificationService.setActivity(this)
+//            // NotificationService.envoyerNotification(token, "Title henoc 2", "Body benito 2")
+//        }
+//
+//        loginButton.setOnClickListener {
+//            val intent = Intent(this, LogInActivity::class.java)
+//            startActivity(intent)
+//        }
+//
+//        googleButton.setOnClickListener {
+//            val googleStrategy = GoogleAuthStrategy(this)
+//            authContext.updateStrategy(googleStrategy)
+//            startActivityForResult(googleStrategy.getSignInIntent(), 100)
+//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

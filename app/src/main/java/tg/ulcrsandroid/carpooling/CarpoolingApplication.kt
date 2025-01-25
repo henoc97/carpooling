@@ -3,6 +3,7 @@ package tg.ulcrsandroid.carpooling
 import android.app.Application
 import android.content.Intent
 import android.util.Log
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
@@ -22,32 +23,5 @@ class CarpoolingApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        UtilisateurService.initialiserIdUtilisateur(this)
-    }
-
-    private fun initialiserUtilisateur() {
-        val databas = Firebase.database
-        val idUtilisateur = UtilisateurService.utilisateurID
-        val userRef = databas.getReference("users/${idUtilisateur}")
-        userRef.get().addOnSuccessListener { dataSnapshot ->
-            if (dataSnapshot.exists()) {
-                UtilisateurService.utilisateurActuel =
-                    dataSnapshot.getValue<Utilisateur>() // Récupérer l'utilisateur depuis Firebase
-                Log.d(
-                    "Carpooling",
-                    "MainActivity ---> UTILISATEUR ACTUEL : ${UtilisateurService.utilisateurActuel?.nomComplet}"
-                )
-            } else {
-                Log.d(
-                    "Carpooling",
-                    "MainActivity ---> L'UTILISATEUR REFERENCE PAR $idUtilisateur N'EXISTE PAS"
-                )
-            }
-        }.addOnFailureListener { exception ->
-            Log.d(
-                "Carpooling",
-                "MainActivity ----> ERREUR LORS DE LA RECUPERATION DE L'UTILISATEUR: $exception"
-            )
-        }
     }
 }
