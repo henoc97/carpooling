@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class TrajetsAdapter(
-    private val trajets: List<Trajet>,
+    private var trajets: List<Trajet>,
     private val ontrajetClick: (Trajet) -> Unit
 ) : RecyclerView.Adapter<TrajetsAdapter.trajetViewHolder>() {
 
@@ -35,4 +35,9 @@ class TrajetsAdapter(
     }
 
     override fun getItemCount() = trajets.size
+
+    fun updateData(newTrajets: List<Trajet>) {
+        this.trajets = newTrajets
+        notifyDataSetChanged() // Notifier l'adaptateur que les données ont changé
+    }
 }

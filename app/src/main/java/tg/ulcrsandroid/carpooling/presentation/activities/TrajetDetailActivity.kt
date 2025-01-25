@@ -28,7 +28,7 @@ class TrajetDetailActivity : AppCompatActivity() {
             idTrajet = "T123",
             lieuDepart = "Lomé",
             lieuArrivee = "Kara",
-            heureDepart = Date(), // Remplacer par un objet Date correct
+            heureDepart = System.currentTimeMillis(), // Remplacer par un objet Date correct
             prixParPassager = 5000f,
             conducteur = dummyConducteur,
             placesDisponibles = 3

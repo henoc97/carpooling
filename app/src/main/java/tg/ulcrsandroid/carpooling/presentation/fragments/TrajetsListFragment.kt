@@ -2,14 +2,16 @@ package tg.ulcrsandroid.carpooling.presentation.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import tg.ulcrsandroid.carpooling.application.services.TrajetService
+import tg.ulcrsandroid.carpooling.application.utils.UserManager
 import tg.ulcrsandroid.carpooling.databinding.FragmentTripsListBinding
-import tg.ulcrsandroid.carpooling.domain.models.Conducteur
 import tg.ulcrsandroid.carpooling.domain.models.Trajet
 import tg.ulcrsandroid.carpooling.presentation.adapters.TrajetsAdapter
 
@@ -50,8 +52,8 @@ class TrajetsListFragment : Fragment() {
         // Initialisation du RecyclerView avec binding
         binding.tripsRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        // Créer un adaptateur pour afficher les trajets
-        adapter = TrajetsAdapter(createDummyTrips()) { trip ->
+        // Créer un adaptateur avec une liste vide
+        adapter = TrajetsAdapter(emptyList()) { trip ->
             // Navigation vers les détails du trajet
             parentFragmentManager.beginTransaction()
                 .replace(binding.fragmentContainer.id, TrajetDetailFragment.newInstance(trip))
@@ -59,38 +61,34 @@ class TrajetsListFragment : Fragment() {
                 .commit()
         }
         binding.tripsRecyclerView.adapter = adapter
+
+        // Appeler la méthode pour récupérer les trajets
+        callTrips(
+            onSuccess = { trajets ->
+                // Mettre à jour l'adaptateur avec les nouvelles données
+                adapter.updateData(trajets)
+            },
+            onError = { errorMessage ->
+                Log.e("TrajetsListFragment", errorMessage)
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        )
     }
 
-    private fun createDummyTrips(): List<Trajet> {
-        val dummyConducteur = Conducteur(
-            idUtilisateur = "1",
-            email = "conducteur@mail.com",
-            nomComplet = "John Doe",
-            motDePasse = "password123",
-            typeUtilisateur = "conducteur",
-            detailsVehicule = "Toyota Corolla",
-            placesDisponibles = 3
-        )
-        return listOf(
-            Trajet(
-                idTrajet = "1",
-                lieuDepart = "Lomé",
-                lieuArrivee = "Kara",
-                heureDepart = java.util.Date(),
-                prixParPassager = 5000f,
-                conducteur = dummyConducteur, // Remplace par un objet Conducteur
-                placesDisponibles = 3
-            ),
-            Trajet(
-                idTrajet = "2",
-                lieuDepart = "Adidogomé",
-                lieuArrivee = "Akodésséwa",
-                heureDepart = java.util.Date(),
-                prixParPassager = 3000f,
-                conducteur = dummyConducteur, // Remplace par un objet Conducteur
-                placesDisponibles = 2
+    private fun callTrips(onSuccess: (List<Trajet>) -> Unit, onError: (String) -> Unit) {
+        val idConducteur = UserManager.getCurrentUser()?.idUtilisateur
+        if (idConducteur != null) {
+            TrajetService.mesTrajetsCrees(idConducteur,
+                onSuccess = { trajets ->
+                    onSuccess(trajets) // Retourner les trajets via le callback
+                },
+                onError = { errorMessage ->
+                    onError(errorMessage) // Retourner l'erreur via le callback
+                }
             )
-        )
+        } else {
+            onError("Utilisateur non connecté.")
+        }
     }
 
     override fun onDestroyView() {

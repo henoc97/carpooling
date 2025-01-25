@@ -82,6 +82,7 @@
 
                     <!-- Image flottante -->
                     <ImageView
+                        android:id="@+id/floatingImage"
                         android:layout_width="140dp"
                         android:layout_height="120dp"
                         android:paddingRight="8dp"
@@ -101,6 +102,7 @@
 
                 <!-- Gérer vos trajets -->
                 <LinearLayout
+                    android:id="@+id/gererTrajets"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

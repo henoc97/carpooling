@@ -23,6 +23,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import tg.ulcrsandroid.carpooling.R
 import tg.ulcrsandroid.carpooling.databinding.FragmentHomeBinding
 import tg.ulcrsandroid.carpooling.presentation.activities.CreateTrajetActivity
+import tg.ulcrsandroid.carpooling.presentation.activities.TrajetListeDetailActivity
+import tg.ulcrsandroid.carpooling.presentation.activities.TrajetsProchesActivity
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
 
@@ -49,8 +51,22 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         // Initialiser la carte
-//        val mapFragment = childFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
-//        mapFragment.getMapAsync(this)
+        val mapFragment = childFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+        // Ajouter un ClickListener sur le "gerer trajet"
+        binding.floatingImage.setOnClickListener {
+            // Rediriger vers TrajetListeDetailActivity
+            val intent = Intent(requireActivity(), TrajetsProchesActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Ajouter un ClickListener sur le "gerer trajet"
+        binding.gererTrajets.setOnClickListener {
+            // Rediriger vers TrajetListeDetailActivity
+            val intent = Intent(requireActivity(), TrajetListeDetailActivity::class.java)
+            startActivity(intent)
+        }
 
         // Ajouter un ClickListener sur le New Trip Card
         binding.newTripCard.setOnClickListener {

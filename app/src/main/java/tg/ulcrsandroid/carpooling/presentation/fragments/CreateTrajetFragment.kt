@@ -137,23 +137,34 @@ class CreateTrajetFragment : Fragment(), OnMapReadyCallback {
             return
         }
 
-        // Convertir la chaîne de temps en Date
-        val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val heureDepart: Date = try {
-            dateFormat.parse(time) ?: Date()
-        } catch (e: Exception) {
-            Date() // En cas d'erreur, utilisez la date actuelle
-        }
+        // Convertir la chaîne de temps en heures et minutes
+        val timeParts = time.split(":")
+        val selectedHour = timeParts[0].toInt()
+        val selectedMinute = timeParts[1].toInt()
+
+        // Obtenir la date actuelle
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, selectedHour)
+        calendar.set(Calendar.MINUTE, selectedMinute)
+        calendar.set(Calendar.SECOND, 0) // Optionnel : définir les secondes à 0
+
+        // Créer un timestamp pour l'heure de départ
+        val heureDepartTimestamp = calendar.timeInMillis
+
+        // Créer un timestamp pour la date de création
+        val creeATimestamp = System.currentTimeMillis()
 
         // Créer un objet Trajet
         val trajet = Trajet(
-            idTrajet = "0",
+            idTrajet = "0", // Firebase générera un ID automatiquement
             lieuDepart = departure,
             lieuArrivee = destination,
-            heureDepart = heureDepart,
+            heureDepart = heureDepartTimestamp, // Utiliser le timestamp
             prixParPassager = price,
             placesDisponibles = seats,
-            conducteur = null // À initialiser avec l'utilisateur connecté
+            conducteur = null, // À initialiser avec l'utilisateur connecté
+            idConducteur = "", // À remplir avec l'ID du conducteur
+            creeA = creeATimestamp // Utiliser le timestamp
         )
 
         val idConducteur = UserManager.getCurrentUser()?.idUtilisateur

@@ -43,6 +43,10 @@
             android:exported="false"
             android:label="logInActivity"
             android:theme="@style/Theme.Carpooling" />
+        <!-- Ajouter l'activité TrajetsProchesActivity -->
+        <activity
+            android:name=".presentation.activities.TrajetsProchesActivity"
+            android:label="Trajets Proches" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCNwArZMo4NfCOfE6ANRi-vNmzFZeEtBaM" />
