@@ -2,33 +2,37 @@ package tg.ulcrsandroid.carpooling.presentation.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import tg.ulcrsandroid.carpooling.R
+import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
+import tg.ulcrsandroid.carpooling.application.utils.UserManager
+import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
 
-class HomeActivity : AppCompatActivity(), OnMapReadyCallback {
+class HomeActivity : AppCompatActivity() {
 
-    private lateinit var map: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        // Initialiser la carte
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-    }
+        // Initialisation du BottomNavigationView et du NavController
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        findViewById<BottomNavigationView>(R.id.bottomNavigationView).setupWithNavController(navController)
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
-
-        // Configurer la carte
-        val defaultLocation = LatLng(48.8566, 2.3522) // Paris, France
-        map.addMarker(MarkerOptions().position(defaultLocation).title("Marker in Paris"))
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 10f))
+        // Utiliser un CoroutineScope pour appeler la fonction suspendue
+        CoroutineScope(Dispatchers.Main).launch {
+            val currentUser = UtilisateurService.getCurrentUser()
+            if (currentUser != null) {
+                UserManager.setCurrentUser(currentUser)
+            } else {
+                println("Aucun utilisateur connecté.")
+            }
+        }
     }
 }

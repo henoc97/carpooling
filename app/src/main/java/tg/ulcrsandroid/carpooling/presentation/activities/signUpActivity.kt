@@ -1,17 +1,14 @@
 package tg.ulcrsandroid.carpooling.presentation.activities
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.textfield.TextInputEditText
-import tg.ulcrsandroid.carpooling.R
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.AuthContext
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.EmailPasswordAuthStrategy
-import tg.ulcrsandroid.carpooling.databinding.ActivityLoginBinding
 import tg.ulcrsandroid.carpooling.databinding.ActivitySignUpBinding
 
-class signUpActivity : AppCompatActivity(){
+class signUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var authContext: AuthContext
 
@@ -25,23 +22,30 @@ class signUpActivity : AppCompatActivity(){
         authContext = AuthContext()
         authContext.updateStrategy(emailPasswordAuthStrategy)
 
-        val signUpButton: Button = binding.signUpButton
-        val fullNameInput: TextInputEditText = binding.fullNameInput
-        val emailInput: TextInputEditText = binding.emailInput
-        val passwordInput: TextInputEditText = binding.passwordInput
-
-        signUpButton.setOnClickListener {
-            var fullName = fullNameInput.text.toString().trim()
-            val email = emailInput.text.toString().trim()
-            val password = passwordInput.text.toString().trim()
+        // Configurer le clic sur le bouton d'inscription
+        binding.signUpButton.setOnClickListener {
+            val fullName = binding.fullNameInput.text.toString().trim()
+            val email = binding.emailInput.text.toString().trim()
+            val password = binding.passwordInput.text.toString().trim()
 
             if (email.isNotEmpty() && password.isNotEmpty() && fullName.isNotEmpty()) {
-                authContext.sInscrire(email, password, fullName)
-                Toast.makeText(this, "Inscription en cours...", Toast.LENGTH_SHORT).show()
+                // Lancer l'inscription
+                authContext.sInscrire(email, password, fullName,
+                    onSuccess = {
+                        // Rediriger vers HomeActivity si l'inscription réussit
+                        Toast.makeText(this, "Inscription réussie !", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, HomeActivity::class.java)
+                        startActivity(intent)
+                        finish() // Fermer l'activité actuelle pour empêcher l'utilisateur de revenir en arrière
+                    },
+                    onError = { error ->
+                        // Afficher un message d'erreur en cas d'échec
+                        Toast.makeText(this, "Erreur : $error", Toast.LENGTH_SHORT).show()
+                    }
+                )
             } else {
                 Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
 }
