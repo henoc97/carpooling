@@ -44,14 +44,14 @@ class LogInActivity : AppCompatActivity(){
             }
 
             // Démarrer une nouvelle activité
-            val intent = Intent(this, ChatActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, ChatActivity::class.java)
+//            startActivity(intent)
         }
     }
 
     override fun onDestroy() {
         UtilisateurService.sauvegarderUtilisateurID(this)
-        Log.i("Carpooling", "SAUVEGARDE DE L'ID DE L'UTILISATEUR !")
+        Log.d("Carpooling", "SAUVEGARDE DE L'ID DE L'UTILISATEUR !")
         super.onDestroy()
     }
 

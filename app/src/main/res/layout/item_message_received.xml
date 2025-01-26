@@ -18,6 +18,18 @@
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="Hello"/>
+        android:text="Hello World !"/>
+
+    <TextView
+        android:id="@+id/sendDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:background="@color/transparent"
+        android:textSize="10sp"
+        app:layout_constraintTop_toBottomOf="@id/messageText"
+        app:layout_constraintLeft_toLeftOf="@id/messageText"
+        android:text="11:00 PM"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

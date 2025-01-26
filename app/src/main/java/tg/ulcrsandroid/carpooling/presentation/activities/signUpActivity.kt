@@ -46,13 +46,16 @@ class signUpActivity : AppCompatActivity(){
                 Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show()
             }
 
-//            Start a new activity
-            val intent = Intent(this, ChatActivity::class.java)
-            startActivity(intent)
+
+
+////            Start a new activity
+//            val intent = Intent(this, ChatActivity::class.java)
+//            startActivity(intent)
         }
     }
 
     override fun onDestroy() {
+        Log.d("Carpooling", "signUpActivity:onDestroy ---> SAUVEGARDE DE l'ID ---> ${UtilisateurService.utilisateurID}")
         UtilisateurService.sauvegarderUtilisateurID(this)
         super.onDestroy()
     }

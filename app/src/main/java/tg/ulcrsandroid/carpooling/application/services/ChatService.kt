@@ -39,7 +39,7 @@ object ChatService {
                     val chat = dataSnapshot.getValue<Chat>()
                     continuation.resume(chat)
                 } else {
-                    Log.d("Carpooling", "ChatService:getChatsByIds ---> L'UTILISATEUR N'EXISTE PAS")
+                    Log.d("Carpooling", "ChatService:retreiveChat ---> L'UTILISATEUR N'EXISTE PAS")
                 }
             }
         }

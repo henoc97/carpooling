@@ -32,34 +32,13 @@ class ChatActivity : AppCompatActivity() {
         setContentView(ui.root)
         super.onCreate(savedInstanceState)
 
-
-//        // Créer pour le test un objet sender et receiver
-//        sender = Utilisateur(
-//            idUtilisateur = "J2jvzJuupSgRyupfk4cEzFOjh8e2",
-//            email = "sylvaingossou@gmail.com",
-//            nomComplet = "Sylvain GOSSOU",
-//            motDePasse = "sylvain",
-//            typeUtilisateur = "client"
-//        )
-//        receiver = Utilisateur(
-//            idUtilisateur = "kXllXFn3lLaHzGX2njswBogitiP2",
-//            email = "sylvingossou@gmail.com",
-//            nomComplet = "Sylvain GG",
-//            motDePasse = "sylvain",
-//            typeUtilisateur = "conducteur"
-//        )
-
-
         val adapter = ChatAdapter()
         adapter.onItemClick = this::onItemClick
 
         lifecycleScope.launch {
-            Log.d("Carpooling", "ChatActivity:onCreate ---> WAITING FOR RESULTS")
             if (UtilisateurService.utilisateurActuel == null) {
-                Log.d("Carpooling", "ChatActivity:onCreate ---> MANUAL INITIALISATION OF UTILISATEUR")
-                UtilisateurService.initialiserUtilisateurActuel("J2jvzJuupSgRyupfk4cEzFOjh8e2")
-                Log.d("Carpooling", "ChatActivity:onCreate ---> RESULTS ---> ${UtilisateurService.utilisateurActuel!!.nomComplet}")
-                Log.d("Carpooling", "ChatActivity:onCreate ---> USER CHAT-LISTS ---> ${UtilisateurService.utilisateurActuel!!.mesChats}")
+                Log.d("Carpooling", "ChatActivity:onCreate ---> ID SAUVEGARDE ---> ${UtilisateurService.utilisateurID}")
+                UtilisateurService.initialiserUtilisateurActuel(UtilisateurService.utilisateurID!!)
             }
             val chats = ChatService.getChatsByIds(UtilisateurService.utilisateurActuel!!.mesChats)
             Log.d("Carpooling", "ChatActivity:onCreate ---> CHATS ---> ${chats.size} ---> $chats")
@@ -72,6 +51,7 @@ class ChatActivity : AppCompatActivity() {
         Log.d("Carpooling", "ChatActivity ---> UTILISATEUR SELECTIONNE ---> $nomComplet")
         val intent = Intent(this, DiscussionActivity::class.java)
         intent.putExtra("idChat", idChat)
+        Log.d("Carpooling", "ChatActivity:onItemClick ---> ID-CHAT SHARED ---> $idChat")
         intent.putExtra("nomComplet", nomComplet)
         startActivity(intent)
     }

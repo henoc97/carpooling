@@ -62,6 +62,7 @@ class EmailPasswordAuthStrategy : IAuthStrategy {
                 // Récupérer l'id de l'utilisateur et le stocker dans sharred preferences
                 if (task.isSuccessful) {
                     println("Connexion réussie. ${userId}")
+                    Log.d("Carpooling", "EmailPasswordAuthStrategy:seConnecter ---> CONNEXION REUSSIE ID ---> ${userId}")
                     UtilisateurService.utilisateurID = userId
                 } else {
                     println("Erreur de connexion : ${task.exception?.message}")

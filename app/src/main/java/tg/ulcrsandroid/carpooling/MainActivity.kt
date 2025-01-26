@@ -45,46 +45,49 @@ class MainActivity : AppCompatActivity() {
         requestNotificationPermission(this)
         authContext = AuthContext()
 
-        lifecycleScope.launch {
-            val utilisateurActuel = UtilisateurService.initialiserUtilisateurActuel(
-                UtilisateurService.recupererUtilisateurID(this@MainActivity)!!)
-            Log.d("Carpooling", "MainActivity:onCreate ---> UTILISATEUR ACTUEL : ${utilisateurActuel?.nomComplet}")
-            val intent  = Intent(this@MainActivity, ChatActivity::class.java)
+        if (UtilisateurService.recupererUtilisateurID(this) != null) {
+            Log.d("Carpooling", "MainActivity:onCreate ---> L'UTILISATEUR EST DIFFERENT DE NULL")
+            lifecycleScope.launch {
+                val utilisateurActuel = UtilisateurService.initialiserUtilisateurActuel(
+                    UtilisateurService.recupererUtilisateurID(this@MainActivity)!!)
+                Log.d("Carpooling", "MainActivity:onCreate ---> UTILISATEUR ACTUEL : ${utilisateurActuel?.nomComplet}")
+                val intent  = Intent(this@MainActivity, ChatActivity::class.java)
+                startActivity(intent)
+
+                // Stop the activity
+                finish()
+            }
+        }
+
+
+        // Initialisation l'animation de landings
+        val landingAnimation: LottieAnimationView = findViewById(R.id.landingAnimation)
+        landingAnimation.visibility = View.VISIBLE
+
+        // Initialisation les boutons
+        val signUpButton: Button = findViewById(R.id.signUpButton)
+        val loginButton: Button = findViewById(R.id.loginButton)
+        val googleButton: Button = findViewById(R.id.googleSignInButton)
+
+        // Configuration les clics sur les boutons
+        signUpButton.setOnClickListener {
+            val intent = Intent(this, signUpActivity::class.java)
+            startActivity(intent)
+            // Définition de l'activité actuelle dans NotificationService
+            // NotificationService.setActivity(this)
+            // NotificationService.envoyerNotification(token, "Title henoc 2", "Body benito 2")
+        }
+
+        loginButton.setOnClickListener {
+            val intent = Intent(this, LogInActivity::class.java)
             startActivity(intent)
         }
 
-//        // Vérifier si l'id de l'utilisateur et différent de null
-//        if (UtilisateurService.utilisateurID != null) {
-//        }
-//
-//        // Initialisation l'animation de landings
-//        val landingAnimation: LottieAnimationView = findViewById(R.id.landingAnimation)
-//        landingAnimation.visibility = View.VISIBLE
-//
-//        // Initialisation les boutons
-//        val signUpButton: Button = findViewById(R.id.signUpButton)
-//        val loginButton: Button = findViewById(R.id.loginButton)
-//        val googleButton: Button = findViewById(R.id.googleSignInButton)
-//
-//        // Configuration les clics sur les boutons
-//        signUpButton.setOnClickListener {
-//            val intent = Intent(this, signUpActivity::class.java)
-//            startActivity(intent)
-//            // Définition de l'activité actuelle dans NotificationService
-//            // NotificationService.setActivity(this)
-//            // NotificationService.envoyerNotification(token, "Title henoc 2", "Body benito 2")
-//        }
-//
-//        loginButton.setOnClickListener {
-//            val intent = Intent(this, LogInActivity::class.java)
-//            startActivity(intent)
-//        }
-//
-//        googleButton.setOnClickListener {
-//            val googleStrategy = GoogleAuthStrategy(this)
-//            authContext.updateStrategy(googleStrategy)
-//            startActivityForResult(googleStrategy.getSignInIntent(), 100)
-//        }
+        googleButton.setOnClickListener {
+            val googleStrategy = GoogleAuthStrategy(this)
+            authContext.updateStrategy(googleStrategy)
+            startActivityForResult(googleStrategy.getSignInIntent(), 100)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
