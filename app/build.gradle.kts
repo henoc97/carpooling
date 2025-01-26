@@ -1,16 +1,13 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-<<<<<<< HEAD
+
     id("com.google.gms.google-services") apply true
 
-=======
-    id("com.google.gms.google-services")
+
+
     alias(libs.plugins.kotlin.compose)
-<<<<<<< HEAD
->>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
-=======
->>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
+
 }
 
 
@@ -74,14 +71,11 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     implementation ("com.google.firebase:firebase-messaging:24.1.0")
     implementation ("com.google.firebase:firebase-bom:32.2.2")
     implementation ("com.squareup.okhttp3:okhttp:4.11.0")
-=======
-=======
->>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
+
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -91,10 +85,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.play.services.maps)
     implementation(libs.androidx.core)
-<<<<<<< HEAD
->>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
-=======
->>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
