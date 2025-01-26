@@ -4,47 +4,42 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import com.airbnb.lottie.LottieAnimationView
-import com.google.firebase.messaging.FirebaseMessaging
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import tg.ulcrsandroid.carpooling.application.services.NotificationService
-import com.google.firebase.Firebase
-import com.google.firebase.database.database
-import com.google.firebase.database.getValue
 import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.AuthContext
-import tg.ulcrsandroid.carpooling.application.utils.authStrategies.EmailPasswordAuthStrategy
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.GoogleAuthStrategy
-import tg.ulcrsandroid.carpooling.application.utils.lottie.loadJsonFromRaw
-import tg.ulcrsandroid.carpooling.infrastructure.externalServices.push.envoyerNotification
-import tg.ulcrsandroid.carpooling.infrastructure.externalServices.push.obtenirAccessToken
 import tg.ulcrsandroid.carpooling.infrastructure.externalServices.push.requestNotificationPermission
-import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
 import tg.ulcrsandroid.carpooling.presentation.activities.ChatActivity
 import tg.ulcrsandroid.carpooling.presentation.activities.LogInActivity
 import tg.ulcrsandroid.carpooling.presentation.activities.signUpActivity
+import tg.ulcrsandroid.carpooling.databinding.ActivityLandingBinding // Import généré automatiquement
+import tg.ulcrsandroid.carpooling.presentation.activities.HomeActivity
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var authContext: AuthContext
-    var token = "";
+    private lateinit var binding: ActivityLandingBinding // Déclarer le binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_landing)
+
+        // Initialiser le binding
+        binding = ActivityLandingBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Demander la permission de notification
         requestNotificationPermission(this)
+
+        // Initialiser AuthContext
         authContext = AuthContext()
 
+        // Configurer l'animation de landing
+        binding.landingAnimation.visibility = View.VISIBLE
+
+        // Test du chat
         if (UtilisateurService.recupererUtilisateurID(this) != null) {
             Log.d("Carpooling", "MainActivity:onCreate ---> L'UTILISATEUR EST DIFFERENT DE NULL")
             lifecycleScope.launch {
@@ -59,31 +54,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
-        // Initialisation l'animation de landings
-        val landingAnimation: LottieAnimationView = findViewById(R.id.landingAnimation)
-        landingAnimation.visibility = View.VISIBLE
-
-        // Initialisation les boutons
-        val signUpButton: Button = findViewById(R.id.signUpButton)
-        val loginButton: Button = findViewById(R.id.loginButton)
-        val googleButton: Button = findViewById(R.id.googleSignInButton)
-
-        // Configuration les clics sur les boutons
-        signUpButton.setOnClickListener {
+        // Configurer les clics sur les boutons
+        binding.signUpButton.setOnClickListener {
             val intent = Intent(this, signUpActivity::class.java)
             startActivity(intent)
-            // Définition de l'activité actuelle dans NotificationService
-            // NotificationService.setActivity(this)
-            // NotificationService.envoyerNotification(token, "Title henoc 2", "Body benito 2")
         }
 
-        loginButton.setOnClickListener {
+        binding.loginButton.setOnClickListener {
             val intent = Intent(this, LogInActivity::class.java)
             startActivity(intent)
         }
 
-        googleButton.setOnClickListener {
+        binding.googleSignInButton.setOnClickListener {
             val googleStrategy = GoogleAuthStrategy(this)
             authContext.updateStrategy(googleStrategy)
             startActivityForResult(googleStrategy.getSignInIntent(), 100)
@@ -94,12 +76,18 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100) {
             val googleStrategy = authContext.strategy as? GoogleAuthStrategy
-            googleStrategy?.handleGoogleSignInResult(data,
+            googleStrategy?.handleGoogleSignInResult(
+                data,
                 onSuccess = {
-                    println("Connexion réussie via Google")
+                    // Rediriger vers HomeActivity si la connexion réussit
+                    Toast.makeText(this, "Connexion Google réussie !", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                    finish() // Fermer l'activité actuelle
                 },
                 onError = { error ->
-                    println("Erreur : $error") // This is where you're printing the error
+                    // Afficher un message d'erreur en cas d'échec
+                    Toast.makeText(this, "Erreur : $error", Toast.LENGTH_SHORT).show()
                 }
             )
         }

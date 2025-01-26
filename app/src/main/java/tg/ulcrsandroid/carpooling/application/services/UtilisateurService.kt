@@ -6,10 +6,10 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.database
-import com.google.firebase.database.getValue
 import kotlinx.coroutines.tasks.await
 import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
+import com.google.firebase.database.database
+import com.google.firebase.database.getValue
 import tg.ulcrsandroid.carpooling.domain.repositories.IUtilisateur
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -53,35 +53,6 @@ object UtilisateurService : IUtilisateur {
         }
     }
 
-    fun getCurrentUserId(): String? {
-        val currentUser = auth.currentUser
-        return currentUser?.let { user -> user.uid}
-    }
-
-    suspend fun getCurrentUser(): Utilisateur? {
-        val currentUser = auth.currentUser
-        return currentUser?.let { user ->
-            // Fetch the user data from the database
-            val userSnapshot = database.child("users").child(user.uid).get().await()
-
-            // Check if the user data exists
-            if (userSnapshot.exists()) {
-                // Map the data to the Utilisateur class
-                val idUtilisateur = userSnapshot.child("idUtilisateur").getValue(String::class.java) ?: ""
-                val email = userSnapshot.child("email").getValue(String::class.java) ?: ""
-                val nomComplet = userSnapshot.child("nomComplet").getValue(String::class.java) ?: ""
-                val motDePasse = userSnapshot.child("motDePasse").getValue(String::class.java) ?: ""
-                val typeUtilisateur = userSnapshot.child("typeUtilisateur").getValue(String::class.java) ?: ""
-
-                // Create and return the Utilisateur object
-                Utilisateur(idUtilisateur, email, nomComplet, motDePasse, typeUtilisateur)
-            } else {
-                // If the user data doesn't exist, return null
-                null
-            }
-        }
-    }
-
     fun sauvegarderUtilisateurID(context: Context) {
         Log.i("Carpooling", "SAUVEGARDE DE L'ID $utilisateurID")
         val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
@@ -94,10 +65,6 @@ object UtilisateurService : IUtilisateur {
         Log.d("Carpooling", "UtilisateurService:recupererUtilisateurID ---> USER-ID ---> $utilisateurID")
         return utilisateurID
     }
-
-//    fun initialiserIdUtilisateur(context: Context) {
-//        utilisateurID = recupererUtilisateurID(context)
-//    }
 
     fun getUsersList(liste: MutableList<String>): MutableList<Utilisateur?> {
         val database = Firebase.database
@@ -198,20 +165,33 @@ object UtilisateurService : IUtilisateur {
             }
     }
 
+    fun getCurrentUserId(): String? {
+        val currentUser = auth.currentUser
+        return currentUser?.let { user -> user.uid}
+    }
 
-    // Exemple d'utilisation de la fonction
-//    UtilisateurService.getFcmTokenById(
-//    userId = "someUserId",
-//    onSuccess = { token ->
-//        if (token != null) {
-//            println("Token FCM récupéré : $token")
-//        } else {
-//            println("Aucun token FCM trouvé pour cet utilisateur.")
-//        }
-//    },
-//    onError = { errorMessage ->
-//        println(errorMessage)
-//    }
-//    )
+    suspend fun getCurrentUser(): Utilisateur? {
+        val currentUser = auth.currentUser
+        return currentUser?.let { user ->
+            // Fetch the user data from the database
+            val userSnapshot = database.child("users").child(user.uid).get().await()
+
+            // Check if the user data exists
+            if (userSnapshot.exists()) {
+                // Map the data to the Utilisateur class
+                val idUtilisateur = userSnapshot.child("idUtilisateur").getValue(String::class.java) ?: ""
+                val email = userSnapshot.child("email").getValue(String::class.java) ?: ""
+                val nomComplet = userSnapshot.child("nomComplet").getValue(String::class.java) ?: ""
+                val motDePasse = userSnapshot.child("motDePasse").getValue(String::class.java) ?: ""
+                val typeUtilisateur = userSnapshot.child("typeUtilisateur").getValue(String::class.java) ?: ""
+
+                // Create and return the Utilisateur object
+                Utilisateur(idUtilisateur, email, nomComplet, motDePasse, typeUtilisateur)
+            } else {
+                // If the user data doesn't exist, return null
+                null
+            }
+        }
+    }
 
 }

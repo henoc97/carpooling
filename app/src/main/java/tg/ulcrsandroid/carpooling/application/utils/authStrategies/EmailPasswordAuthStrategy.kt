@@ -1,71 +1,79 @@
 package tg.ulcrsandroid.carpooling.application.utils.authStrategies
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
 import tg.ulcrsandroid.carpooling.application.utils.notification.FirebaseTokenManager
-//import okhttp3.internal.Util
-import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
 
 class EmailPasswordAuthStrategy : IAuthStrategy {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance().reference
 
-    override fun sInscrire(email: String?, password: String?, nomComplet: String?) {
+    override fun sInscrire(
+        email: String?,
+        password: String?,
+        nomComplet: String?,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
         if (email == null || password == null || nomComplet == null) {
-            println("Email, mot de passe ou nom complet manquant.")
+            onError("Email, mot de passe ou nom complet manquant.") // Appeler onError si un champ est manquant
             return
         }
+
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val userId = task.result?.user?.uid
-                    if (userId != null) {
+                    val idUtilisateur = task.result?.user?.uid
+                    if (idUtilisateur != null) {
                         val user = mapOf(
-                            "userId" to userId,
+                            "idUtilisateur" to idUtilisateur,
                             "email" to email,
                             "nomComplet" to nomComplet
                         )
-                        val utilisateur = Utilisateur(userId, email, nomComplet, password, "client")
-//                        val newEmail = UtilisateurService.formaterEmail(email)
-//                        Log.i("Carpooling", "EmailPasswordAuthStrategy ---> EMAIL ENVOYE --> $newEmail")
-
-                        // Utilisation de l'email plutot que l'id pour référencer un utilisateur
-                        Log.d("Carpooling", "Utilisateur Id ---> ${userId}")
-                        database.child("users").child(userId).setValue(utilisateur)
+                        database.child("users").child(idUtilisateur).setValue(user)
                             .addOnSuccessListener {
-                                FirebaseTokenManager.updateToken(userId) // Mise à jour du token
-                                Log.d("Carpooling", "Utilisateur enregistré avec succès. ${userId}")
-                                UtilisateurService.utilisateurID = userId
+                                FirebaseTokenManager.updateToken(idUtilisateur) // Mise à jour du token
+                                onSuccess() // Appeler onSuccess si tout est réussi
+                                UtilisateurService.utilisateurID = idUtilisateur
                             }
                             .addOnFailureListener { e ->
-                                Log.d("Carpooling", "Erreur d'enregistrement : ${e.message}")
-                                println("Erreur d'enregistrement : ${e.message}")
+                                onError("Erreur d'enregistrement : ${e.message}") // Appeler onError en cas d'échec
                             }
+                    } else {
+                        onError("Erreur : ID utilisateur non trouvé après inscription.")
                     }
                 } else {
-                    println("Erreur d'inscription : ${task.exception?.message}")
+                    onError("Erreur d'inscription : ${task.exception?.message}") // Appeler onError en cas d'échec
                 }
             }
     }
 
-    override fun seConnecter(email: String?, password: String?) {
+    override fun seConnecter(
+        email: String?,
+        password: String?,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
         if (email == null || password == null) {
-            println("Email ou mot de passe manquant.")
+            onError("Email ou mot de passe manquant.") // Appeler onError si un champ est manquant
             return
         }
+
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
-                val userId = task.result?.user?.uid
-
-                // Récupérer l'id de l'utilisateur et le stocker dans sharred preferences
                 if (task.isSuccessful) {
-                    println("Connexion réussie. ${userId}")
-                    Log.d("Carpooling", "EmailPasswordAuthStrategy:seConnecter ---> CONNEXION REUSSIE ID ---> ${userId}")
-                    UtilisateurService.utilisateurID = userId
+                    val user = auth.currentUser
+                    if (user != null) {
+                        val idUtilisateur = user.uid // Récupérer l'ID de l'utilisateur
+                        FirebaseTokenManager.updateToken(idUtilisateur) // Mettre à jour le token
+                        onSuccess() // Appeler onSuccess si tout est réussi
+                        UtilisateurService.utilisateurID = idUtilisateur
+                    } else {
+                        onError("Erreur : Utilisateur non trouvé après connexion.") // Appeler onError en cas d'échec
+                    }
                 } else {
-                    println("Erreur de connexion : ${task.exception?.message}")
+                    onError("Erreur de connexion : ${task.exception?.message}") // Appeler onError en cas d'échec
                 }
             }
     }
