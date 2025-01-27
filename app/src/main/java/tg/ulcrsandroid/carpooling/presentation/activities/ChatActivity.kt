@@ -8,12 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.firebase.ui.auth.data.model.User
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import tg.ulcrsandroid.carpooling.R
 import tg.ulcrsandroid.carpooling.application.services.ChatService
 import tg.ulcrsandroid.carpooling.application.services.DiscussionService
 import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
+import tg.ulcrsandroid.carpooling.application.utils.UserManager
 import tg.ulcrsandroid.carpooling.databinding.ActivityChatBinding
 import tg.ulcrsandroid.carpooling.domain.models.Chat
 import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
@@ -36,7 +38,7 @@ class ChatActivity : AppCompatActivity() {
         adapter.onItemClick = this::onItemClick
 
         lifecycleScope.launch {
-            if (UtilisateurService.utilisateurActuel == null) {
+            if (UserManager.getCurrentUser() == null) {
                 Log.d("Carpooling", "ChatActivity:onCreate ---> ID SAUVEGARDE ---> ${UtilisateurService.utilisateurID}")
                 UtilisateurService.initialiserUtilisateurActuel(UtilisateurService.utilisateurID!!)
             }

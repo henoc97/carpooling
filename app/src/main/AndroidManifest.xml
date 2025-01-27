@@ -22,9 +22,9 @@
         <activity
             android:name=".presentation.activities.DiscussionActivity"
             android:exported="false" />
-        <activity
-            android:name=".presentation.activities.ChatActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".presentation.activities.ChatActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".presentation.activities.signUpActivity"
             android:exported="false"
@@ -63,7 +63,7 @@
             android:value="@string/default_web_client_id" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.activities.ChatActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
