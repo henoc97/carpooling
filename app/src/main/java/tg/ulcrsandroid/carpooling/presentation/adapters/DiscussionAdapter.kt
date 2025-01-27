@@ -10,7 +10,7 @@ import tg.ulcrsandroid.carpooling.databinding.ItemDiscussionBinding
 import tg.ulcrsandroid.carpooling.domain.models.Discussion
 import tg.ulcrsandroid.carpooling.presentation.viewholders.DiscussionViewHolder
 
-class DiscussionAdapter(private val discussions: MutableList<Discussion>) : RecyclerView.Adapter<DiscussionAdapter.DiscussionViewHolder>() {
+class DiscussionAdapter(private var discussions: MutableList<Discussion>) : RecyclerView.Adapter<DiscussionAdapter.DiscussionViewHolder>() {
 
     companion object {
         private const val VIEW_TYPE_SENT = 1
@@ -23,17 +23,21 @@ class DiscussionAdapter(private val discussions: MutableList<Discussion>) : Recy
 
     class SentMessageViewHolder(view: View) : DiscussionViewHolder(view) {
         private val messageText: TextView = view.findViewById(R.id.messageText)
+        private val sendDate: TextView = view.findViewById(R.id.sendDate)
 
         override fun bind(discussion: Discussion) {
             messageText.text = discussion.message
+            sendDate.text = "${discussion.horodatage.hours}:${discussion.horodatage.minutes}"
         }
     }
 
     class ReceivedMessageViewHolder(view: View) : DiscussionViewHolder(view) {
         private val messageText: TextView = view.findViewById(R.id.messageText)
+        private val sendDate: TextView = view.findViewById(R.id.sendDate)
 
         override fun bind(discussion: Discussion) {
             messageText.text = discussion.message
+            sendDate.text = "${discussion.horodatage.hours}:${discussion.horodatage.minutes}"
         }
     }
 
@@ -63,8 +67,17 @@ class DiscussionAdapter(private val discussions: MutableList<Discussion>) : Recy
     }
 
     fun addDiscussion(discussion: Discussion) {
+        if (discussions.contains(discussion)) {
+            return
+        }
+
         discussions.add(discussion)
         notifyItemInserted(discussions.size - 1)
+    }
+
+    fun resetDiscussions(l : MutableList<Discussion>) {
+        discussions = l
+        notifyDataSetChanged()
     }
 
 }

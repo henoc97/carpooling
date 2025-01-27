@@ -21,7 +21,7 @@ class ChatViewHolder(var ui: ItemChatBinding) : RecyclerView.ViewHolder(ui.root)
                 nomComplet = value?.nomMembreSecondaire
             } else {
                 ui.personName.text = value?.nomInitialisateur
-                nomComplet = value?.nomMembreSecondaire
+                nomComplet = value?.nomInitialisateur
             }
             ui.lastMessage.text = "A mettre à jour"
             idChat = value?.idChat

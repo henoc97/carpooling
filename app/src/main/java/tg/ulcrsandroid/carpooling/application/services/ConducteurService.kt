@@ -9,7 +9,7 @@ object ConducteurService : IConducteur {
     private val database = FirebaseDatabase.getInstance().reference
 
     override fun creerTrajet(trajet: Trajet) {
-        TrajetService.creerTrajet(trajet)
+        // TrajetService.creerTrajet(trajet)
     }
 
     override fun gererReservations(idTrajet: String, onSuccess: (List<Reservation>) -> Unit, onError: (String) -> Unit) {

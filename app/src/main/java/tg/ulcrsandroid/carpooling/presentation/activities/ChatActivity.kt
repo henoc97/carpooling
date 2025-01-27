@@ -7,6 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import tg.ulcrsandroid.carpooling.R
 import tg.ulcrsandroid.carpooling.application.services.ChatService
@@ -21,30 +23,35 @@ class ChatActivity : AppCompatActivity() {
 
     private lateinit var ui: ActivityChatBinding
     private lateinit var utilisateur: Utilisateur
+    // Création d'objets de test
+    private lateinit var sender: Utilisateur
+    private lateinit var receiver: Utilisateur
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ui = ActivityChatBinding.inflate(layoutInflater)
         setContentView(ui.root)
         super.onCreate(savedInstanceState)
-        // Vérifier si l'id de l'utilisateur et différent de null
-//        if (UtilisateurService.utilisateurID != null) {
-//            runBlocking {
-//                UtilisateurService.initialiserUtilisateurSynchronement() // Récupérer les infos utilisateur et créer un objet utilisateur
-//            }
-//        }
 
-//        J2jvzJuupSgRyupfk4cEzFOjh8e2 sylvaingossou
-//        utilisateur = UtilisateurService.utilisateurActuel!!
-//        val utilisateurList = UtilisateurService.getUsersList(utilisateur.contactsEmails)
-        val adapter = ChatAdapter(createTestChats())
+        val adapter = ChatAdapter()
         adapter.onItemClick = this::onItemClick
-        ui.chatRecyclerView.adapter = adapter
+
+        lifecycleScope.launch {
+            if (UtilisateurService.utilisateurActuel == null) {
+                Log.d("Carpooling", "ChatActivity:onCreate ---> ID SAUVEGARDE ---> ${UtilisateurService.utilisateurID}")
+                UtilisateurService.initialiserUtilisateurActuel(UtilisateurService.utilisateurID!!)
+            }
+            val chats = ChatService.getChatsByIds(UtilisateurService.utilisateurActuel!!.mesChats)
+            Log.d("Carpooling", "ChatActivity:onCreate ---> CHATS ---> ${chats.size} ---> $chats")
+            adapter.setChats(chats)
+            ui.chatRecyclerView.adapter = adapter
+        }
     }
 
     private fun onItemClick(idChat: String?, nomComplet: String?) {
         Log.d("Carpooling", "ChatActivity ---> UTILISATEUR SELECTIONNE ---> $nomComplet")
         val intent = Intent(this, DiscussionActivity::class.java)
         intent.putExtra("idChat", idChat)
+        Log.d("Carpooling", "ChatActivity:onItemClick ---> ID-CHAT SHARED ---> $idChat")
         intent.putExtra("nomComplet", nomComplet)
         startActivity(intent)
     }
@@ -63,36 +70,18 @@ class ChatActivity : AppCompatActivity() {
 
     private fun createTestChats(): List<Chat> {
         val testChat = mutableListOf<Chat>();
-        val utililsateurActuel = UtilisateurService.utilisateurActuel
-//        if (utililsateurActuel == null) {
-//            Log.d("Carpooling", "ChatActivity:createTestChats ---> PAUSE DE L'APP")
-////            Thread.sleep(10000)
-//        }
-//        if (utililsateurActuel == null) {
-//            Log.d("Carpooling", "ChatActivity:createTestChats ---> UTILISATEUR ACTUEL EST TOUJOURS NULL")
-//            return testChat
-//        }
-
-//        val chat = Chat(
-//            DiscussionService.generateUniqueKey(),
-//            utililsateurActuel.nomComplet,
-//            utililsateurActuel.idUtilisateur,
-//            "Sylvain GG",
-//            "kXllXFn3lLaHzGX2njswBogitiP2"
-//        )
         val chat = Chat(
-            DiscussionService.generateUniqueKey(),
-            "Sylvain GOSSOU",
-            UtilisateurService.utilisateurID!!,
-            "Sylvain GG",
-            "kXllXFn3lLaHzGX2njswBogitiP2"
+            idChat = DiscussionService.generateUniqueKey(),
+            nomInitialisateur = sender.nomComplet,
+            idInitialisateur = sender.idUtilisateur,
+            nomMembreSecondaire = receiver.nomComplet,
+            idMembreSecondaire = receiver.idUtilisateur,
         )
-//        utililsateurActuel.ajouterIdDiscussion(chat.idChat)
-
-//        UtilisateurService.mettreAJourProfil(UtilisateurService.utilisateurActuel!!)
-
         ChatService.creerRemoteChat(chat) // Ajouter le chat au remote
-        // Ajouter l'id du chat à l'utilisateur secondqire
+        // Ajouter l'id du chat aux deux utilisateurs
+        sender.ajouterIdDiscussion(chat.idChat)
+        receiver.ajouterIdDiscussion(chat.idChat)
+
         testChat.add(chat)
         return testChat
     }
