@@ -40,19 +40,19 @@ class MainActivity : AppCompatActivity() {
         binding.landingAnimation.visibility = View.VISIBLE
 
         // Test du chat
-        if (UtilisateurService.recupererUtilisateurID(this) != null) {
-            Log.d("Carpooling", "MainActivity:onCreate ---> L'UTILISATEUR EST DIFFERENT DE NULL")
-            lifecycleScope.launch {
-                val utilisateurActuel = UtilisateurService.initialiserUtilisateurActuel(
-                    UtilisateurService.recupererUtilisateurID(this@MainActivity)!!)
-                Log.d("Carpooling", "MainActivity:onCreate ---> UTILISATEUR ACTUEL : ${utilisateurActuel?.nomComplet}")
-                val intent  = Intent(this@MainActivity, ChatActivity::class.java)
-                startActivity(intent)
-
-                // Stop the activity
-                finish()
-            }
-        }
+//        if (UtilisateurService.recupererUtilisateurID(this) != null) {
+//            Log.d("Carpooling", "MainActivity:onCreate ---> L'UTILISATEUR EST DIFFERENT DE NULL")
+//            lifecycleScope.launch {
+//                val utilisateurActuel = UtilisateurService.initialiserUtilisateurActuel(
+//                    UtilisateurService.recupererUtilisateurID(this@MainActivity)!!)
+//                Log.d("Carpooling", "MainActivity:onCreate ---> UTILISATEUR ACTUEL : ${utilisateurActuel?.nomComplet}")
+//                val intent  = Intent(this@MainActivity, ChatActivity::class.java)
+//                startActivity(intent)
+//
+//                // Stop the activity
+//                finish()
+//            }
+//        }
 
         // Configurer les clics sur les boutons
         binding.signUpButton.setOnClickListener {

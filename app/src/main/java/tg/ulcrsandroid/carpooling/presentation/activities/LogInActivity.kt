@@ -54,8 +54,8 @@ class LogInActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        UtilisateurService.sauvegarderUtilisateurID(this)
-        Log.d("Carpooling", "SAUVEGARDE DE L'ID DE L'UTILISATEUR !")
+//        UtilisateurService.sauvegarderUtilisateurID(this)
+//        Log.d("Carpooling", "SAUVEGARDE DE L'ID DE L'UTILISATEUR !")
         super.onDestroy()
     }
 

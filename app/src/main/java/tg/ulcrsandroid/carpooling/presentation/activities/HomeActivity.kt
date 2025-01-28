@@ -1,6 +1,7 @@
 package tg.ulcrsandroid.carpooling.presentation.activities
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -33,6 +34,7 @@ class HomeActivity : AppCompatActivity() {
             } else {
                 println("Aucun utilisateur connecté.")
             }
+            Log.d("carpooling", "HomeActivity:onCreate ---> USER RETREIVED : ${UserManager.getCurrentUser()?.nomComplet}")
         }
     }
 }
