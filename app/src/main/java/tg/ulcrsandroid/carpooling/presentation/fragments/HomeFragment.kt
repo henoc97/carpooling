@@ -23,8 +23,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import tg.ulcrsandroid.carpooling.R
 import tg.ulcrsandroid.carpooling.databinding.FragmentHomeBinding
 import tg.ulcrsandroid.carpooling.presentation.activities.CreateTrajetActivity
+import tg.ulcrsandroid.carpooling.presentation.activities.SearchTrajetActivity
 import tg.ulcrsandroid.carpooling.presentation.activities.TrajetListeDetailActivity
-import tg.ulcrsandroid.carpooling.presentation.activities.TrajetsProchesActivity
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
 
@@ -57,7 +57,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         // Ajouter un ClickListener sur le "gerer trajet"
         binding.floatingImage.setOnClickListener {
             // Rediriger vers TrajetListeDetailActivity
-            val intent = Intent(requireActivity(), TrajetsProchesActivity::class.java)
+            val intent = Intent(requireActivity(), SearchTrajetActivity::class.java)
             startActivity(intent)
         }
 
