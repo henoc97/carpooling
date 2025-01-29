@@ -56,7 +56,7 @@
             android:theme="@style/Theme.Carpooling" />
         <!-- Ajouter l'activité TrajetsProchesActivity -->
         <activity
-            android:name=".presentation.activities.TrajetsProchesActivity"
+            android:name=".presentation.activities.SearchTrajetActivity"
             android:label="Trajets Proches" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"

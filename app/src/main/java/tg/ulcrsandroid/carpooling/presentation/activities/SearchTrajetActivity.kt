@@ -3,18 +3,19 @@ package tg.ulcrsandroid.carpooling.presentation.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import tg.ulcrsandroid.carpooling.R
-import tg.ulcrsandroid.carpooling.presentation.fragments.TrajetsProchesFragment
+import tg.ulcrsandroid.carpooling.presentation.fragments.CreateTrajetFragment
+import tg.ulcrsandroid.carpooling.presentation.fragments.SearchTrajetFragment
 
-class TrajetsProchesActivity : AppCompatActivity() {
+class SearchTrajetActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_trajets_proches)
+        setContentView(R.layout.activity_search_trajet)
 
-        // Charger le fragment TrajetsProchesFragment
+        // Charger le fragment dans le conteneur
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, TrajetsProchesFragment())
+                .replace(R.id.fragment_container, SearchTrajetFragment())
                 .commit()
         }
     }

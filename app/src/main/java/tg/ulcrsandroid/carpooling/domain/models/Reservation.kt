@@ -9,7 +9,7 @@ class Reservation(
     var passager: Passager,
     var trajet: Trajet,
     var heureReservation: Date,
-    var statut: String
+    var statut: String // pending; accepted; rejected
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
