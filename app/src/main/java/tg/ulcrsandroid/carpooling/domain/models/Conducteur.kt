@@ -1,11 +1,14 @@
 package tg.ulcrsandroid.carpooling.domain.models
 
 class Conducteur(
-    userId: String,
-    email: String,
-    fullName: String,
-    password: String,
-    userType: String,
-    var vehicleDetails: String,
-    var availableSeats: Int
-) : Utilisateur(userId, email, fullName, password, userType)
+    idUtilisateur: String = "",
+    email: String = "",
+    nomComplet: String = "",
+    motDePasse: String = "",
+    typeUtilisateur: String = "",
+    var detailsVehicule: String = "",
+    var placesDisponibles: Int = 0
+) : Utilisateur(idUtilisateur, email, nomComplet, motDePasse, typeUtilisateur) {
+    // Constructeur sans arguments (nécessaire pour Firebase)
+    constructor() : this("", "", "", "", "", "", 0)
+}

@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Carpooling</string>
-    <string name="default_web_client_id">
-        44286377723-gbar5ear4f27br8oh4lvl86b9h7tn1fv.apps.googleusercontent.com</string>
-    <string name="server_key">AIzaSyCL0UE69_U2cKGNhD5u9Eotwlt-6pXM6zQ</string>
-    <string name="fcm_message">Message FCM</string>
-    <string name="default_notification_channel_id">default_channel</string>
+    <string name="default_web_client_id">44286377723-gbar5ear4f27br8oh4lvl86b9h7tn1fv.apps.googleusercontent.com</string>
+    <string name="title_activity_sign_up">signUpActivity</string>
+    <string name="app_logo">Carpooling</string>
+    <string name="default_notification_channel_id">channel id</string>
+    <string name="default_notification_channel_name">channel name\n</string>
+    <string name="default_notification_channel_description">channel description</string>
 </resources>

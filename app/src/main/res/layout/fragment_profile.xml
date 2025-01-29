@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- En-tête -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:background="@color/dark_green"/>
+
+    <!-- Contenu principal -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="top|center_horizontal"
+        android:background="@color/white">
+
+        <!-- Conteneur de l'image de profil -->
+        <FrameLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="32dp">
+
+            <!-- Cercle vert de fond -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/profile_circle"/>
+
+            <!-- Image de profil -->
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_profile"
+                app:tint="@color/black"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+
+        <!-- Conteneur nom d'utilisateur avec bouton de modification -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <EditText
+                android:id="@+id/usernameInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Nom d'utilisateur"
+                android:padding="12dp"
+                android:background="#EEEEEE"/>
+
+            <ImageButton
+                android:id="@+id/modifyUsernameButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_modification"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="12dp"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+        <!-- Conteneur e-mail avec bouton de modification -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/emailInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="e-mail"
+                android:padding="12dp"
+                android:background="#EEEEEE"
+                android:inputType="textEmailAddress"/>
+
+            <ImageButton
+                android:id="@+id/modifyEmailButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_modification"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="12dp"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

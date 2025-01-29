@@ -2,8 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+<<<<<<< HEAD
+=======
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+<<<<<<< HEAD
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
+=======
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
     <application
         android:allowBackup="true"
+        android:enableOnBackInvokedCallback="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -12,6 +24,52 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Carpooling"
         tools:targetApi="31">
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
+        <activity
+            android:name=".presentation.activities.signUpActivity"
+            android:exported="false"
+            android:label="@string/title_activity_sign_up"
+            android:theme="@style/Theme.Carpooling" />
+        <activity
+            android:name=".presentation.activities.LogInActivity"
+            android:exported="false"
+            android:label="logInActivity"
+            android:theme="@style/Theme.Carpooling" />
+        <activity
+            android:name=".presentation.activities.HomeActivity"
+            android:exported="false"
+            android:label="logInActivity"
+            android:theme="@style/Theme.Carpooling" />
+        <activity
+            android:name=".presentation.activities.CreateTrajetActivity"
+            android:exported="false"
+            android:label="logInActivity"
+            android:theme="@style/Theme.Carpooling" />
+        <activity
+            android:name=".presentation.activities.TrajetListeDetailActivity"
+            android:exported="false"
+            android:label="logInActivity"
+            android:theme="@style/Theme.Carpooling" />
+        <!-- Ajouter l'activité TrajetsProchesActivity -->
+        <activity
+            android:name=".presentation.activities.SearchTrajetActivity"
+            android:label="Trajets Proches" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCNwArZMo4NfCOfE6ANRi-vNmzFZeEtBaM" />
+
+         <meta-data
+            android:name="com.google.android.gms.auth.api.credentials.ClientId"
+            android:value="@string/default_web_client_id" />
+
+<<<<<<< HEAD
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
+=======
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -21,8 +79,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
         <service
+<<<<<<< HEAD
+<<<<<<< HEAD
             android:name=".MyFireBaseMessagingService"
+=======
+            android:name=".infrastructure.externalServices.push.MyFireBaseMessagingService"
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
+=======
+            android:name=".infrastructure.externalServices.push.MyFireBaseMessagingService"
+>>>>>>> 62e3402154032eb2e237a1116947cfbe63bd5cc2
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

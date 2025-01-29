@@ -1,72 +1,74 @@
 package tg.ulcrsandroid.carpooling
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.TextView
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.AuthContext
-import com.google.firebase.FirebaseApp
-import com.google.firebase.messaging.FirebaseMessaging
+import tg.ulcrsandroid.carpooling.application.utils.authStrategies.GoogleAuthStrategy
+import tg.ulcrsandroid.carpooling.infrastructure.externalServices.push.requestNotificationPermission
+import tg.ulcrsandroid.carpooling.presentation.activities.LogInActivity
+import tg.ulcrsandroid.carpooling.presentation.activities.signUpActivity
+import tg.ulcrsandroid.carpooling.databinding.ActivityLandingBinding // Import généré automatiquement
+import tg.ulcrsandroid.carpooling.presentation.activities.HomeActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var authContext: AuthContext
+    private lateinit var binding: ActivityLandingBinding // Déclarer le binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FirebaseApp.initializeApp(this)
-        setContentView(R.layout.activity_notification)
-        val tokentext=  findViewById<TextView>(R.id.token)
 
+        // Initialiser le binding
+        binding = ActivityLandingBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
+        // Demander la permission de notification
+        requestNotificationPermission(this)
 
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w("FCM", "Fetching FCM registration token failed", task.exception)
-                return@addOnCompleteListener
-            }
-
-            // Obtenir le token
-            val token = task.result
-            Log.d("FCM Token", token ?: "Token non disponible")
-            tokentext.text= token
-        }
-
-        // Commentaire fait pas Sylvain GOSSOU
-
-        // Par défaut, stratégie Email/Password
-       /* val emailPasswordAuthStrategy = EmailPasswordAuthStrategy()
+        // Initialiser AuthContext
         authContext = AuthContext()
-        authContext.updateStrategy(emailPasswordAuthStrategy)
 
-        // Bouton pour l'inscription par Email/Password
-        findViewById<Button>(R.id.emailSignUpButton).setOnClickListener {
-            authContext.sInscrire("test9785@example.com", "password123", "John Doe")
+        // Configurer l'animation de landing
+        binding.landingAnimation.visibility = View.VISIBLE
+
+        // Configurer les clics sur les boutons
+        binding.signUpButton.setOnClickListener {
+            val intent = Intent(this, signUpActivity::class.java)
+            startActivity(intent)
         }
 
-        // Bouton pour l'inscription via Google
-        findViewById<Button>(R.id.googleSignInButton).setOnClickListener {
+        binding.loginButton.setOnClickListener {
+            val intent = Intent(this, LogInActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.googleSignInButton.setOnClickListener {
             val googleStrategy = GoogleAuthStrategy(this)
             authContext.updateStrategy(googleStrategy)
             startActivityForResult(googleStrategy.getSignInIntent(), 100)
-        }*/
+        }
     }
 
-   /* override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100) {
             val googleStrategy = authContext.strategy as? GoogleAuthStrategy
-            googleStrategy?.handleGoogleSignInResult(data,
+            googleStrategy?.handleGoogleSignInResult(
+                data,
                 onSuccess = {
-                    println("Connexion réussie via Google")
+                    // Rediriger vers HomeActivity si la connexion réussit
+                    Toast.makeText(this, "Connexion Google réussie !", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                    finish() // Fermer l'activité actuelle
                 },
                 onError = { error ->
-                    println("Erreur : $error") // This is where you're printing the error
+                    // Afficher un message d'erreur en cas d'échec
+                    Toast.makeText(this, "Erreur : $error", Toast.LENGTH_SHORT).show()
                 }
             )
         }
-    }*/
+    }
 }
-
-
-
-
