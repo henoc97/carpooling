@@ -1,13 +1,13 @@
 package tg.ulcrsandroid.carpooling.application.services
 
 import android.util.Log
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import tg.ulcrsandroid.carpooling.domain.models.Trajet
 import tg.ulcrsandroid.carpooling.domain.repositories.ITrajet
-import java.util.Date
-import kotlin.text.get
 
 object TrajetService : ITrajet {
+
     private val database = FirebaseDatabase.getInstance().reference.child("trajets")
 
     override fun creerTrajet(trajet: Trajet, idConducteur: String) {
@@ -17,28 +17,28 @@ object TrajetService : ITrajet {
             "idTrajet" to idTrajet,
             "lieuDepart" to trajet.lieuDepart,
             "lieuArrivee" to trajet.lieuArrivee,
-            "heureDepart" to trajet.heureDepart, // Utiliser le timestamp
+            "heureDepart" to trajet.heureDepart,
             "prixParPassager" to trajet.prixParPassager,
             "placesDisponibles" to trajet.placesDisponibles,
             "idConducteur" to idConducteur,
-            "creeA" to trajet.creeA // Utiliser le timestamp
+            "creeA" to trajet.creeA
         )
         newTrajetRef.setValue(trajetMap)
             .addOnSuccessListener {
-                println("Trajet créé avec succès.")
+                Log.d("TrajetService", "Trajet créé avec succès.")
             }
             .addOnFailureListener { e ->
-                println("Erreur lors de la création du trajet : ${e.message}")
+                Log.e("TrajetService", "Erreur lors de la création du trajet : ${e.message}")
             }
     }
 
     override fun mettreAJourTrajet(trajet: Trajet) {
-        database.child(trajet.idTrajet.toString()).setValue(trajet)
+        database.child(trajet.idTrajet).setValue(trajet)
             .addOnSuccessListener {
-                println("Trajet mis à jour avec succès.")
+                Log.d("TrajetService", "Trajet mis à jour avec succès.")
             }
             .addOnFailureListener { e ->
-                println("Erreur lors de la mise à jour du trajet : ${e.message}")
+                Log.e("TrajetService", "Erreur lors de la mise à jour du trajet : ${e.message}")
             }
     }
 
@@ -53,45 +53,83 @@ object TrajetService : ITrajet {
             }
     }
 
-    fun mesTrajetsCrees(idConducteur: String, onSuccess: (List<Trajet>) -> Unit, onError: (String) -> Unit) {
-        database.orderByChild("idConducteur").equalTo(idConducteur)
-            .get()
+    override fun rechercherTrajets(
+        depart: String,
+        destination: String,
+        heureDepart: Long,
+        distanceToleranceMeters: Int,
+        timeToleranceMillis: Int,
+        onSuccess: (List<Trajet>) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        database.get()
             .addOnSuccessListener { dataSnapshot ->
                 val trajets = mutableListOf<Trajet>()
                 for (snapshot in dataSnapshot.children) {
                     val trajet = snapshot.getValue(Trajet::class.java)
-                    trajet?.let { trajets.add(it) }
+                    if (trajet != null && isTrajetWithinTolerance(trajet, depart, destination, heureDepart, distanceToleranceMeters, timeToleranceMillis)) {
+                        trajets.add(trajet)
+                    }
                 }
                 onSuccess(trajets)
             }
-            .addOnFailureListener { exception ->
-                onError("Erreur lors de la récupération des trajets: ${exception.message}")
+            .addOnFailureListener { e ->
+                onError("Erreur lors de la recherche des trajets : ${e.message}")
             }
     }
 
-    // lister les trajets dont leur heureDepart n est pas encore passer
-    fun listerTrajetsFuturs(onSuccess: (List<Trajet>) -> Unit, onError: (String) -> Unit) {
-        database.get()
+    /**
+     * Récupère tous les trajets créés par un conducteur spécifique.
+     *
+     * @param idConducteur L'ID du conducteur.
+     * @param onSuccess Callback appelé en cas de succès, retourne la liste des trajets.
+     * @param onError Callback appelé en cas d'erreur, retourne un message d'erreur.
+     */
+    fun mesTrajetsCrees(
+        idConducteur: String,
+        onSuccess: (List<Trajet>) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        // Requête Firebase pour récupérer les trajets où l'idConducteur correspond
+        database.orderByChild("idConducteur").equalTo(idConducteur)
+            .get()
             .addOnSuccessListener { dataSnapshot ->
-                val trajetsFuturs = mutableListOf<Trajet>()
-                val heureActuelle = System.currentTimeMillis() // Timestamp actuel
+                val trajets = mutableListOf<Trajet>()
 
+                // Parcourir les résultats de la requête
                 for (snapshot in dataSnapshot.children) {
                     val trajet = snapshot.getValue(Trajet::class.java)
-                    if (trajet != null && trajet.heureDepart > heureActuelle) {
-                        trajetsFuturs.add(trajet)
+                    if (trajet != null) {
+                        trajets.add(trajet)
                     }
                 }
 
-                // Ajouter des logs pour déboguer
-                Log.d("TrajetService", "Nombre de trajets trouvés : ${dataSnapshot.childrenCount}")
-                Log.d("TrajetService", "Nombre de trajets futurs : ${trajetsFuturs.size}")
-                Log.d("TrajetService", "Heure actuelle : $heureActuelle")
-
-                onSuccess(trajetsFuturs)
+                // Appeler le callback onSuccess avec la liste des trajets
+                onSuccess(trajets)
             }
             .addOnFailureListener { exception ->
-                onError("Erreur lors de la récupération des trajets : ${exception.message}")
+                // En cas d'erreur, appeler le callback onError avec un message d'erreur
+                val errorMessage = "Erreur lors de la récupération des trajets: ${exception.message}"
+                Log.e("TrajetService", errorMessage)
+                onError(errorMessage)
             }
+    }
+
+    private fun isTrajetWithinTolerance(
+        trajet: Trajet,
+        depart: String,
+        destination: String,
+        heureDepart: Long,
+        distanceToleranceMeters: Int,
+        timeToleranceMillis: Int
+    ): Boolean {
+        // Check if the departure and destination match (you can add distance calculation logic here)
+        val isDepartureMatch = trajet.lieuDepart.equals(depart, ignoreCase = true)
+        val isDestinationMatch = trajet.lieuArrivee.equals(destination, ignoreCase = true)
+
+        // Check if the time is within tolerance
+        val isTimeWithinTolerance = trajet.heureDepart in (heureDepart - timeToleranceMillis)..(heureDepart + timeToleranceMillis)
+
+        return isDepartureMatch && isDestinationMatch && isTimeWithinTolerance
     }
 }
