@@ -19,7 +19,7 @@ class ProfileFragment : Fragment() {
     private lateinit var btnMettreAJourNom: ImageButton
     private lateinit var btnMettreAJourEmail: ImageButton
     private var current_user = UserManager.getCurrentUser()
-    private val utilisateurService : UtilisateurService = TODO()
+    private val utilisateurService : UtilisateurService = UtilisateurService
 
 
     override fun onCreateView(

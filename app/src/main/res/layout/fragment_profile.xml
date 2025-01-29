@@ -35,15 +35,13 @@
             <!-- Cercle vert de fond -->
             <View
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/profile_circle"/>
+                android:layout_height="match_parent"/>
 
             <!-- Image de profil -->
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/ic_profile"
-                app:tint="@color/black"
+                android:src="@drawable/person"
                 android:layout_gravity="center"/>
         </FrameLayout>
 

@@ -3,6 +3,7 @@
     <color name="primary">#12463B</color>
     <color name="primary_variant">#0D3229</color>
     <color name="secondary">#2196F3</color>
+    <color name="dark_green">#0D3229</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 </resources>
