@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import tg.ulcrsandroid.carpooling.R
 import tg.ulcrsandroid.carpooling.databinding.ItemDiscussionBinding
 import tg.ulcrsandroid.carpooling.domain.models.Discussion
-import tg.ulcrsandroid.carpooling.presentation.viewholders.DiscussionViewHolder
 
 class DiscussionAdapter(private var discussions: MutableList<Discussion>) : RecyclerView.Adapter<DiscussionAdapter.DiscussionViewHolder>() {
 

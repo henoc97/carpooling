@@ -1,6 +1,7 @@
 package tg.ulcrsandroid.carpooling.domain.models
 
 import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
+import tg.ulcrsandroid.carpooling.application.utils.UserManager
 import java.util.Date
 
 class Discussion(
@@ -13,7 +14,7 @@ class Discussion(
     constructor() : this("", "", "", Date())
 
     fun isSent(): Boolean {
-        return if (idExpediteur == UtilisateurService.utilisateurID) true else false
+        return if (idExpediteur == UserManager.getCurrentUser()?.idUtilisateur) true else false
     }
 
     override fun toString(): String {

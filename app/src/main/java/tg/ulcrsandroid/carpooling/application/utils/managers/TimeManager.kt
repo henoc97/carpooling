@@ -13,4 +13,10 @@ object TimeManager {
         val currentDate = simpleDate.format(Date(timestamp))
         return currentDate
     }
+
+    fun convertTimestampToHeureMinute(timestamp: Long): String {
+        val simpleDate = SimpleDateFormat("HH:mm")
+        val currentDate = simpleDate.format(Date(timestamp))
+        return currentDate
+    }
 }

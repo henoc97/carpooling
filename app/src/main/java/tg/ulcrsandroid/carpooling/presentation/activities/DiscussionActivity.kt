@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import tg.ulcrsandroid.carpooling.R
 import tg.ulcrsandroid.carpooling.application.services.DiscussionService
 import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
+import tg.ulcrsandroid.carpooling.application.utils.UserManager
 import tg.ulcrsandroid.carpooling.databinding.ActivityDiscussionBinding
 import tg.ulcrsandroid.carpooling.domain.models.Discussion
 import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
@@ -113,7 +114,7 @@ class DiscussionActivity : AppCompatActivity() {
     }
 
     private fun ajouterMessage(discussion: Discussion) {
-        if (discussion.idExpediteur != UtilisateurService.utilisateurID) {
+        if (discussion.idExpediteur != UserManager.getCurrentUser()?.idUtilisateur) {
 //            messages?.add(discussion)
             discussionAdapter.addDiscussion(discussion)
         }
@@ -124,7 +125,7 @@ class DiscussionActivity : AppCompatActivity() {
         if (messageText.isNotEmpty()) {
             val discussion = Discussion(
                 DiscussionService.generateUniqueKey(),
-                UtilisateurService.utilisateurID!!,
+                UserManager.getCurrentUser()?.idUtilisateur!!,
                 messageText,
                 Date()
             )

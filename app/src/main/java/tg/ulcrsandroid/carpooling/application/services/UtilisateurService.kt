@@ -17,54 +17,54 @@ import kotlin.coroutines.suspendCoroutine
 object UtilisateurService : IUtilisateur {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance().reference
-    var utilisateurActuel: Utilisateur? = null
-    var utilisateurID: String? = null
+//    var utilisateurActuel: Utilisateur? = null
+//    var utilisateurID: String? = null
 
-    suspend fun initialiserUtilisateurActuel(s: String) : Utilisateur? {
-        val databas = Firebase.database
-        val userRef = databas.getReference("users/$s")
-        return retreiveUser(userRef)
-    }
+//    suspend fun initialiserUtilisateurActuel(s: String) : Utilisateur? {
+//        val databas = Firebase.database
+//        val userRef = databas.getReference("users/$s")
+//        return retreiveUser(userRef)
+//    }
+//
+//    private suspend fun retreiveUser(ref: DatabaseReference): Utilisateur? {
+//        return suspendCoroutine { continuation ->
+//            ref.get().addOnSuccessListener { dataSnapshot ->
+//                if (dataSnapshot.exists()) {
+//                    this.utilisateurActuel =
+//                        dataSnapshot.getValue<Utilisateur>() // Récupérer l'utilisateur depuis Firebase
+//                    continuation.resume(this.utilisateurActuel)
+//                    Log.d(
+//                        "Carpooling",
+//                        "UtilisateurService:retreiveUser ---> UTILISATEUR ACTUEL : ${this.utilisateurActuel?.nomComplet}"
+//                    )
+//                } else {
+//                    Log.d(
+//                        "Carpooling",
+//                        "UtilisateurService:retreiveUser ---> L'UTILISATEUR REFERENCE N'EXISTE PAS"
+//                    )
+//                    continuation.resume(null)
+//                }
+//            }.addOnFailureListener { exception ->
+//                Log.d(
+//                    "Carpooling",
+//                    "UtilisateurService:retreiveUser ----> ERREUR LORS DE LA RECUPERATION DE L'UTILISATEUR: $exception"
+//                )
+//            }
+//        }
+//    }
 
-    private suspend fun retreiveUser(ref: DatabaseReference): Utilisateur? {
-        return suspendCoroutine { continuation ->
-            ref.get().addOnSuccessListener { dataSnapshot ->
-                if (dataSnapshot.exists()) {
-                    this.utilisateurActuel =
-                        dataSnapshot.getValue<Utilisateur>() // Récupérer l'utilisateur depuis Firebase
-                    continuation.resume(this.utilisateurActuel)
-                    Log.d(
-                        "Carpooling",
-                        "UtilisateurService:retreiveUser ---> UTILISATEUR ACTUEL : ${this.utilisateurActuel?.nomComplet}"
-                    )
-                } else {
-                    Log.d(
-                        "Carpooling",
-                        "UtilisateurService:retreiveUser ---> L'UTILISATEUR REFERENCE N'EXISTE PAS"
-                    )
-                    continuation.resume(null)
-                }
-            }.addOnFailureListener { exception ->
-                Log.d(
-                    "Carpooling",
-                    "UtilisateurService:retreiveUser ----> ERREUR LORS DE LA RECUPERATION DE L'UTILISATEUR: $exception"
-                )
-            }
-        }
-    }
-
-    fun sauvegarderUtilisateurID(context: Context) {
-        Log.i("Carpooling", "SAUVEGARDE DE L'ID $utilisateurID")
-        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        sharedPreferences.edit().putString("user_id", utilisateurID).apply()
-    }
-
-    fun recupererUtilisateurID(context: Context): String? {
-        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        utilisateurID = sharedPreferences.getString("user_id", null)
-        Log.d("Carpooling", "UtilisateurService:recupererUtilisateurID ---> USER-ID ---> $utilisateurID")
-        return utilisateurID
-    }
+//    fun sauvegarderUtilisateurID(context: Context) {
+//        Log.i("Carpooling", "SAUVEGARDE DE L'ID $utilisateurID")
+//        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+//        sharedPreferences.edit().putString("user_id", utilisateurID).apply()
+//    }
+//
+//    fun recupererUtilisateurID(context: Context): String? {
+//        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+//        utilisateurID = sharedPreferences.getString("user_id", null)
+//        Log.d("Carpooling", "UtilisateurService:recupererUtilisateurID ---> USER-ID ---> $utilisateurID")
+//        return utilisateurID
+//    }
 
     fun getUsersList(liste: MutableList<String>): MutableList<Utilisateur?> {
         val database = Firebase.database
