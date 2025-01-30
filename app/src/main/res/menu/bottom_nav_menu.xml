@@ -5,10 +5,16 @@
         android:icon="@drawable/ic_home"
         android:title="Accueil"/>
 
+<!--    <item-->
+<!--        android:id="@+id/navigation_search"-->
+<!--        android:icon="@drawable/ic_search"-->
+<!--        android:title="Rechercher"/>-->
+
     <item
-        android:id="@+id/navigation_search"
-        android:icon="@drawable/ic_search"
-        android:title="Rechercher"/>
+        android:id="@+id/navigation_chat"
+        android:icon="@drawable/ic_send"
+        android:iconTint="@color/primary"
+        android:title="Discuter"/>
 
     <item
         android:id="@+id/navigation_trips"
