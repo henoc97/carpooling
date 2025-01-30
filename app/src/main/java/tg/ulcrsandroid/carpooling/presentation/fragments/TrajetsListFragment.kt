@@ -19,7 +19,6 @@ class TrajetsListFragment : Fragment() {
 
     private var _binding: FragmentTripsListBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var adapter: TrajetsAdapter
     private var listener: OnTripSelectedListener? = null
 
@@ -80,7 +79,7 @@ class TrajetsListFragment : Fragment() {
         if (idConducteur != null) {
             TrajetService.mesTrajetsCrees(idConducteur,
                 onSuccess = { trajets ->
-                    onSuccess(trajets) // Retourner les trajets via le callback
+                    onSuccess(trajets.sortedBy { it.heureDepart }) // Retourner les trajets via le callback
                 },
                 onError = { errorMessage ->
                     onError(errorMessage) // Retourner l'erreur via le callback

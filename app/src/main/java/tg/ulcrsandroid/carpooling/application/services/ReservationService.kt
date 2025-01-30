@@ -5,7 +5,22 @@ import tg.ulcrsandroid.carpooling.domain.models.Reservation
 import tg.ulcrsandroid.carpooling.domain.repositories.IReservation
 
 object ReservationService : IReservation {
+
+    val EN_ATTENTE = "en attente"
+    val ACCEPTEE = "acceptée"
+    val REJETEE = "rejetée"
+
     private val database = FirebaseDatabase.getInstance().reference.child("reservations")
+
+    fun persisterReservation(reservartion: Reservation) {
+        val ref = database.push()
+        if (reservartion.idReservation == "") {
+            reservartion.idReservation = ref.key?: ""
+            ref.setValue(reservartion)
+            // Ajouter la reservation crée au trajet en question
+            TrajetService.ajouterReservation(reservartion.idTrajet, reservartion.idReservation)
+        }
+    }
 
     override fun confirmerReservation(reservation: Reservation) {
         val reservationRef = database.child(reservation.idReservation)

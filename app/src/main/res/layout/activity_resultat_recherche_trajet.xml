@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Vos trajets"
+        android:text="Trajets disponibles"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/white"
@@ -25,12 +25,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="16dp"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-    <!-- Conteneur pour afficher les détails du trajet -->
-    <FrameLayout
-        android:id="@+id/fragmentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 </LinearLayout>

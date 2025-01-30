@@ -5,19 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+    app:cardBackgroundColor="@color/white"
+    android:background="@android:color/transparent"
+    >
+<!--    android:background="@drawable/shadow_effect"-->
+<!--    app:cardPreventCornerOverlap="false"-->
+<!--    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.Bottom"-->
+<!--    app:cardCornerRadius="12dp"-->
+<!--    app:cardElevation="2dp"-->
+<!--    -->
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="10dp">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_alignParentStart="true"
             android:orientation="vertical">
 
             <TextView
@@ -25,15 +31,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nom du lieu"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                />
 
             <TextView
                 android:id="@+id/carInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Toyota Corolla"
-                android:textColor="#666666"
+                android:textSize="10sp"
+                android:textColor="@color/black"
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
 
@@ -41,7 +50,11 @@
             android:id="@+id/tripTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:text="09h30: 13/01"
-            android:textColor="@color/primary"/>
-    </LinearLayout>
+            android:textSize="10sp"
+            android:textColor="#000000"/>
+
+    </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>

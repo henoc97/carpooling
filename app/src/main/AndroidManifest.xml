@@ -26,6 +26,9 @@
             android:name=".presentation.activities.ChatActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.activities.ResultatRechercheTrajetActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.activities.signUpActivity"
             android:exported="false"
             android:label="@string/title_activity_sign_up"

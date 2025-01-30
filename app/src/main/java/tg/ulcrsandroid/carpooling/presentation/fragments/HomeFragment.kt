@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,8 +55,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        // Click sur la vue pour choisir sa destination
+//        binding.choisirDestSurMap.setOnClickListener {
+//            Log.d("Carpooling", "HomeFragment:onViewCreated ---> Click pour choisir sa destination")
+//            val intent = Intent(requireActivity(), SearchTrajetActivity::class.java)
+//            startActivity(intent)
+//        }
+
         // Ajouter un ClickListener sur le "gerer trajet"
         binding.floatingImage.setOnClickListener {
+            Log.d("Carpooling", "HomeFragment:onViewCreated ---> Click pour choisir sa destination")
             // Rediriger vers TrajetListeDetailActivity
             val intent = Intent(requireActivity(), SearchTrajetActivity::class.java)
             startActivity(intent)

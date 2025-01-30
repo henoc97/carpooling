@@ -5,17 +5,24 @@ import android.os.Parcelable
 import java.util.Date
 
 class Reservation(
-    var idReservation: String,
-    var passager: Passager,
-    var trajet: Trajet,
-    var heureReservation: Date,
-    var statut: String // pending; accepted; rejected
+    var idReservation: String = "",
+    var idPassager: String = "",
+    var idTrajet: String = "",
+    var passager: Passager? = null,
+    var trajet: Trajet? = null,
+    var heureReservation: Long = 0,
+    var statut: String = "" // en attente; acceptée; rejetée
 ) : Parcelable {
+
+    constructor() : this("", "", "", null, null, 0, "")
+
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readParcelable(Passager::class.java.classLoader)!!,
         parcel.readParcelable(Trajet::class.java.classLoader)!!,
-        Date(parcel.readLong()),
+        parcel.readLong(),
         parcel.readString() ?: ""
     )
 
@@ -23,7 +30,7 @@ class Reservation(
         dest.writeString(idReservation)
         dest.writeParcelable(passager, flags)
         dest.writeParcelable(trajet, flags)
-        dest.writeLong(heureReservation.time)
+        dest.writeLong(heureReservation)
         dest.writeString(statut)
     }
 
