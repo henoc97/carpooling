@@ -10,9 +10,9 @@
         android:label="Accueil" />
 
     <fragment
-        android:id="@+id/navigation_search"
-        android:name="tg.ulcrsandroid.carpooling.presentation.fragments.SearchFragment"
-        android:label="Rechercher" />
+        android:id="@+id/navigation_chat"
+        android:name="tg.ulcrsandroid.carpooling.presentation.fragments.ChatFragment"
+        android:label="Discuter" />
 
     <fragment
         android:id="@+id/navigation_trips"
