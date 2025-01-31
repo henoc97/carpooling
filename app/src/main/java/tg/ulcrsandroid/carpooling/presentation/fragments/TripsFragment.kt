@@ -30,24 +30,24 @@ class TripsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_trips, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // Configuration du RecyclerView avec le binding
-        binding.passengersRecyclerView.layoutManager = LinearLayoutManager(context)
-//        adapter = TrajetsAdapter(createDummyReservations())
-        binding.passengersRecyclerView.adapter = adapter
-
-        // Récupération des arguments et affichage des données
-        arguments?.let { args ->
-            val trajet = args.getParcelable<Trajet>("trajet")
-            trajet?.let {
-//                binding.destinationTitle.text = it.lieuArrivee
-                binding.tripTime.text = it.heureDepart.toString()
-                binding.availableSeats.text = "${it.placesDisponibles} places disponibles"
-            }
-        }
-    }
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        // Configuration du RecyclerView avec le binding
+//        binding.passengersRecyclerView.layoutManager = LinearLayoutManager(context)
+////        adapter = TrajetsAdapter(createDummyReservations())
+//        binding.passengersRecyclerView.adapter = adapter
+//
+//        // Récupération des arguments et affichage des données
+//        arguments?.let { args ->
+//            val trajet = args.getParcelable<Trajet>("trajet")
+//            trajet?.let {
+////                binding.destinationTitle.text = it.lieuArrivee
+//                binding.tripTime.text = it.heureDepart.toString()
+//                binding.availableSeats.text = "${it.placesDisponibles} places disponibles"
+//            }
+//        }
+//    }
 
 //    private fun createDummyReservations(): List<Reservation> {
 //        return listOf(
