@@ -9,5 +9,5 @@
     <color name="gray">#757575</color>
     <color name="custom_gray">#D9D9D9</color>
     <color name="transparent">#00000000</color>
-
+    <color name="field_color">#8FACA9</color>
 </resources>

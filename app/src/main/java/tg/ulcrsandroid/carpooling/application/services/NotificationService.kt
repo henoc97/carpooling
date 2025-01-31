@@ -7,6 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import tg.ulcrsandroid.carpooling.domain.models.Notification
 import tg.ulcrsandroid.carpooling.domain.repositories.INotification
 
 @SuppressLint("StaticFieldLeak")
@@ -15,6 +16,10 @@ object NotificationService : INotification {
 
     fun setActivity(activity: Activity) {
         currentActivity = activity
+    }
+
+    override fun envoyerNotification(notification: Notification) {
+        TODO("Not yet implemented")
     }
 
     override fun envoyerNotification(deviceToken: String, title: String, body: String) {

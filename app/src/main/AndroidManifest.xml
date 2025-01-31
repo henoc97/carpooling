@@ -67,7 +67,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCNwArZMo4NfCOfE6ANRi-vNmzFZeEtBaM" />
 
-         <meta-data
+        <meta-data
             android:name="com.google.android.gms.auth.api.credentials.ClientId"
             android:value="@string/default_web_client_id" />
 

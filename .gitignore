@@ -30,6 +30,8 @@ render.experimental.xml
 # Google Services (e.g. APIs or Firebase)
 google-services.json
 
+# ignore libs.version.toml
+libs.versions.toml
 # Android Profiling
 *.hprof
 
