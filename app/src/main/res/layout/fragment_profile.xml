@@ -15,7 +15,7 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         android:padding="16dp"
-        android:background="@color/dark_green"/>
+        android:background="@drawable/header_background"/>
 
     <!-- Contenu principal -->
     <LinearLayout

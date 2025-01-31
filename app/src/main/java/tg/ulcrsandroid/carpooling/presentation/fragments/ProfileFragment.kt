@@ -46,11 +46,11 @@ class ProfileFragment : Fragment() {
         emailInput = view.findViewById(R.id.emailInput)
         nomInput = view.findViewById(R.id.usernameInput)
         marqueInput = view.findViewById(R.id.marqueInput)
-        matInput = view.findViewById(R.id.matInput)
+//        matInput = view.findViewById(R.id.matInput)
         btnMettreAJourNom = view.findViewById(R.id.modifyUsernameButton)
         btnMettreAJourEmail = view.findViewById(R.id.modifyEmailButton)
         btnMarque = view.findViewById(R.id.btnMarque)
-        btnMatricule = view.findViewById(R.id.btnMatricule)
+//        btnMatricule = view.findViewById(R.id.btnMatricule)
         btnDeconnexion = view.findViewById(R.id.deconnexion)
 
 
