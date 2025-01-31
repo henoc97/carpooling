@@ -20,38 +20,38 @@ object UtilisateurService : IUtilisateur {
 //    var utilisateurActuel: Utilisateur? = null
 //    var utilisateurID: String? = null
 
-//    suspend fun initialiserUtilisateurActuel(s: String) : Utilisateur? {
-//        val databas = Firebase.database
-//        val userRef = databas.getReference("users/$s")
-//        return retreiveUser(userRef)
-//    }
-//
-//    private suspend fun retreiveUser(ref: DatabaseReference): Utilisateur? {
-//        return suspendCoroutine { continuation ->
-//            ref.get().addOnSuccessListener { dataSnapshot ->
-//                if (dataSnapshot.exists()) {
-//                    this.utilisateurActuel =
-//                        dataSnapshot.getValue<Utilisateur>() // Récupérer l'utilisateur depuis Firebase
-//                    continuation.resume(this.utilisateurActuel)
-//                    Log.d(
-//                        "Carpooling",
-//                        "UtilisateurService:retreiveUser ---> UTILISATEUR ACTUEL : ${this.utilisateurActuel?.nomComplet}"
-//                    )
-//                } else {
-//                    Log.d(
-//                        "Carpooling",
-//                        "UtilisateurService:retreiveUser ---> L'UTILISATEUR REFERENCE N'EXISTE PAS"
-//                    )
-//                    continuation.resume(null)
-//                }
-//            }.addOnFailureListener { exception ->
-//                Log.d(
-//                    "Carpooling",
-//                    "UtilisateurService:retreiveUser ----> ERREUR LORS DE LA RECUPERATION DE L'UTILISATEUR: $exception"
-//                )
-//            }
-//        }
-//    }
+    suspend fun getUtilisateurById(id: String) : Utilisateur? {
+        val databas = Firebase.database
+        val userRef = databas.getReference("users/$id")
+        return retreiveUser(userRef)
+    }
+
+    private suspend fun retreiveUser(ref: DatabaseReference): Utilisateur? {
+        return suspendCoroutine { continuation ->
+            ref.get().addOnSuccessListener { dataSnapshot ->
+                if (dataSnapshot.exists()) {
+                    val utilisateur =
+                        dataSnapshot.getValue<Utilisateur>() // Récupérer l'utilisateur depuis Firebase
+                    continuation.resume(utilisateur)
+                    Log.d(
+                        "Carpooling",
+                        "UtilisateurService:retreiveUser ---> UTILISATEUR ACTUEL : ${utilisateur?.nomComplet}"
+                    )
+                } else {
+                    Log.d(
+                        "Carpooling",
+                        "UtilisateurService:retreiveUser ---> L'UTILISATEUR REFERENCE N'EXISTE PAS"
+                    )
+                    continuation.resume(null)
+                }
+            }.addOnFailureListener { exception ->
+                Log.d(
+                    "Carpooling",
+                    "UtilisateurService:retreiveUser ----> ERREUR LORS DE LA RECUPERATION DE L'UTILISATEUR: $exception"
+                )
+            }
+        }
+    }
 
 //    fun sauvegarderUtilisateurID(context: Context) {
 //        Log.i("Carpooling", "SAUVEGARDE DE L'ID $utilisateurID")
@@ -65,6 +65,21 @@ object UtilisateurService : IUtilisateur {
 //        Log.d("Carpooling", "UtilisateurService:recupererUtilisateurID ---> USER-ID ---> $utilisateurID")
 //        return utilisateurID
 //    }
+
+    suspend fun getUtilisateurNomById(id: String) : String? {
+        return suspendCoroutine { continuation ->
+            val ref = database.child("users/$id/nomComplet")
+            ref.get().addOnSuccessListener { snapshot ->
+                if (snapshot.exists()) {
+                    continuation.resume(snapshot.getValue<String>())
+                } else {
+                    continuation.resume("")
+                }
+            }.addOnFailureListener { e ->
+                Log.d("Carpooling", "UtilisateurService:getUtilisateurNomById ---> ERREUR ---> $e")
+            }
+        }
+    }
 
     fun getUsersList(liste: MutableList<String>): MutableList<Utilisateur?> {
         val database = Firebase.database

@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import tg.ulcrsandroid.carpooling.R
 import tg.ulcrsandroid.carpooling.databinding.FragmentHomeBinding
 import tg.ulcrsandroid.carpooling.presentation.activities.CreateTrajetActivity
+import tg.ulcrsandroid.carpooling.presentation.activities.ListReservationActivity
 import tg.ulcrsandroid.carpooling.presentation.activities.SearchTrajetActivity
 import tg.ulcrsandroid.carpooling.presentation.activities.TrajetListeDetailActivity
 
@@ -74,6 +75,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         binding.gererTrajets.setOnClickListener {
             // Rediriger vers TrajetListeDetailActivity
             val intent = Intent(requireActivity(), TrajetListeDetailActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.vosReservations.setOnClickListener {
+            Log.d("Carpooling", "HomeFragment:onViewCreated ---> Click sur vos réservations")
+            val intent = Intent(requireContext(), ListReservationActivity::class.java)
             startActivity(intent)
         }
 

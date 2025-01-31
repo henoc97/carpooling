@@ -55,7 +55,7 @@ class TrajetDetailFragment : Fragment() {
                 nomComplet = "John Doe",
                 motDePasse = "password123",
                 typeUtilisateur = "passager",
-                historiqueReservations = emptyList() // Vous pouvez ajouter des réservations ici si nécessaire
+                historiqueReservations = emptyList(), // Vous pouvez ajouter des réservations ici si nécessaire
             ),
             Passager(
                 idUtilisateur = "2",
@@ -63,7 +63,7 @@ class TrajetDetailFragment : Fragment() {
                 nomComplet = "Jane Smith",
                 motDePasse = "password456",
                 typeUtilisateur = "passager",
-                historiqueReservations = emptyList() // Vous pouvez ajouter des réservations ici si nécessaire
+                historiqueReservations = emptyList(), // Vous pouvez ajouter des réservations ici si nécessaire
             )
         )
     }

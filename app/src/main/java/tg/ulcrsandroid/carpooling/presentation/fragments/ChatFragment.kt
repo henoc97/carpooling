@@ -10,11 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import com.firebase.ui.auth.data.model.User
 import kotlinx.coroutines.launch
 import tg.ulcrsandroid.carpooling.application.services.ChatService
 import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
 import tg.ulcrsandroid.carpooling.application.utils.UserManager
 import tg.ulcrsandroid.carpooling.databinding.FragmentChatBinding
+import tg.ulcrsandroid.carpooling.domain.models.Chat
 import tg.ulcrsandroid.carpooling.presentation.activities.DiscussionActivity
 import tg.ulcrsandroid.carpooling.presentation.adapters.ChatAdapter
 
@@ -36,10 +38,14 @@ class ChatFragment : Fragment() {
 
         val adapter = ChatAdapter()
         adapter.onItemClick = this::onItemClick
+        binding.chatRecyclerView.adapter = adapter
         lifecycleScope.launch {
+            Log.d("Carpooling", "ChatFragment:onViewCreated ---> Mise à jour de l'user")
+            UserManager.setCurrentUser(UtilisateurService.getCurrentUser())
+            Log.d("Carpooling", "ChatFragment:onViewCreated ---> Chats ---> ${UserManager.getCurrentUser()!!}")
             val chats = ChatService.getChatsByIds(UserManager.getCurrentUser()!!.mesChats)
+            Log.d("Carrpooling", "ChatFragment:onViewCreated ---> Chats ---> $chats")
             adapter.setChats(chats)
-            binding.chatRecyclerView.adapter = adapter
         }
     }
 

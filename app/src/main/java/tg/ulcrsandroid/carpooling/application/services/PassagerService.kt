@@ -1,12 +1,59 @@
 package tg.ulcrsandroid.carpooling.application.services
 
+import android.util.Log
+import com.firebase.ui.auth.data.model.User
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.getValue
+import tg.ulcrsandroid.carpooling.application.utils.UserManager
+import tg.ulcrsandroid.carpooling.application.utils.managers.PassagerManager
+import tg.ulcrsandroid.carpooling.domain.models.Passager
 import tg.ulcrsandroid.carpooling.domain.models.Trajet
 import tg.ulcrsandroid.carpooling.domain.models.Reservation
 import tg.ulcrsandroid.carpooling.domain.repositories.IPassager
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 object PassagerService : IPassager {
-    private val database = FirebaseDatabase.getInstance().reference
+
+    private val database = FirebaseDatabase.getInstance().reference.child("passagers")
+
+    fun supprimerReservation(passager: Passager, idReservation: String) {
+        passager.reservationsIds?.removeAll(listOf(idReservation))
+        persisterPassager(passager)
+    }
+
+    suspend fun recupererPassager(idPassager: String) : Passager? {
+        return suspendCoroutine { continuation ->
+            val ref = database.child(idPassager)
+            ref.get().addOnSuccessListener { snapshot ->
+                if (snapshot.exists()) {
+                    val passager = snapshot.getValue<Passager>()
+                    PassagerManager.setPassagerActuel(passager)
+                    Log.d("Carpooling", "PassagerService:recupererPassager ---> PASSAGER ---> $passager")
+                    continuation.resume(passager)
+                } else {
+                    Log.d("Carpooling", "PassagerService:recupererPassager ---> ERROR: Passager introuvable")
+                    val passager = Passager(UserManager.getCurrentUser()!!)
+                    persisterPassager(passager)
+                    PassagerManager.setPassagerActuel(passager)
+                    Log.d("Carpooling", "PassagerService:recupererPassager ---> ERROR: Passager ajouté $passager")
+                    continuation.resume(passager)
+                }
+            }.addOnFailureListener { error ->
+                Log.d("Carpooling", "PassagerService:recupererPassager ---> ERROR: ${error.message}")
+                continuation.resume(null)
+            }
+        }
+    }
+
+    fun persisterPassager(passager: Passager) {
+        val ref = database.child(passager.idUtilisateur)
+        ref.setValue(passager).addOnSuccessListener {
+            Log.d("Carpooling", "PassagerService:persisterPassager ---> Passager persister avec succes ---> $passager")
+        }.addOnFailureListener {
+            Log.d("Carpooling", "PassagerService:persisterPassager ---> ERROR: ${it.message}")
+        }
+    }
 
     override fun rechercherTrajet(lieuDepart: String, lieuArrivee: String, onSuccess: (List<Trajet>) -> Unit, onError: (String) -> Unit) {
         database.child("trajets").orderByChild("lieuDepart").equalTo(lieuDepart).get()

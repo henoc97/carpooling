@@ -23,6 +23,12 @@
             android:name=".presentation.activities.DiscussionActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.activities.ReservationDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.activities.ListReservationActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.activities.ChatActivity"
             android:exported="false" />
         <activity

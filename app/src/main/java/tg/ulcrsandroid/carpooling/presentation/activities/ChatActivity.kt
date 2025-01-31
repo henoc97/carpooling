@@ -35,6 +35,8 @@ class ChatActivity : AppCompatActivity() {
         val adapter = ChatAdapter()
         adapter.onItemClick = this::onItemClick
 
+
+
 //        lifecycleScope.launch {
 //            if (UtilisateurService.utilisateurActuel == null) {
 //                Log.d("Carpooling", "ChatActivity:onCreate ---> ID SAUVEGARDE ---> ${UtilisateurService.utilisateurID}")

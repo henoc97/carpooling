@@ -34,7 +34,7 @@ class DiscussionActivity : AppCompatActivity() {
 
     private lateinit var ui: ActivityDiscussionBinding
     private var database = Firebase.database
-    private var lastMessageIndex: Int = 0
+//    private var lastMessageIndex: Int = 0
     private var messages: MutableList<Discussion>? = null
     private lateinit var discussionAdapter: DiscussionAdapter
 
@@ -54,7 +54,8 @@ class DiscussionActivity : AppCompatActivity() {
         lifecycleScope.launch {
 //            messages = DiscussionService.recupererListDeDiscussions(idChat!!)
             messages = DiscussionService.retreiveMessages(ref)
-            lastMessageIndex = messages!!.size
+            Log.d("Carpooling", "DiscussionActivity:onCreate ---> MESSAGES LENGTH---> ${messages?.size}")
+//            lastMessageIndex = messages!!.size
             discussionAdapter = DiscussionAdapter(messages!!)
             // Mise en place du viewholder
             ui.messagesRecyclerView.apply {
@@ -93,6 +94,7 @@ class DiscussionActivity : AppCompatActivity() {
                 val msg = snapshot.getValue<Discussion>()!!
                 Log.d("Carpooling", "DiscussionActivity:initNewMessageListner ---> CHILD ADDED ---> ${msg}")
                 ajouterMessage(msg)
+//                lastMessageIndex++
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -131,11 +133,13 @@ class DiscussionActivity : AppCompatActivity() {
             )
             discussionAdapter.addDiscussion(discussion)
 
-            // Add a discussion to the node
-            ref.child("$lastMessageIndex")
-                .setValue(discussion)
+//            // Add a discussion to the node
+//            ref.child("$lastMessageIndex")
+//                .setValue(discussion)
 
-            lastMessageIndex++
+            ref.setValue(discussionAdapter.getDiscussions())
+
+//            lastMessageIndex++
             ui.messageInput.setText("")
         }
     }

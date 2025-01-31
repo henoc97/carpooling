@@ -17,6 +17,7 @@ class Trajet(
     var reservations: MutableList<Reservation> = mutableListOf(),
     var reservationsIds: MutableList<String> = mutableListOf()
 ) : Parcelable {
+
     // Constructeur sans arguments (nécessaire pour Firebase)
     constructor() : this("", "", "", 0, 0f, 0, null, "", 0)
 

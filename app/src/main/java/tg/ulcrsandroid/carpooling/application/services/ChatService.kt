@@ -7,6 +7,7 @@ import com.google.firebase.database.database
 import com.google.firebase.database.getValue
 import kotlinx.coroutines.tasks.asDeferred
 import okhttp3.internal.wait
+import tg.ulcrsandroid.carpooling.application.utils.UserManager
 import tg.ulcrsandroid.carpooling.domain.models.Chat
 import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
 import kotlin.coroutines.resume
@@ -30,6 +31,35 @@ object ChatService {
         }
         Log.d("Carpooling", "ChatService:getChatsByIds ---> CHATS ---> $chats")
         return chats
+    }
+
+    suspend fun findCommonChat(l: List<String>, idSecondMembre: String) : Chat{
+        val database = Firebase.database
+        l.forEach { s ->
+            val ref = database.getReference("chats/$s")
+            val chat = retreiveChat(ref)
+            if (chat?.idInitialisateur == idSecondMembre || chat?.idMembreSecondaire == idSecondMembre) {
+                return chat
+            }
+        }
+        Log.d("Carpooling", "ChatService:findCommonChat ---> NO COMMON CHAT FOUND")
+        val chat = Chat()
+        val ref = database.getReference("chats").push()
+        // Recuperer le conducteur
+        val secondMembre = UtilisateurService.getUtilisateurById(idSecondMembre)
+        chat.idChat = ref.key!!
+        chat.idInitialisateur = UserManager.getCurrentUser()!!.idUtilisateur
+        chat.idMembreSecondaire = idSecondMembre
+        chat.nomInitialisateur = UserManager.getCurrentUser()!!.nomComplet
+        chat.nomMembreSecondaire = secondMembre!!.nomComplet
+        creerRemoteChat(chat)
+
+        // Ajouter l'id du chat aux deux users
+        UserManager.getCurrentUser()!!.mesChats.add(chat.idChat)
+        UtilisateurService.mettreAJourProfil(UserManager.getCurrentUser()!!)
+        secondMembre.mesChats.add(chat.idChat)
+        UtilisateurService.mettreAJourProfil(secondMembre)
+        return chat
     }
 
     suspend fun retreiveChat(ref: DatabaseReference): Chat? {

@@ -74,6 +74,10 @@ class DiscussionAdapter(private var discussions: MutableList<Discussion>) : Recy
         notifyItemInserted(discussions.size - 1)
     }
 
+    fun getDiscussions() : MutableList<Discussion> {
+        return discussions
+    }
+
     fun resetDiscussions(l : MutableList<Discussion>) {
         discussions = l
         notifyDataSetChanged()
