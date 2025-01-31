@@ -21,10 +21,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="24dp"
+        android:background="@color/white"
         android:gravity="top|center_horizontal"
-        android:background="@color/white">
+        android:orientation="vertical"
+        android:padding="24dp">
 
         <!-- Conteneur de l'image de profil -->
         <FrameLayout
@@ -35,67 +35,160 @@
             <!-- Cercle vert de fond -->
             <View
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
             <!-- Image de profil -->
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/person"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:src="@drawable/person" />
         </FrameLayout>
 
         <!-- Conteneur nom d'utilisateur avec bouton de modification -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/usernameInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Nom d'utilisateur"
+                android:background="@drawable/rounded_corner"
                 android:padding="12dp"
-                android:background="#EEEEEE"/>
+                android:text="Nom d'utilisateur" />
 
             <ImageButton
                 android:id="@+id/modifyUsernameButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/ic_modification"
+                android:layout_marginStart="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="12dp"
-                android:layout_marginStart="8dp"/>
+                android:src="@drawable/ic_modification" />
         </LinearLayout>
 
         <!-- Conteneur e-mail avec bouton de modification -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <EditText
                 android:id="@+id/emailInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="e-mail"
+                android:background="@drawable/rounded_corner"
+                android:inputType="textEmailAddress"
                 android:padding="12dp"
-                android:background="#EEEEEE"
-                android:inputType="textEmailAddress"/>
+                android:text="e-mail" />
 
             <ImageButton
                 android:id="@+id/modifyEmailButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/ic_modification"
+                android:layout_marginStart="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="12dp"
-                android:layout_marginStart="8dp"/>
+                android:src="@drawable/ic_modification" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/deconnexion"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="26dp"
+            android:backgroundTint="@color/dark_green"
+            android:text="Deconnexion" />
+
+        <!-- Diviseur-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="5dp"
+                android:layout_weight="1"
+                android:background="@color/dark_green" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Conducteur"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:paddingHorizontal="10dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="5dp"
+                android:layout_weight="1"
+                android:background="@color/dark_green" />
+
+        </LinearLayout>
+
+        <!-- Infos voiture -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/marqueInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner"
+                android:padding="12dp"
+                android:text="Marque, couleur" />
+
+            <ImageButton
+                android:id="@+id/btnMarque"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="12dp"
+                android:src="@drawable/ic_modification" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/matInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner"
+                android:padding="12dp"
+                android:text="Matricule" />
+
+            <ImageButton
+                android:id="@+id/btnMatricule"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="12dp"
+                android:src="@drawable/ic_modification" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

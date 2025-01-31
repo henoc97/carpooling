@@ -36,6 +36,7 @@
                 android:id="@+id/destinationInput"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:background="@drawable/rounded_corner"
                 android:hint="Destination"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -51,6 +52,7 @@
                 android:id="@+id/departureInput"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:background="@drawable/rounded_corner"
                 android:hint="Lieu de Départ"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -66,6 +68,7 @@
                 android:id="@+id/departureTimeInput"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:background="@drawable/rounded_corner"
                 android:hint="Heure de départ"
                 android:inputType="time" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -81,6 +84,7 @@
                 android:id="@+id/seatsInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corner"
                 android:hint="Places disponibles"
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
