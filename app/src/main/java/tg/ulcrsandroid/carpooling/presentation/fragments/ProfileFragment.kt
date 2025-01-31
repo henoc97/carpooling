@@ -114,20 +114,8 @@ class ProfileFragment : Fragment() {
         }
 
         //Modifiaction des infos sur la voiture
-
-
         btnMarque.setOnClickListener {
             val newMarque = marqueInput.text.toString().trim()
-
-            if (newMarque == ancienMarque) {
-                Toast.makeText(requireContext(), "Aucune modification détectée", Toast.LENGTH_SHORT).show()
-            } else {
-
-
-                Toast.makeText(requireContext(), "Email mis à jour avec succès !", Toast.LENGTH_SHORT).show()
-            }
-
-
         }
 
         return view

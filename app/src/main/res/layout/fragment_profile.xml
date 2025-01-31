@@ -103,7 +103,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:layout_marginBottom="26dp"
+            android:layout_marginBottom="40dp"
             android:backgroundTint="@color/dark_green"
             android:text="Deconnexion" />
 
@@ -144,7 +144,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="16dp"
             android:orientation="horizontal">
 
@@ -155,34 +155,10 @@
                 android:layout_weight="1"
                 android:background="@drawable/rounded_corner"
                 android:padding="12dp"
-                android:text="Marque, couleur" />
+                android:text="Marque, couleur, matricule" />
 
             <ImageButton
                 android:id="@+id/btnMarque"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="8dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="12dp"
-                android:src="@drawable/ic_modification" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/matInput"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_corner"
-                android:padding="12dp"
-                android:text="Matricule" />
-
-            <ImageButton
-                android:id="@+id/btnMatricule"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="8dp"
