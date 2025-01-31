@@ -10,19 +10,25 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_bottom"
+        android:clipToOutline="true"
+        android:paddingTop="46dp"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
         android:text="Vos trajets"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:bottomLeftRadius="26dp"
+        android:bottomRightRadius="26dp"
         android:textColor="@color/white"
-        android:background="@color/primary"
-        android:padding="16dp"/>
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <!-- RecyclerView pour afficher les trajets -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tripsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
+        android:background="@color/white"
         android:padding="16dp"
         android:clipToPadding="false"/>
 
@@ -31,5 +37,5 @@
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"/>
 </LinearLayout>

@@ -6,39 +6,56 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/destinationTitle"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Akodésséwa"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
+        android:layout_height="match_parent"
         android:background="@color/primary"
-        android:padding="16dp"/>
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tripDestination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Akodésséwa"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:padding="16dp"
+            android:layout_marginTop="16dp"/>
 
-    <TextView
-        android:id="@+id/tripTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="09h30"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="16dp"/>
+        <TextView
+            android:id="@+id/tripTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="09h30"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingLeft="16dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="16dp"/>
 
-    <TextView
-        android:id="@+id/availableSeats"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2 places encores disponibles"
-        android:textColor="#666666"
-        android:paddingHorizontal="16dp"
-        android:paddingBottom="16dp"/>
+        <TextView
+            android:id="@+id/availableSeats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 places encores disponibles"
+            android:textColor="@color/white"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="16dp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/passengersRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_bottom_list"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/passengersRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
