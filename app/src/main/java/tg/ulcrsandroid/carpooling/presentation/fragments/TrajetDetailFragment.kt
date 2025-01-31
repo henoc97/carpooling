@@ -40,7 +40,7 @@ class TrajetDetailFragment : Fragment() {
         arguments?.let { args ->
             val trajet = args.getParcelable<Trajet>("trajet")
             trajet?.let {
-                binding.destinationTitle.text = it.lieuArrivee
+//                binding.destinationTitle.text = it.lieuArrivee
                 binding.tripTime.text = it.heureDepart.toString()
                 binding.availableSeats.text = "${it.placesDisponibles} places disponibles"
             }
