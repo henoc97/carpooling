@@ -29,7 +29,7 @@ class PassengersAdapter(
 ) : RecyclerView.Adapter<PassengersAdapter.PassengerViewHolder>() {
 
     lateinit var supprimerReservationParent: (String?) -> Unit
-    lateinit var confirmerReservation: (String?, String?) -> Unit
+    lateinit var confirmerReservationParent: () -> Unit
     lateinit var envoyerMessageParent: (Reservation) -> Unit
 
     class PassengerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -59,6 +59,7 @@ class PassengersAdapter(
         holder.confirmerButton.setOnClickListener {
             confirmerReservation(reservations[position])
             holder.confirmerButton.text = "Confimé ✓"
+            confirmerReservationParent()
         }
     }
 

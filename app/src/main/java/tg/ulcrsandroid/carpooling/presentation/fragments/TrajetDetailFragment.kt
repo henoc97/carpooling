@@ -67,7 +67,14 @@ class TrajetDetailFragment : Fragment() {
             binding.passengersRecyclerView.adapter = adapter
             adapter.supprimerReservationParent = this@TrajetDetailFragment::supprimerReservation
             adapter.envoyerMessageParent = this@TrajetDetailFragment::envoyerMessage
+            adapter.confirmerReservationParent = this@TrajetDetailFragment::confirmerReservation
         }
+    }
+
+    private fun confirmerReservation() {
+        trajet?.placesDisponibles = trajet?.placesDisponibles!!.minus(1)
+        TrajetService.mettreAJourTrajet(trajet!!)
+        binding.availableSeats.text = "${trajet?.placesDisponibles} places disponibles"
     }
 
     private fun envoyerMessage(reservation: Reservation) {
