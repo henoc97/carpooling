@@ -57,7 +57,6 @@ class ReservationDetailActivity: AppCompatActivity() {
     private fun rejoindreConducteur(view: View?) {
         Log.d("Caarpooling", "ReservationDetailActivity:Reservation===>${reservation!!.trajet}")
         val intent = Intent(this, DriveMeToActivity::class.java)
-        intent.putExtra("DEPARTURE", "Lome")
         intent.putExtra("DESTINATION", reservation!!.trajet!!.lieuDepart)
         startActivity(intent)
     }
