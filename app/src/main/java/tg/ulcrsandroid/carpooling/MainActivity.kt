@@ -2,23 +2,44 @@ package tg.ulcrsandroid.carpooling
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
+import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.AuthContext
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.GoogleAuthStrategy
 import tg.ulcrsandroid.carpooling.infrastructure.externalServices.push.requestNotificationPermission
+import tg.ulcrsandroid.carpooling.presentation.activities.ChatActivity
 import tg.ulcrsandroid.carpooling.presentation.activities.LogInActivity
 import tg.ulcrsandroid.carpooling.presentation.activities.signUpActivity
 import tg.ulcrsandroid.carpooling.databinding.ActivityLandingBinding // Import généré automatiquement
 import tg.ulcrsandroid.carpooling.presentation.activities.HomeActivity
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var authContext: AuthContext
     private lateinit var binding: ActivityLandingBinding // Déclarer le binding
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialiser Firebase Auth
+        auth = FirebaseAuth.getInstance()
+
+        // Vérifier si l'utilisateur est déjà connecté
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            // Rediriger vers HomeActivity si l'utilisateur est déjà connecté
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish() // Fermer l'activité actuelle pour empêcher l'utilisateur de revenir en arrière
+            return
+        }
 
         // Initialiser le binding
         binding = ActivityLandingBinding.inflate(layoutInflater)

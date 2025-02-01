@@ -2,13 +2,16 @@ package tg.ulcrsandroid.carpooling.presentation.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.AuthContext
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.EmailPasswordAuthStrategy
 import tg.ulcrsandroid.carpooling.databinding.ActivitySignUpBinding
 
 class signUpActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var authContext: AuthContext
 
@@ -40,7 +43,7 @@ class signUpActivity : AppCompatActivity() {
                     },
                     onError = { error ->
                         // Afficher un message d'erreur en cas d'échec
-                        Toast.makeText(this, "Erreur : $error", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Erreurd : $error", Toast.LENGTH_SHORT).show()
                     }
                 )
             } else {
@@ -48,4 +51,11 @@ class signUpActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onDestroy() {
+//        Log.d("Carpooling", "signUpActivity:onDestroy ---> SAUVEGARDE DE l'ID ---> ${UtilisateurService.utilisateurID}")
+//        UtilisateurService.sauvegarderUtilisateurID(this)
+        super.onDestroy()
+    }
+
 }

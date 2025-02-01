@@ -1,7 +1,9 @@
 package tg.ulcrsandroid.carpooling.presentation.fragments
 
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +20,8 @@ import tg.ulcrsandroid.carpooling.R
 import tg.ulcrsandroid.carpooling.application.services.TrajetService
 import tg.ulcrsandroid.carpooling.application.utils.location.*
 import tg.ulcrsandroid.carpooling.infrastructure.externalServices.OpenRouteService.fetchRouteFromOpenRouteService
+import tg.ulcrsandroid.carpooling.infrastructure.externalServices.RouteOSRM.fetchRouteFromOSRM
+import tg.ulcrsandroid.carpooling.presentation.activities.ResultatRechercheTrajetActivity
 import java.util.*
 
 class SearchTrajetFragment : Fragment(), OnMapReadyCallback {
@@ -90,6 +94,7 @@ class SearchTrajetFragment : Fragment(), OnMapReadyCallback {
 
         // Submit button click
         submitButton.setOnClickListener {
+            Log.d("Carpooling", "SearchTrajetFragment:setupListeners ---> Click sur le bouton de recherche")
             searchTrips()
         }
     }
@@ -165,6 +170,12 @@ class SearchTrajetFragment : Fragment(), OnMapReadyCallback {
             timeToleranceMillis,
             onSuccess = { trajets ->
                 Toast.makeText(requireContext(), "${trajets.size} trajets trouvés.", Toast.LENGTH_SHORT).show()
+                // Appeler l'activité pour lister les resultats de la recherche
+                val intent = Intent(requireContext(), ResultatRechercheTrajetActivity::class.java).apply {
+                    putParcelableArrayListExtra("trajets", ArrayList(trajets))
+                }
+                startActivity(intent)
+//                TrajetService.trajets = trajets
             },
             onError = { error ->
                 Toast.makeText(requireContext(), "Erreur: $error", Toast.LENGTH_SHORT).show()
@@ -183,7 +194,9 @@ class SearchTrajetFragment : Fragment(), OnMapReadyCallback {
             if (startLocation != null && endLocation != null) {
                 adjustCameraForBothMarkers(map, startLocation, endLocation)
                 try {
-                    fetchRouteFromOpenRouteService(requireContext(), map, startLocation, endLocation)
+//                    fetchRouteFromOpenRouteService(requireContext(), map, startLocation, endLocation)
+                    fetchRouteFromOSRM(requireContext(), map, startLocation, endLocation)
+                } catch (e: Exception) {
                 } catch (e: Exception) {
                     Toast.makeText(requireContext(), "Erreur de réseau : ${e.message}", Toast.LENGTH_SHORT).show()
                 }

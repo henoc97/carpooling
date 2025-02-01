@@ -1,29 +1,70 @@
 package tg.ulcrsandroid.carpooling.application.services
 
 import android.util.Log
+import androidx.compose.animation.core.snap
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.getValue
 import tg.ulcrsandroid.carpooling.domain.models.Trajet
 import tg.ulcrsandroid.carpooling.domain.repositories.ITrajet
+import java.time.LocalDateTime
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 object TrajetService : ITrajet {
 
     private val database = FirebaseDatabase.getInstance().reference.child("trajets")
+    var trajets = emptyList<Trajet>()
+
+    suspend fun recupererTrajet(idTrajet: String): Trajet? {
+        return suspendCoroutine { continuation ->
+            val ref = database.child(idTrajet)
+            ref.get().addOnSuccessListener { snapshot ->
+                val trajet = snapshot.getValue<Trajet>()
+                Log.d("Carpooling", "TrajetService:recupererTrajet ---> TRAJET ---> $trajet")
+                continuation.resume(trajet)
+            }.addOnFailureListener { exception ->
+                Log.d("Carpooling", "TrajetService:recupererTrajet ---> ERREUR ---> ${exception.message}")
+                continuation.resume(null)
+            }
+        }
+    }
+
+    fun ajouterReservation(idTrajet: String, idReservation: String) {
+        val ref = database.child(idTrajet)
+        ref.get().addOnSuccessListener { snapshot ->
+            val trajet = snapshot.getValue<Trajet>()
+            trajet!!.reservationsIds.add(idReservation)
+            Log.d("Carpooling", "TrajetService:ajouterReservation ---> TRAJET ---> $trajet")
+            ref.setValue(trajet)
+        }.addOnFailureListener { e ->
+            Log.d("Carpooling", "TrajetService:ajouterReservation ---> ERREUR ---> ${e.message}")
+        }
+    }
+
+    suspend fun supprimerReservation(idTrajet: String, idReservation: String) : Boolean? {
+        val trajet = recupererTrajet(idTrajet)
+        val bool = trajet?.reservationsIds?.removeAll(listOf(idReservation))
+        mettreAJourTrajet(trajet!!)
+        return bool
+    }
 
     override fun creerTrajet(trajet: Trajet, idConducteur: String) {
         val newTrajetRef = database.push()
         val idTrajet = newTrajetRef.key ?: ""
-        val trajetMap = mapOf(
-            "idTrajet" to idTrajet,
-            "lieuDepart" to trajet.lieuDepart,
-            "lieuArrivee" to trajet.lieuArrivee,
-            "heureDepart" to trajet.heureDepart,
-            "prixParPassager" to trajet.prixParPassager,
-            "placesDisponibles" to trajet.placesDisponibles,
-            "idConducteur" to idConducteur,
-            "creeA" to trajet.creeA
-        )
-        newTrajetRef.setValue(trajetMap)
+//        val trajetMap = mapOf(
+//            "idTrajet" to idTrajet,
+//            "lieuDepart" to trajet.lieuDepart,
+//            "lieuArrivee" to trajet.lieuArrivee,
+//            "heureDepart" to trajet.heureDepart,
+//            "prixParPassager" to trajet.prixParPassager,
+//            "placesDisponibles" to trajet.placesDisponibles,
+//            "idConducteur" to idConducteur,
+//            "creeA" to trajet.creeA
+//        )
+        trajet.idConducteur = idConducteur
+        trajet.idTrajet = idTrajet
+        newTrajetRef.setValue(trajet)
             .addOnSuccessListener {
                 Log.d("TrajetService", "Trajet créé avec succès.")
             }
@@ -128,8 +169,9 @@ object TrajetService : ITrajet {
         val isDestinationMatch = trajet.lieuArrivee.equals(destination, ignoreCase = true)
 
         // Check if the time is within tolerance
-        val isTimeWithinTolerance = trajet.heureDepart in (heureDepart - timeToleranceMillis)..(heureDepart + timeToleranceMillis)
+        val isTimeWithinTolerance = trajet.heureDepart < System.currentTimeMillis()
 
-        return isDepartureMatch && isDestinationMatch && isTimeWithinTolerance
+        return isDepartureMatch && isDestinationMatch // && isTimeWithinTolerance
     }
+
 }

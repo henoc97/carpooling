@@ -2,7 +2,9 @@ package tg.ulcrsandroid.carpooling.application.utils.authStrategies
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
 import tg.ulcrsandroid.carpooling.application.utils.notification.FirebaseTokenManager
+import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
 
 class EmailPasswordAuthStrategy : IAuthStrategy {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -25,15 +27,23 @@ class EmailPasswordAuthStrategy : IAuthStrategy {
                 if (task.isSuccessful) {
                     val idUtilisateur = task.result?.user?.uid
                     if (idUtilisateur != null) {
-                        val user = mapOf(
-                            "idUtilisateur" to idUtilisateur,
-                            "email" to email,
-                            "nomComplet" to nomComplet
+//                        val user = mapOf(
+//                            "idUtilisateur" to idUtilisateur,
+//                            "email" to email,
+//                            "nomComplet" to nomComplet
+//                        )
+                        val utilisateur = Utilisateur(
+                            idUtilisateur,
+                            email,
+                            nomComplet,
+                            password,
+                            "PASSAGER"
                         )
-                        database.child("users").child(idUtilisateur).setValue(user)
+                        database.child("users").child(idUtilisateur).setValue(utilisateur)
                             .addOnSuccessListener {
                                 FirebaseTokenManager.updateToken(idUtilisateur) // Mise à jour du token
                                 onSuccess() // Appeler onSuccess si tout est réussi
+//                                UtilisateurService.utilisateurID = idUtilisateur
                             }
                             .addOnFailureListener { e ->
                                 onError("Erreur d'enregistrement : ${e.message}") // Appeler onError en cas d'échec
@@ -66,6 +76,7 @@ class EmailPasswordAuthStrategy : IAuthStrategy {
                         val idUtilisateur = user.uid // Récupérer l'ID de l'utilisateur
                         FirebaseTokenManager.updateToken(idUtilisateur) // Mettre à jour le token
                         onSuccess() // Appeler onSuccess si tout est réussi
+//                        UtilisateurService.utilisateurID = idUtilisateur
                     } else {
                         onError("Erreur : Utilisateur non trouvé après connexion.") // Appeler onError en cas d'échec
                     }

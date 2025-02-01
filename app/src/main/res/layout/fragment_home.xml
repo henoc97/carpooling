@@ -47,11 +47,13 @@
                 android:layout_height="200dp"
                 android:layout_margin="16dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                app:cardElevation="4dp"
+                >
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:id="@+id/choisirDestSurMap">
 
                     <!-- Carte -->
                     <fragment
@@ -134,6 +136,7 @@
 
                 <!-- Vos réservations -->
                 <LinearLayout
+                    android:id="@+id/vosReservations"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

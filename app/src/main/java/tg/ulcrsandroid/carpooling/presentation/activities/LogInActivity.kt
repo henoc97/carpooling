@@ -2,9 +2,10 @@ package tg.ulcrsandroid.carpooling.presentation.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import tg.ulcrsandroid.carpooling.R
+import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.AuthContext
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.EmailPasswordAuthStrategy
 import tg.ulcrsandroid.carpooling.databinding.ActivityLoginBinding
@@ -51,4 +52,11 @@ class LogInActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onDestroy() {
+//        UtilisateurService.sauvegarderUtilisateurID(this)
+//        Log.d("Carpooling", "SAUVEGARDE DE L'ID DE L'UTILISATEUR !")
+        super.onDestroy()
+    }
+
 }

@@ -1,15 +1,102 @@
 package tg.ulcrsandroid.carpooling.application.services
 
+import android.content.Context
 import android.util.Log
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
 import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
+import com.google.firebase.database.database
+import com.google.firebase.database.getValue
 import tg.ulcrsandroid.carpooling.domain.repositories.IUtilisateur
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 object UtilisateurService : IUtilisateur {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance().reference
+//    var utilisateurActuel: Utilisateur? = null
+//    var utilisateurID: String? = null
+
+    suspend fun getUtilisateurById(id: String) : Utilisateur? {
+        val databas = Firebase.database
+        val userRef = databas.getReference("users/$id")
+        return retreiveUser(userRef)
+    }
+
+    private suspend fun retreiveUser(ref: DatabaseReference): Utilisateur? {
+        return suspendCoroutine { continuation ->
+            ref.get().addOnSuccessListener { dataSnapshot ->
+                if (dataSnapshot.exists()) {
+                    val utilisateur =
+                        dataSnapshot.getValue<Utilisateur>() // Récupérer l'utilisateur depuis Firebase
+                    continuation.resume(utilisateur)
+                    Log.d(
+                        "Carpooling",
+                        "UtilisateurService:retreiveUser ---> UTILISATEUR ACTUEL : ${utilisateur?.nomComplet}"
+                    )
+                } else {
+                    Log.d(
+                        "Carpooling",
+                        "UtilisateurService:retreiveUser ---> L'UTILISATEUR REFERENCE N'EXISTE PAS"
+                    )
+                    continuation.resume(null)
+                }
+            }.addOnFailureListener { exception ->
+                Log.d(
+                    "Carpooling",
+                    "UtilisateurService:retreiveUser ----> ERREUR LORS DE LA RECUPERATION DE L'UTILISATEUR: $exception"
+                )
+            }
+        }
+    }
+
+//    fun sauvegarderUtilisateurID(context: Context) {
+//        Log.i("Carpooling", "SAUVEGARDE DE L'ID $utilisateurID")
+//        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+//        sharedPreferences.edit().putString("user_id", utilisateurID).apply()
+//    }
+//
+//    fun recupererUtilisateurID(context: Context): String? {
+//        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+//        utilisateurID = sharedPreferences.getString("user_id", null)
+//        Log.d("Carpooling", "UtilisateurService:recupererUtilisateurID ---> USER-ID ---> $utilisateurID")
+//        return utilisateurID
+//    }
+
+    suspend fun getUtilisateurNomById(id: String) : String? {
+        return suspendCoroutine { continuation ->
+            val ref = database.child("users/$id/nomComplet")
+            ref.get().addOnSuccessListener { snapshot ->
+                if (snapshot.exists()) {
+                    continuation.resume(snapshot.getValue<String>())
+                } else {
+                    continuation.resume("")
+                }
+            }.addOnFailureListener { e ->
+                Log.d("Carpooling", "UtilisateurService:getUtilisateurNomById ---> ERREUR ---> $e")
+            }
+        }
+    }
+
+    fun getUsersList(liste: MutableList<String>): MutableList<Utilisateur?> {
+        val database = Firebase.database
+        val users: MutableList<Utilisateur?> = mutableListOf()
+        liste.forEach { s ->
+            val ref = database.getReference("users/$s")
+            ref.get().addOnSuccessListener { dataSnapshot ->
+                if (dataSnapshot.exists()) {
+                    val utilisateur = dataSnapshot.getValue<Utilisateur>()
+                    users.add(utilisateur);
+                } else {
+                    Log.i("Carpooling", "UtilisateurService ---> L'UTILISATEUR REFÉRENCÉ PAR $s N'EXISTE PAS")
+                }
+            }
+        }
+        return users
+    }
 
     override fun mettreAJourProfil(email: String, nomComplet: String) {
         val currentUser = auth.currentUser
@@ -37,6 +124,16 @@ object UtilisateurService : IUtilisateur {
         } ?: run {
             println("Aucun utilisateur connecté")
         }
+    }
+
+    fun mettreAJourProfil(utilisateur: Utilisateur) {
+        database.child("users").child(utilisateur.idUtilisateur).setValue(utilisateur)
+            .addOnSuccessListener {
+                println("Profil mis à jour avec succès.")
+            }
+            .addOnFailureListener { e ->
+                println("Erreur de mise à jour : ${e.message}")
+            }
     }
 
     override fun consulterProfil() {
@@ -96,35 +193,12 @@ object UtilisateurService : IUtilisateur {
 
             // Check if the user data exists
             if (userSnapshot.exists()) {
-                // Map the data to the Utilisateur class
-                val idUtilisateur = userSnapshot.child("idUtilisateur").getValue(String::class.java) ?: ""
-                val email = userSnapshot.child("email").getValue(String::class.java) ?: ""
-                val nomComplet = userSnapshot.child("nomComplet").getValue(String::class.java) ?: ""
-                val motDePasse = userSnapshot.child("motDePasse").getValue(String::class.java) ?: ""
-                val typeUtilisateur = userSnapshot.child("typeUtilisateur").getValue(String::class.java) ?: ""
-
-                // Create and return the Utilisateur object
-                Utilisateur(idUtilisateur, email, nomComplet, motDePasse, typeUtilisateur)
+                userSnapshot.getValue<Utilisateur>()
             } else {
-                // If the user data doesn't exist, return null
-                null
+            // If the user data doesn't exist, return null
+            null
             }
         }
     }
-
-    // Exemple d'utilisation de la fonction
-//    UtilisateurService.getFcmTokenById(
-//    userId = "someUserId",
-//    onSuccess = { token ->
-//        if (token != null) {
-//            println("Token FCM récupéré : $token")
-//        } else {
-//            println("Aucun token FCM trouvé pour cet utilisateur.")
-//        }
-//    },
-//    onError = { errorMessage ->
-//        println(errorMessage)
-//    }
-//    )
 
 }

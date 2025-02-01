@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import tg.ulcrsandroid.carpooling.R
 import tg.ulcrsandroid.carpooling.databinding.FragmentHomeBinding
 import tg.ulcrsandroid.carpooling.presentation.activities.CreateTrajetActivity
+import tg.ulcrsandroid.carpooling.presentation.activities.ListReservationActivity
 import tg.ulcrsandroid.carpooling.presentation.activities.SearchTrajetActivity
 import tg.ulcrsandroid.carpooling.presentation.activities.TrajetListeDetailActivity
 
@@ -54,8 +56,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        // Click sur la vue pour choisir sa destination
+//        binding.choisirDestSurMap.setOnClickListener {
+//            Log.d("Carpooling", "HomeFragment:onViewCreated ---> Click pour choisir sa destination")
+//            val intent = Intent(requireActivity(), SearchTrajetActivity::class.java)
+//            startActivity(intent)
+//        }
+
         // Ajouter un ClickListener sur le "gerer trajet"
         binding.floatingImage.setOnClickListener {
+            Log.d("Carpooling", "HomeFragment:onViewCreated ---> Click pour choisir sa destination")
             // Rediriger vers TrajetListeDetailActivity
             val intent = Intent(requireActivity(), SearchTrajetActivity::class.java)
             startActivity(intent)
@@ -65,6 +75,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         binding.gererTrajets.setOnClickListener {
             // Rediriger vers TrajetListeDetailActivity
             val intent = Intent(requireActivity(), TrajetListeDetailActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.vosReservations.setOnClickListener {
+            Log.d("Carpooling", "HomeFragment:onViewCreated ---> Click sur vos réservations")
+            val intent = Intent(requireContext(), ListReservationActivity::class.java)
             startActivity(intent)
         }
 
