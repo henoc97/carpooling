@@ -1,5 +1,6 @@
 package tg.ulcrsandroid.carpooling.presentation.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,12 +10,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
+import tg.ulcrsandroid.carpooling.application.services.ChatService
 import tg.ulcrsandroid.carpooling.application.services.ReservationService
 import tg.ulcrsandroid.carpooling.application.services.TrajetService
+import tg.ulcrsandroid.carpooling.application.utils.UserManager
 import tg.ulcrsandroid.carpooling.application.utils.managers.TimeManager
 import tg.ulcrsandroid.carpooling.databinding.FragmentTripDetailBinding
 import tg.ulcrsandroid.carpooling.domain.models.Passager
+import tg.ulcrsandroid.carpooling.domain.models.Reservation
 import tg.ulcrsandroid.carpooling.domain.models.Trajet
+import tg.ulcrsandroid.carpooling.presentation.activities.DiscussionActivity
 import tg.ulcrsandroid.carpooling.presentation.adapters.PassengersAdapter
 
 class TrajetDetailFragment : Fragment() {
@@ -60,7 +65,19 @@ class TrajetDetailFragment : Fragment() {
             binding.passengersRecyclerView.layoutManager = LinearLayoutManager(context)
             adapter = PassengersAdapter(trajet!!.reservations!!)
             binding.passengersRecyclerView.adapter = adapter
-            adapter.supprimerReservation = this@TrajetDetailFragment::supprimerReservation
+            adapter.supprimerReservationParent = this@TrajetDetailFragment::supprimerReservation
+            adapter.envoyerMessageParent = this@TrajetDetailFragment::envoyerMessage
+        }
+    }
+
+    private fun envoyerMessage(reservation: Reservation) {
+        lifecycleScope.launch {
+            val chat = ChatService.findCommonChat(UserManager.getCurrentUser()!!.mesChats, reservation?.trajet!!.idConducteur)
+            val intent = Intent(requireContext(), DiscussionActivity::class.java)
+            Log.d("Carpooling", "ReservationDetailActivity:envoyerMessage ---> CHAT ---> $chat")
+            intent.putExtra("idChat", chat.idChat)
+            intent.putExtra("nomComplet", chat.nomMembreSecondaire)
+            startActivity(intent)
         }
     }
 
