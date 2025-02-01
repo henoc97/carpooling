@@ -14,6 +14,7 @@ import tg.ulcrsandroid.carpooling.application.utils.UserManager
 import tg.ulcrsandroid.carpooling.databinding.FragmentTripsListBinding
 import tg.ulcrsandroid.carpooling.domain.models.Trajet
 import tg.ulcrsandroid.carpooling.presentation.adapters.TrajetsAdapter
+import java.util.jar.Manifest
 
 class TrajetsListFragment : Fragment() {
 
