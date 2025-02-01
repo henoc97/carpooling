@@ -132,4 +132,5 @@ object TrajetService : ITrajet {
 
         return isDepartureMatch && isDestinationMatch && isTimeWithinTolerance
     }
+
 }

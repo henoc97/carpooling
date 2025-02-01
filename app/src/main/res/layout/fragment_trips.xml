@@ -3,25 +3,65 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
-    <LinearLayout
+    <!-- En-tête -->
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="Aides En Cas d'Urgence"
+        android:paddingLeft="20dp"
+        android:paddingTop="36dp"
+        android:paddingBottom="20dp"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:background="@drawable/rounded_bottom"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mes Trajets"
-            android:paddingLeft="20dp"
-            android:paddingTop="36dp"
-            android:paddingBottom="20dp"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:background="@drawable/rounded_bottom"/>
+    <!-- Bouton Appeler Urgences -->
+    <Button
+        android:id="@+id/buttonUrgences"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="Appeler les Urgences"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/red"
+        android:drawableLeft="@drawable/ic_pompier"
+        android:drawablePadding="8dp"
+        android:layout_margin="12dp"
+        android:onClick="appelerUrgences"/>
 
-    </LinearLayout>
+    <!-- Liste déroulante des conseils -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Conseils en cas d'urgence"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp"
+        android:padding="8dp"
+        android:layout_margin="12dp"
+        android:textColor="@color/black"/>
+
+    <Spinner
+        android:id="@+id/spinnerConseils"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="12dp"
+        android:layout_margin="12dp"
+        android:background="@drawable/spinner_background"/>
+    <TextView
+        android:id="@+id/textViewEtapes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:layout_margin="12dp"
+        android:textColor="@color/black"/>
 
 </LinearLayout>
