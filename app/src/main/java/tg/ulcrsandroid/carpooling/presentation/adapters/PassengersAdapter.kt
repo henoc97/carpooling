@@ -34,6 +34,7 @@ class PassengersAdapter(
     lateinit var supprimerReservationParent: (String?) -> Unit
     lateinit var confirmerReservationParent: () -> Unit
     lateinit var envoyerMessageParent: (Reservation) -> Unit
+    // lateinit var ajouterObjetTrajet: (Reservation) -> Unit
 
     class PassengerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val passengerName: TextView = view.findViewById(R.id.passengerName)
@@ -59,7 +60,7 @@ class PassengersAdapter(
         holder.rejeterButton.setOnClickListener {
             rejeterReservation(reservations[position], position)
             val notificationTitle = "Refus de covoiturage"
-            val notificationBody = "Votre demande de covoiturage de ${reservations[position].trajet!!.lieuDepart} vers ${reservations[position].trajet!!.lieuArrivee} a été refusée"
+            val notificationBody = "Votre demande de covoiturage a été refusée"
 
             // Récupérer l'activité à partir du contexte
             val context = holder.itemView.context
@@ -87,10 +88,14 @@ class PassengersAdapter(
         }
         if (reservations[position].statut != ReservationService.ACCEPTEE) {
             holder.confirmerButton.setOnClickListener {
+                Log.d("Carpooling", "trajet -> ")
                 confirmerReservation(reservations[position])
                 holder.confirmerButton.text = "Confimé ✓"
+                // ajouterObjetTrajet(reservations[position])
+                // ReservationService.ajouterObjetTrajet(reservations[position])
                 val notificationTitle = "Acceptation de covoiturage"
-                val notificationBody = "Votre demande de covoiturage de ${reservations[position].trajet!!.lieuDepart} vers ${reservations[position].trajet!!.lieuArrivee} a été acceptée ✓"
+                Log.d("Carpooling", "trajet -> ${reservations[position]}")
+                val notificationBody = "Votre demande de covoiturage  a été acceptée ✓"
 
                 // Récupérer l'activité à partir du contexte
                 val context = holder.itemView.context

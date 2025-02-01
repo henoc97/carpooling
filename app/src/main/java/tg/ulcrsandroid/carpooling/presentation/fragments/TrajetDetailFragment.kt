@@ -71,6 +71,7 @@ class TrajetDetailFragment : Fragment() {
             adapter.supprimerReservationParent = this@TrajetDetailFragment::supprimerReservation
             adapter.envoyerMessageParent = this@TrajetDetailFragment::envoyerMessage
             adapter.confirmerReservationParent = this@TrajetDetailFragment::confirmerReservation
+            // adapter.ajouterObjetTrajet = this@TrajetDetailFragment::ajouterObjetTrajet
         }
 
         val fabStartTrip: FloatingActionButton = binding.fabStartTrip
@@ -86,6 +87,12 @@ class TrajetDetailFragment : Fragment() {
                 }
             }
 
+        }
+    }
+
+    private fun ajouterObjetTrajet(reservation: Reservation) {
+        lifecycleScope.launch {
+             ReservationService.ajouterObjetTrajet(reservation)
         }
     }
 
