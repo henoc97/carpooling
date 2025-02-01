@@ -1,5 +1,6 @@
 package tg.ulcrsandroid.carpooling.presentation.viewholders
 
+import android.app.Activity
 import android.util.Log
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
@@ -40,7 +41,15 @@ class RechercheTrajetViewHolder(val ui: ItemRechercheTrajetBinding) : RecyclerVi
                 Log.d("Carpooling", "RechercheTrajetViewHolder:Setter ---> Fin de la reservation ajout de l'objet au trajet")
                 // Notif push
                 val notificationTitle = "Nouvelle demande de covoiturage"
-                val notificationBody = "Vous avez une nouvelle demande de covoiturage."
+                val notificationBody = "Vous avez une nouvelle demande de covoiturage de ${value.lieuDepart} vers ${value.lieuArrivee}."
+
+                // Récupérer l'activité à partir du contexte
+                val context = itemView.context
+                if (context is Activity) {
+                    NotificationService.setActivity(context)
+                } else {
+                    Log.e("NotificationService", "Le contexte n'est pas une activité.")
+                }
 
                 // Récupérer le token FCM du conducteur
                 UtilisateurService.getFcmTokenById(

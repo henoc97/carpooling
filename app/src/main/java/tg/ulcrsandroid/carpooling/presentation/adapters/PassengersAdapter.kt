@@ -1,6 +1,7 @@
 package tg.ulcrsandroid.carpooling.presentation.adapters
 
 
+import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,7 +16,9 @@ import kotlinx.coroutines.launch
 import tg.ulcrsandroid.carpooling.domain.models.Passager
 import tg.ulcrsandroid.carpooling.R
 import tg.ulcrsandroid.carpooling.application.services.ChatService
+import tg.ulcrsandroid.carpooling.application.services.NotificationService
 import tg.ulcrsandroid.carpooling.application.services.ReservationService
+import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
 import tg.ulcrsandroid.carpooling.application.utils.UserManager
 import tg.ulcrsandroid.carpooling.domain.models.Reservation
 import tg.ulcrsandroid.carpooling.presentation.activities.DiscussionActivity
@@ -49,16 +52,70 @@ class PassengersAdapter(
     override fun onBindViewHolder(holder: PassengerViewHolder, position: Int) {
         val passenger = reservations[position].passager
         holder.passengerName.text = passenger?.nomComplet
-        holder.passengerPosition.text = "passenger.position"
+        // holder.passengerPosition.text = "passenger.position"
         holder.messageButton.setOnClickListener {
             envoyerMessage(reservations[position])
         }
         holder.rejeterButton.setOnClickListener {
             rejeterReservation(reservations[position], position)
+            val notificationTitle = "Refus de covoiturage"
+            val notificationBody = "Votre demande de covoiturage de ${reservations[position].trajet!!.lieuDepart} vers ${reservations[position].trajet!!.lieuArrivee} a été refusée"
+
+            // Récupérer l'activité à partir du contexte
+            val context = holder.itemView.context
+            if (context is Activity) {
+                NotificationService.setActivity(context)
+            } else {
+                Log.e("NotificationService", "Le contexte n'est pas une activité.")
+            }
+
+            // Récupérer le token FCM du passager
+            UtilisateurService.getFcmTokenById(
+                passenger?.idUtilisateur ?: "", // Utilisez l'ID du passager ici
+                onSuccess = { token ->
+                    if (token != null) {
+                        // Si le token est récupéré avec succès, envoyer la notification
+                        NotificationService.envoyerNotification(token, notificationTitle, notificationBody)
+                    } else {
+                        Log.e("NotificationService", "Le token FCM du passager est null.")
+                    }
+                },
+                onError = { errorMessage ->
+                    Log.e("NotificationService", errorMessage)
+                }
+            )
         }
-        holder.confirmerButton.setOnClickListener {
-            confirmerReservation(reservations[position])
-            holder.confirmerButton.text = "Confimé ✓"
+        if (reservations[position].statut != ReservationService.ACCEPTEE) {
+            holder.confirmerButton.setOnClickListener {
+                confirmerReservation(reservations[position])
+                holder.confirmerButton.text = "Confimé ✓"
+                val notificationTitle = "Acceptation de covoiturage"
+                val notificationBody = "Votre demande de covoiturage de ${reservations[position].trajet!!.lieuDepart} vers ${reservations[position].trajet!!.lieuArrivee} a été acceptée ✓"
+
+                // Récupérer l'activité à partir du contexte
+                val context = holder.itemView.context
+                if (context is Activity) {
+                    NotificationService.setActivity(context)
+                } else {
+                    Log.e("NotificationService", "Le contexte n'est pas une activité.")
+                }
+
+                // Récupérer le token FCM du passager
+                UtilisateurService.getFcmTokenById(
+                    passenger?.idUtilisateur ?: "", // Utilisez l'ID du passager ici
+                    onSuccess = { token ->
+                        if (token != null) {
+                            // Si le token est récupéré avec succès, envoyer la notification
+                            NotificationService.envoyerNotification(token, notificationTitle, notificationBody)
+                        } else {
+                            Log.e("NotificationService", "Le token FCM du passager est null.")
+                        }
+                    },
+                    onError = { errorMessage ->
+                        Log.e("NotificationService", errorMessage)
+                    }
+                )
+            }
         }
     }
 
