@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import tg.ulcrsandroid.carpooling.DriveMeToActivity
@@ -29,6 +31,15 @@ class ReservationDetailActivity: AppCompatActivity() {
 
         reservation = intent.getParcelableExtra("reservation")
         binding.etat.text = reservation?.statut
+        if (reservation?.statut == ReservationService.EN_ATTENTE) {
+            binding.etat.setBackgroundColor(Color.hsl(44f, 0.87f, 0.50f).toArgb())
+        }
+
+        if (reservation?.statut == ReservationService.REJETEE) {
+            binding.etat.setBackgroundColor(Color.hsl(6f, 0.87f, 0.50f).toArgb())
+        }
+
+        binding.etat.setBackgroundColor(0)
 
         binding.envoyerMessage.setOnClickListener(this::envoyerMessage)
 
