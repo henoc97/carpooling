@@ -35,6 +35,9 @@ class Reservation(
     }
 
     override fun describeContents(): Int = 0
+    override fun toString(): String {
+        return "Reservation(idReservation='$idReservation', idPassager='$idPassager', idTrajet='$idTrajet', passager=$passager, trajet=$trajet, heureReservation=$heureReservation, statut='$statut')"
+    }
 
     companion object CREATOR : Parcelable.Creator<Reservation> {
         override fun createFromParcel(parcel: Parcel): Reservation {
@@ -45,6 +48,8 @@ class Reservation(
             return arrayOfNulls(size)
         }
     }
+
+
 }
 
 //class Reservation(

@@ -79,9 +79,11 @@ class TrajetDetailFragment : Fragment() {
 
     private fun envoyerMessage(reservation: Reservation) {
         lifecycleScope.launch {
-            val chat = ChatService.findCommonChat(UserManager.getCurrentUser()!!.mesChats, reservation?.trajet!!.idConducteur)
+            Log.d("Carpooling", "TrajetDetailFragment:envoyerMessage ---> MESCHATS ---> ${UserManager.getCurrentUser()!!.mesChats}")
+            Log.d("Carpooling", "TrajetDetailFragment:envoyerMessage ---> RESERVATION NEDD IDCONCTEUR ---> ${reservation}")
+            val chat = ChatService.findCommonChat(UserManager.getCurrentUser()!!.mesChats, reservation.idPassager)
             val intent = Intent(requireContext(), DiscussionActivity::class.java)
-            Log.d("Carpooling", "ReservationDetailActivity:envoyerMessage ---> CHAT ---> $chat")
+            Log.d("Carpooling", "TrajetDetailFragment:envoyerMessage ---> CHAT ---> $chat")
             intent.putExtra("idChat", chat.idChat)
             intent.putExtra("nomComplet", chat.nomMembreSecondaire)
             startActivity(intent)
