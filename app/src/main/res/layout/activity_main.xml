@@ -9,7 +9,6 @@
     android:gravity="center">
 
     <!-- Logo ou Image -->
-
     <ImageView
         android:id="@+id/logoImageView"
         android:layout_width="150dp"

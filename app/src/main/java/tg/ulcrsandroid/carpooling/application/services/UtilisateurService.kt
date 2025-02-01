@@ -193,22 +193,10 @@ object UtilisateurService : IUtilisateur {
 
             // Check if the user data exists
             if (userSnapshot.exists()) {
-//                val utilisateur = userSnapshot.getValue<Utilisateur>()
-//                // Map the data to the Utilisateur class
-//                val idUtilisateur = userSnapshot.child("idUtilisateur").getValue(String::class.java) ?: ""
-//                val email = userSnapshot.child("email").getValue(String::class.java) ?: ""
-//                val nomComplet = userSnapshot.child("nomComplet").getValue(String::class.java) ?: ""
-//                val motDePasse = userSnapshot.child("motDePasse").getValue(String::class.java) ?: ""
-//                val typeUtilisateur = userSnapshot.child("typeUtilisateur").getValue(String::class.java) ?: ""
-//
-//                // Create and return the Utilisateur object
-//                Utilisateur(idUtilisateur, email, nomComplet, motDePasse, typeUtilisateur)
-
-                // Return the current user object
                 userSnapshot.getValue<Utilisateur>()
             } else {
-                // If the user data doesn't exist, return null
-                null
+            // If the user data doesn't exist, return null
+            null
             }
         }
     }
