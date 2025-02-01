@@ -14,7 +14,7 @@ class Trajet(
     var conducteur: Conducteur? = null,
     var idConducteur: String = "",
     var creeA: Long = 0, // Timestamp (millisecondes)
-    var reservations: MutableList<Reservation> = mutableListOf(),
+    var reservations: MutableList<Reservation>? = mutableListOf(),
     var reservationsIds: MutableList<String> = mutableListOf()
 ) : Parcelable {
 

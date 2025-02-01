@@ -30,8 +30,8 @@ class TripsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_trips, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
 //
 //        // Configuration du RecyclerView avec le binding
 //        binding.passengersRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -47,7 +47,7 @@ class TripsFragment : Fragment() {
 //                binding.availableSeats.text = "${it.placesDisponibles} places disponibles"
 //            }
 //        }
-    }
+//    }
 
 //    private fun createDummyReservations(): List<Reservation> {
 //        return listOf(
