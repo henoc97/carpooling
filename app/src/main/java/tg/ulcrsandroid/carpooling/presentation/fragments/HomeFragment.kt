@@ -73,6 +73,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
         // Ajouter un ClickListener sur le "gerer trajet"
         binding.gererTrajets.setOnClickListener {
+            Log.d("Carpooling", "HomeFragment:onViewCreated ---> Click sur gerer trajet")
             // Rediriger vers TrajetListeDetailActivity
             val intent = Intent(requireActivity(), TrajetListeDetailActivity::class.java)
             startActivity(intent)

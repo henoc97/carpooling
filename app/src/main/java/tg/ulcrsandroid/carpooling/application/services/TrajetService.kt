@@ -16,6 +16,11 @@ object TrajetService : ITrajet {
     private val database = FirebaseDatabase.getInstance().reference.child("trajets")
     var trajets = emptyList<Trajet>()
 
+    /**
+     * Récupère un trajet par son id
+     * @param idTrajet Id du trajet à récupérer
+     * @return Un objet <code>Trajet</code>
+     */
     suspend fun recupererTrajet(idTrajet: String): Trajet? {
         return suspendCoroutine { continuation ->
             val ref = database.child(idTrajet)
@@ -30,6 +35,24 @@ object TrajetService : ITrajet {
         }
     }
 
+    /**
+     * Rajoute les objets reservation liées à un objet <code>Trajet</code> et renvoie cet objet
+     * @param trajet L'objet <code>Trajet</code> sur lequel on vas jouter les reservations
+     *
+     * @return Un objet <code>Trajet</code> avec les reservations
+     */
+    suspend fun ajouterObjetsReservations(trajet: Trajet): Trajet {
+        trajet.reservationsIds.forEach { id ->
+            trajet.reservations?.add(ReservationService.recupererReservation(id)!!)
+        }
+        return trajet
+    }
+
+    /**
+     * Ajoute l'id d'une reservation à un trajet (liste des réservationsIds)
+     * @param idTrajet Id du trqjet sur lequel on doit ajouter la reservation
+     * @param idReservation Id de la reservation à ajouter
+     */
     fun ajouterReservation(idTrajet: String, idReservation: String) {
         val ref = database.child(idTrajet)
         ref.get().addOnSuccessListener { snapshot ->
@@ -44,8 +67,12 @@ object TrajetService : ITrajet {
 
     suspend fun supprimerReservation(idTrajet: String, idReservation: String) : Boolean? {
         val trajet = recupererTrajet(idTrajet)
+        if (!trajet?.reservationsIds!!.contains(idReservation)) {
+            return true
+        }
         val bool = trajet?.reservationsIds?.removeAll(listOf(idReservation))
         mettreAJourTrajet(trajet!!)
+        // TODO Prendre en compte le cas ou la reservation a ete dja supprimer
         return bool
     }
 
@@ -74,12 +101,14 @@ object TrajetService : ITrajet {
     }
 
     override fun mettreAJourTrajet(trajet: Trajet) {
+        trajet.reservations = null
+        Log.d("TrajetService", "TrajetService:mettreAJourTrajet ---> TRAJET ---> $trajet")
         database.child(trajet.idTrajet).setValue(trajet)
             .addOnSuccessListener {
                 Log.d("TrajetService", "Trajet mis à jour avec succès.")
             }
             .addOnFailureListener { e ->
-                Log.e("TrajetService", "Erreur lors de la mise à jour du trajet : ${e.message}")
+                Log.d("TrajetService", "Erreur lors de la mise à jour du trajet : ${e.message}")
             }
     }
 

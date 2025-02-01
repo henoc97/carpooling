@@ -173,6 +173,7 @@ class SearchTrajetFragment : Fragment(), OnMapReadyCallback {
                 // Appeler l'activité pour lister les resultats de la recherche
                 val intent = Intent(requireContext(), ResultatRechercheTrajetActivity::class.java).apply {
                     putParcelableArrayListExtra("trajets", ArrayList(trajets))
+                    requireActivity().finish()
                 }
                 startActivity(intent)
 //                TrajetService.trajets = trajets
