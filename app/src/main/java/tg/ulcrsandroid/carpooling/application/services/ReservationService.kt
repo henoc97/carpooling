@@ -33,6 +33,12 @@ object ReservationService : IReservation {
         return reservation
     }
 
+    suspend fun ajouterObjetPassager(reservation: Reservation): Reservation{
+        Log.d("Carpooling", "ReservationService:ajouterObjetPersonne ---> Reservation ---> $reservation")
+        reservation.passager = PassagerService.recupererPassager(reservation.idPassager)
+        return reservation
+    }
+
     suspend fun mesReservations(): List<Reservation> {
         Log.d("Carpooling", "ReservationService:mesReservations ---> Passager ---> ${PassagerManager.getPassagerActuel()}")
         val ids = PassagerManager.getPassagerActuel()?.reservationsIds
@@ -73,6 +79,12 @@ object ReservationService : IReservation {
             PassagerManager.getPassagerActuel()?.reservationsIds?.add(reservartion.idReservation)
             PassagerManager.mettreAjourPassager()
         }
+    }
+
+    fun mettreAJourReservation(reservation: Reservation) {
+        val ref = database.child(reservation.idReservation)
+        reservation.passager = null
+        ref.setValue(reservation)
     }
 
     override fun confirmerReservation(reservation: Reservation) {
