@@ -20,6 +20,7 @@ import tg.ulcrsandroid.carpooling.application.utils.UserManager
 import tg.ulcrsandroid.carpooling.application.utils.location.*
 import tg.ulcrsandroid.carpooling.domain.models.Trajet
 import tg.ulcrsandroid.carpooling.infrastructure.externalServices.OpenRouteService.fetchRouteFromOpenRouteService
+import tg.ulcrsandroid.carpooling.infrastructure.externalServices.RouteOSRM.fetchRouteFromOSRM
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -195,7 +196,8 @@ class CreateTrajetFragment : Fragment(), OnMapReadyCallback {
                 // Tracer la route entre les deux points
                 // fetchRoute(requireContext(), requireActivity(), map, startLocation, endLocation)
                 // drawRoute(map, startLocation, endLocation)
-                fetchRouteFromOpenRouteService(requireContext(), map, startLocation, endLocation)
+//                fetchRouteFromOpenRouteService(requireContext(), map, startLocation, endLocation)
+                fetchRouteFromOSRM(requireContext(), map, startLocation, endLocation)
             }
         }
     }

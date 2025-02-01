@@ -12,7 +12,7 @@ import java.io.IOException
 import org.json.JSONException
 
 fun fetchRouteFromOpenRouteService(context: Context, map: GoogleMap, start: LatLng, end: LatLng) {
-    val  apiKey: String = "5b3ce3597851110001cf62480ff8e51dafe64364bc52cd3e6de97fe9"
+    val  apiKey: String = "5b3ce3597851110001cf624860845ae6b9fc4498b1a59015c9b4bd37"
     val url = "https://api.openrouteservice.org/v2/directions/driving-car?" +
             "api_key=$apiKey&" +
             "start=${start.longitude},${start.latitude}&" +
@@ -80,7 +80,7 @@ fun fetchRouteFromOpenRouteService(context: Context, map: GoogleMap, start: LatL
     })
 }
 
-private fun decodePolyline(encoded: String): List<LatLng> {
+fun decodePolyline(encoded: String): List<LatLng> {
     val poly = mutableListOf<LatLng>()
     var index = 0
     val len = encoded.length

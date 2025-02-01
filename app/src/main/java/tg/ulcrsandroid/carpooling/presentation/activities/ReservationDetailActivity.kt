@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import tg.ulcrsandroid.carpooling.DriveMeToActivity
 import tg.ulcrsandroid.carpooling.application.services.ChatService
 import tg.ulcrsandroid.carpooling.application.services.PassagerService
 import tg.ulcrsandroid.carpooling.application.services.ReservationService
@@ -43,7 +44,11 @@ class ReservationDetailActivity: AppCompatActivity() {
     }
 
     private fun rejoindreConducteur(view: View?) {
-        Log.d("Carpooling", "ReservationDetailActivity:rejoindreConducteur ---> Click sur le boutton rejoindre conducteur")
+        Log.d("Caarpooling", "ReservationDetailActivity:Reservation===>${reservation!!.trajet}")
+        val intent = Intent(this, DriveMeToActivity::class.java)
+        intent.putExtra("DEPARTURE", "Lome")
+        intent.putExtra("DESTINATION", reservation!!.trajet!!.lieuDepart)
+        startActivity(intent)
     }
 
     private fun annulerReservation(view: View?) {

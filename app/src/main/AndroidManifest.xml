@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
+        android:networkSecurityConfig="@xml/network_security_config"
         android:name=".CarpoolingApplication"
         android:allowBackup="true"
         android:enableOnBackInvokedCallback="true"
@@ -19,6 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Carpooling"
         tools:targetApi="31">
+        <activity android:name=".DriveMeToActivity" />
         <activity
             android:name=".presentation.activities.DiscussionActivity"
             android:exported="false" />
@@ -65,7 +67,8 @@
             android:label="Trajets Proches" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCNwArZMo4NfCOfE6ANRi-vNmzFZeEtBaM" />
+            android:value="AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao" />
+<!--        AIzaSyCNwArZMo4NfCOfE6ANRi-vNmzFZeEtBaM-->
 
         <meta-data
             android:name="com.google.android.gms.auth.api.credentials.ClientId"
