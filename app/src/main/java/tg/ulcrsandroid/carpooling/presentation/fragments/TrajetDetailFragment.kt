@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -74,7 +75,8 @@ class TrajetDetailFragment : Fragment() {
             // adapter.ajouterObjetTrajet = this@TrajetDetailFragment::ajouterObjetTrajet
         }
 
-        val fabStartTrip: FloatingActionButton = binding.fabStartTrip
+
+        val fabStartTrip: Button = binding.startTrip
         fabStartTrip.setOnClickListener {
             // Action à effectuer lors du clic
             Toast.makeText(requireContext(), "Trajet démarré !", Toast.LENGTH_SHORT).show()

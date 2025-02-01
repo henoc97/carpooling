@@ -55,24 +55,18 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp"/>
 
+            <!-- Floating Action Button -->
+            <Button
+                android:id="@+id/startTrip"
+                android:layout_margin="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Démarrer le trajet"
+                android:backgroundTint="@color/primary"
+                android:textColor="@color/white"/>
+
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Floating Action Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabStartTrip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        app:backgroundTint="@color/primary"
-        app:maxImageSize="48dp"
-        app:tint="@color/white"
-        app:fabSize="normal"
-        app:rippleColor="@color/white"
-        android:text="Démarrer le trajet"
-        app:icon="@drawable/ic_start_trip"
-        app:iconTint="@color/white"/>
 
 </LinearLayout>
