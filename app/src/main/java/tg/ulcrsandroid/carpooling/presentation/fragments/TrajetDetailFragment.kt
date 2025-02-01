@@ -6,10 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
+import tg.ulcrsandroid.carpooling.DriveMeToActivity
 import tg.ulcrsandroid.carpooling.application.services.ChatService
 import tg.ulcrsandroid.carpooling.application.services.ReservationService
 import tg.ulcrsandroid.carpooling.application.services.TrajetService
@@ -67,6 +70,21 @@ class TrajetDetailFragment : Fragment() {
             binding.passengersRecyclerView.adapter = adapter
             adapter.supprimerReservationParent = this@TrajetDetailFragment::supprimerReservation
             adapter.envoyerMessageParent = this@TrajetDetailFragment::envoyerMessage
+        }
+
+        val fabStartTrip: FloatingActionButton = binding.fabStartTrip
+        fabStartTrip.setOnClickListener {
+            // Action à effectuer lors du clic
+            Toast.makeText(requireContext(), "Trajet démarré !", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), DriveMeToActivity::class.java)
+            arguments?.let { args ->
+                trajet = args.getParcelable<Trajet>("trajet")
+                trajet?.let {
+                    intent.putExtra("DESTINATION", trajet!!.lieuArrivee)
+                    startActivity(intent)
+                }
+            }
+
         }
     }
 
