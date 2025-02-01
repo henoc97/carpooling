@@ -5,6 +5,7 @@ import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import tg.ulcrsandroid.carpooling.application.services.NotificationService
 import tg.ulcrsandroid.carpooling.application.services.PassagerService
 import tg.ulcrsandroid.carpooling.application.services.ReservationService
 import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
@@ -37,6 +38,25 @@ class RechercheTrajetViewHolder(val ui: ItemRechercheTrajetBinding) : RecyclerVi
                 ReservationService.persisterReservation(reservation)
                 ui.bouttonReservation.text = "Reservé ✓"
                 Log.d("Carpooling", "RechercheTrajetViewHolder:Setter ---> Fin de la reservation ajout de l'objet au trajet")
+                // Notif push
+                val notificationTitle = "Nouvelle demande de covoiturage"
+                val notificationBody = "Vous avez une nouvelle demande de covoiturage."
+
+                // Récupérer le token FCM du conducteur
+                UtilisateurService.getFcmTokenById(
+                    value.idConducteur,
+                    onSuccess = { token ->
+                        if (token != null) {
+                            // Si le token est récupéré avec succès, envoyer la notification
+                            NotificationService.envoyerNotification(token, notificationTitle, notificationBody)
+                        } else {
+                            Log.e("NotificationService", "Le token FCM du conducteur est null.")
+                        }
+                    },
+                    onError = { errorMessage ->
+                        Log.e("NotificationService", errorMessage)
+                    }
+                )
             }
         }
 }
