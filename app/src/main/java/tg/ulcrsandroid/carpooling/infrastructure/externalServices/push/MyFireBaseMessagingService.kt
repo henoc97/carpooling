@@ -33,7 +33,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         // Check if message contains a notification payload.
         remoteMessage.notification?.let {
             Log.d("FCM", "Message Notification Body: ${it.body}")
-            sendNotification(it.body)
+            sendNotification(it.body, it.title)
         }
     }
 
@@ -47,7 +47,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
     }
 
     @SuppressLint("MissingPermission")
-    private fun sendNotification(messageBody: String?) {
+    private fun sendNotification(messageBody: String?, messageTitle: String?) {
         val channelId = getString(R.string.default_notification_channel_id)
         val channelName = getString(R.string.default_notification_channel_name)
         val channelDescription = getString(R.string.default_notification_channel_description)
@@ -64,7 +64,7 @@ class MyFireBaseMessagingService : FirebaseMessagingService() {
         // Build the notification
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_notification) // Ensure ic_notification exists
-            .setContentTitle("Notification Title") // Use a placeholder title
+            .setContentTitle(messageTitle) // Use a placeholder title
             .setContentText(messageBody) // Use the message body
             .setPriority(NotificationCompat.PRIORITY_HIGH)
 

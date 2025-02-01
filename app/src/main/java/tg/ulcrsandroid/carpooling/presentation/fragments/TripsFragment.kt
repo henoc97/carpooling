@@ -44,25 +44,6 @@ class TripsFragment : Fragment(R.layout.fragment_trips) {
             }
         }
     }
-}
-
-
-
-//class TripsFragment : Fragment() {
-//
-//    private var _binding: FragmentTripDetailBinding? = null
-//    private val binding get() = _binding!!
-//
-//    private lateinit var adapter: TrajetsAdapter
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//
-//    ): View? {
-//        return inflater.inflate(R.layout.fragment_trips, container, false)
-//    }
-
 
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 //        super.onViewCreated(view, savedInstanceState)
@@ -126,4 +107,4 @@ class TripsFragment : Fragment(R.layout.fragment_trips) {
 //            )
 //        )
 //    }
-//}
+}
