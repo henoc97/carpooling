@@ -17,12 +17,12 @@ import kotlin.coroutines.suspendCoroutine
 object UtilisateurService : IUtilisateur {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance().reference
-    var utilisateurActuel: Utilisateur? = null
-    var utilisateurID: String? = null
+//    var utilisateurActuel: Utilisateur? = null
+//    var utilisateurID: String? = null
 
-    suspend fun initialiserUtilisateurActuel(s: String) : Utilisateur? {
+    suspend fun getUtilisateurById(id: String) : Utilisateur? {
         val databas = Firebase.database
-        val userRef = databas.getReference("users/$s")
+        val userRef = databas.getReference("users/$id")
         return retreiveUser(userRef)
     }
 
@@ -30,12 +30,12 @@ object UtilisateurService : IUtilisateur {
         return suspendCoroutine { continuation ->
             ref.get().addOnSuccessListener { dataSnapshot ->
                 if (dataSnapshot.exists()) {
-                    this.utilisateurActuel =
+                    val utilisateur =
                         dataSnapshot.getValue<Utilisateur>() // Récupérer l'utilisateur depuis Firebase
-                    continuation.resume(this.utilisateurActuel)
+                    continuation.resume(utilisateur)
                     Log.d(
                         "Carpooling",
-                        "UtilisateurService:retreiveUser ---> UTILISATEUR ACTUEL : ${this.utilisateurActuel?.nomComplet}"
+                        "UtilisateurService:retreiveUser ---> UTILISATEUR ACTUEL : ${utilisateur?.nomComplet}"
                     )
                 } else {
                     Log.d(
@@ -53,17 +53,32 @@ object UtilisateurService : IUtilisateur {
         }
     }
 
-    fun sauvegarderUtilisateurID(context: Context) {
-        Log.i("Carpooling", "SAUVEGARDE DE L'ID $utilisateurID")
-        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        sharedPreferences.edit().putString("user_id", utilisateurID).apply()
-    }
+//    fun sauvegarderUtilisateurID(context: Context) {
+//        Log.i("Carpooling", "SAUVEGARDE DE L'ID $utilisateurID")
+//        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+//        sharedPreferences.edit().putString("user_id", utilisateurID).apply()
+//    }
+//
+//    fun recupererUtilisateurID(context: Context): String? {
+//        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+//        utilisateurID = sharedPreferences.getString("user_id", null)
+//        Log.d("Carpooling", "UtilisateurService:recupererUtilisateurID ---> USER-ID ---> $utilisateurID")
+//        return utilisateurID
+//    }
 
-    fun recupererUtilisateurID(context: Context): String? {
-        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        utilisateurID = sharedPreferences.getString("user_id", null)
-        Log.d("Carpooling", "UtilisateurService:recupererUtilisateurID ---> USER-ID ---> $utilisateurID")
-        return utilisateurID
+    suspend fun getUtilisateurNomById(id: String) : String? {
+        return suspendCoroutine { continuation ->
+            val ref = database.child("users/$id/nomComplet")
+            ref.get().addOnSuccessListener { snapshot ->
+                if (snapshot.exists()) {
+                    continuation.resume(snapshot.getValue<String>())
+                } else {
+                    continuation.resume("")
+                }
+            }.addOnFailureListener { e ->
+                Log.d("Carpooling", "UtilisateurService:getUtilisateurNomById ---> ERREUR ---> $e")
+            }
+        }
     }
 
     fun getUsersList(liste: MutableList<String>): MutableList<Utilisateur?> {

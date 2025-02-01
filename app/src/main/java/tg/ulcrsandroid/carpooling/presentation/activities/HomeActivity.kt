@@ -16,7 +16,6 @@ import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
 
 class HomeActivity : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -34,7 +33,6 @@ class HomeActivity : AppCompatActivity() {
             } else {
                 println("Aucun utilisateur connecté.")
             }
-            Log.d("carpooling", "HomeActivity:onCreate ---> USER RETREIVED : ${UserManager.getCurrentUser()?.nomComplet}")
         }
     }
 }

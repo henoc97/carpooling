@@ -3,6 +3,7 @@ package tg.ulcrsandroid.carpooling.presentation.viewholders
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
+import tg.ulcrsandroid.carpooling.application.utils.UserManager
 import tg.ulcrsandroid.carpooling.databinding.ItemChatBinding
 import tg.ulcrsandroid.carpooling.domain.models.Chat
 import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
@@ -16,7 +17,7 @@ class ChatViewHolder(var ui: ItemChatBinding) : RecyclerView.ViewHolder(ui.root)
     var chat: Chat?
         get() = null
         set(value) {
-            if (UtilisateurService.utilisateurID == value?.idInitialisateur) {
+            if (UserManager.getCurrentUser()?.idUtilisateur == value?.idInitialisateur) {
                 ui.personName.text = value?.nomMembreSecondaire
                 nomComplet = value?.nomMembreSecondaire
             } else {

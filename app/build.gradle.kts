@@ -1,8 +1,13 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.gms.google-services")
+
+    id("com.google.gms.google-services") apply true
+
+
+
     alias(libs.plugins.kotlin.compose)
+
 }
 
 
@@ -49,6 +54,7 @@ android {
 
 dependencies {
 
+    implementation("com.google.android.material:material:1.9.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
@@ -72,6 +78,11 @@ dependencies {
     implementation (libs.material.v190)
     implementation (libs.android.maps.utils)
     implementation(libs.androidx.constraintlayout)
+
+    implementation ("com.google.firebase:firebase-messaging:24.1.0")
+    implementation ("com.google.firebase:firebase-bom:32.2.2")
+    implementation ("com.squareup.okhttp3:okhttp:4.11.0")
+
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -81,6 +92,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.play.services.maps)
     implementation(libs.androidx.core)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

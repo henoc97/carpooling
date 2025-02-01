@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
 import tg.ulcrsandroid.carpooling.application.utils.authStrategies.AuthContext
@@ -22,9 +23,23 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var authContext: AuthContext
     private lateinit var binding: ActivityLandingBinding // Déclarer le binding
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialiser Firebase Auth
+        auth = FirebaseAuth.getInstance()
+
+        // Vérifier si l'utilisateur est déjà connecté
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            // Rediriger vers HomeActivity si l'utilisateur est déjà connecté
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish() // Fermer l'activité actuelle pour empêcher l'utilisateur de revenir en arrière
+            return
+        }
 
         // Initialiser le binding
         binding = ActivityLandingBinding.inflate(layoutInflater)
@@ -38,21 +53,6 @@ class MainActivity : AppCompatActivity() {
 
         // Configurer l'animation de landing
         binding.landingAnimation.visibility = View.VISIBLE
-
-        // Test du chat
-//        if (UtilisateurService.recupererUtilisateurID(this) != null) {
-//            Log.d("Carpooling", "MainActivity:onCreate ---> L'UTILISATEUR EST DIFFERENT DE NULL")
-//            lifecycleScope.launch {
-//                val utilisateurActuel = UtilisateurService.initialiserUtilisateurActuel(
-//                    UtilisateurService.recupererUtilisateurID(this@MainActivity)!!)
-//                Log.d("Carpooling", "MainActivity:onCreate ---> UTILISATEUR ACTUEL : ${utilisateurActuel?.nomComplet}")
-//                val intent  = Intent(this@MainActivity, ChatActivity::class.java)
-//                startActivity(intent)
-//
-//                // Stop the activity
-//                finish()
-//            }
-//        }
 
         // Configurer les clics sur les boutons
         binding.signUpButton.setOnClickListener {

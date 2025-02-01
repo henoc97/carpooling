@@ -23,7 +23,16 @@
             android:name=".presentation.activities.DiscussionActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.activities.ReservationDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.activities.ListReservationActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.activities.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.activities.ResultatRechercheTrajetActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.activities.signUpActivity"
@@ -52,13 +61,13 @@
             android:theme="@style/Theme.Carpooling" />
         <!-- Ajouter l'activité TrajetsProchesActivity -->
         <activity
-            android:name=".presentation.activities.TrajetsProchesActivity"
+            android:name=".presentation.activities.SearchTrajetActivity"
             android:label="Trajets Proches" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCNwArZMo4NfCOfE6ANRi-vNmzFZeEtBaM" />
 
-         <meta-data
+        <meta-data
             android:name="com.google.android.gms.auth.api.credentials.ClientId"
             android:value="@string/default_web_client_id" />
 

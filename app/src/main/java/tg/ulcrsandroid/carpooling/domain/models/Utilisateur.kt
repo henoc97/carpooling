@@ -50,4 +50,10 @@ open class Utilisateur(
         mesChats.add(idDiscussion)
         UtilisateurService.mettreAJourProfil(this) // Mettre à jour le profil de l'utilisateur
     }
+
+    override fun toString(): String {
+        return "Utilisateur(idUtilisateur='$idUtilisateur', email='$email', nomComplet='$nomComplet', motDePasse='$motDePasse', typeUtilisateur='$typeUtilisateur', mesChats=$mesChats)"
+    }
+
+
 }

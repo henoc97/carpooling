@@ -11,7 +11,8 @@ class Passager(
     nomComplet: String,
     motDePasse: String,
     typeUtilisateur: String,
-    var historiqueReservations: List<Reservation>
+    var historiqueReservations: List<Reservation>,
+    var reservationsIds: MutableList<String>? = null
 ) : Utilisateur(idUtilisateur, email, nomComplet, motDePasse, typeUtilisateur) {
 
     constructor(parcel: Parcel) : this(
@@ -20,12 +21,36 @@ class Passager(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.createTypedArrayList(Reservation.CREATOR) ?: emptyList()
+        parcel.createTypedArrayList(Reservation.CREATOR) ?: emptyList(),
+        parcel.createStringArrayList() ?: mutableListOf()
+    )
+
+    constructor() : this(
+         "",
+         "",
+         "",
+         "",
+         "",
+         emptyList(),
+         mutableListOf()
+    )
+
+    constructor(utilisateur: Utilisateur) : this(
+        utilisateur.idUtilisateur,
+        utilisateur.email,
+        utilisateur.nomComplet,
+        utilisateur.motDePasse,
+        utilisateur.typeUtilisateur,
+        emptyList(),
     )
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
         dest.writeTypedList(historiqueReservations)
+    }
+
+    override fun toString(): String {
+        return "Passager(historiqueReservations=$historiqueReservations, reservationsIds=$reservationsIds)"
     }
 
     companion object CREATOR : Parcelable.Creator<Passager> {
@@ -37,4 +62,6 @@ class Passager(
             return arrayOfNulls(size)
         }
     }
+
+
 }

@@ -40,7 +40,7 @@ class TrajetDetailFragment : Fragment() {
         arguments?.let { args ->
             val trajet = args.getParcelable<Trajet>("trajet")
             trajet?.let {
-                binding.destinationTitle.text = it.lieuArrivee
+//                binding.destinationTitle.text = it.lieuArrivee
                 binding.tripTime.text = it.heureDepart.toString()
                 binding.availableSeats.text = "${it.placesDisponibles} places disponibles"
             }
@@ -55,7 +55,7 @@ class TrajetDetailFragment : Fragment() {
                 nomComplet = "John Doe",
                 motDePasse = "password123",
                 typeUtilisateur = "passager",
-                historiqueReservations = emptyList() // Vous pouvez ajouter des réservations ici si nécessaire
+                historiqueReservations = emptyList(), // Vous pouvez ajouter des réservations ici si nécessaire
             ),
             Passager(
                 idUtilisateur = "2",
@@ -63,7 +63,7 @@ class TrajetDetailFragment : Fragment() {
                 nomComplet = "Jane Smith",
                 motDePasse = "password456",
                 typeUtilisateur = "passager",
-                historiqueReservations = emptyList() // Vous pouvez ajouter des réservations ici si nécessaire
+                historiqueReservations = emptyList(), // Vous pouvez ajouter des réservations ici si nécessaire
             )
         )
     }

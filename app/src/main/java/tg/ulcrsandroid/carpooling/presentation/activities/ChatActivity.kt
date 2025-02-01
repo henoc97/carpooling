@@ -37,16 +37,18 @@ class ChatActivity : AppCompatActivity() {
         val adapter = ChatAdapter()
         adapter.onItemClick = this::onItemClick
 
-        lifecycleScope.launch {
-            if (UtilisateurService.utilisateurActuel == null) {
-                Log.d("Carpooling", "ChatActivity:onCreate ---> ID SAUVEGARDE ---> ${UtilisateurService.utilisateurID}")
-                UtilisateurService.initialiserUtilisateurActuel(UtilisateurService.utilisateurID!!)
-            }
-            val chats = ChatService.getChatsByIds(UtilisateurService.utilisateurActuel!!.mesChats)
-            Log.d("Carpooling", "ChatActivity:onCreate ---> CHATS ---> ${chats.size} ---> $chats")
-            adapter.setChats(chats)
-            ui.chatRecyclerView.adapter = adapter
-        }
+
+
+//        lifecycleScope.launch {
+//            if (UtilisateurService.utilisateurActuel == null) {
+//                Log.d("Carpooling", "ChatActivity:onCreate ---> ID SAUVEGARDE ---> ${UtilisateurService.utilisateurID}")
+//                UtilisateurService.initialiserUtilisateurActuel(UtilisateurService.utilisateurID!!)
+//            }
+//            val chats = ChatService.getChatsByIds(UtilisateurService.utilisateurActuel!!.mesChats)
+//            Log.d("Carpooling", "ChatActivity:onCreate ---> CHATS ---> ${chats.size} ---> $chats")
+//            adapter.setChats(chats)
+//            ui.chatRecyclerView.adapter = adapter
+//        }
     }
 
     private fun onItemClick(idChat: String?, nomComplet: String?) {
@@ -56,39 +58,5 @@ class ChatActivity : AppCompatActivity() {
         Log.d("Carpooling", "ChatActivity:onItemClick ---> ID-CHAT SHARED ---> $idChat")
         intent.putExtra("nomComplet", nomComplet)
         startActivity(intent)
-    }
-
-    private fun createTestUsers(): List<Utilisateur> {
-        val testUsers = mutableListOf<Utilisateur>();
-        for (i in 1..10) {
-            val user = Utilisateur()
-            user.nomComplet = "A${i} Sylvain"
-            user.email = "a${i}@gmail.com"
-            user.idUtilisateur = "a${i}"
-            testUsers.add(user)
-        }
-        return testUsers
-    }
-
-    private fun createTestChats(): List<Chat> {
-        val testChat = mutableListOf<Chat>();
-        val chat = Chat(
-            idChat = DiscussionService.generateUniqueKey(),
-            nomInitialisateur = sender.nomComplet,
-            idInitialisateur = sender.idUtilisateur,
-            nomMembreSecondaire = receiver.nomComplet,
-            idMembreSecondaire = receiver.idUtilisateur,
-        )
-        ChatService.creerRemoteChat(chat) // Ajouter le chat au remote
-        // Ajouter l'id du chat aux deux utilisateurs
-        sender.ajouterIdDiscussion(chat.idChat)
-        receiver.ajouterIdDiscussion(chat.idChat)
-
-        testChat.add(chat)
-        return testChat
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }

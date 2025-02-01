@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import tg.ulcrsandroid.carpooling.R
 import tg.ulcrsandroid.carpooling.application.services.DiscussionService
 import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
+import tg.ulcrsandroid.carpooling.application.utils.UserManager
 import tg.ulcrsandroid.carpooling.databinding.ActivityDiscussionBinding
 import tg.ulcrsandroid.carpooling.domain.models.Discussion
 import tg.ulcrsandroid.carpooling.domain.models.Utilisateur
@@ -33,7 +34,7 @@ class DiscussionActivity : AppCompatActivity() {
 
     private lateinit var ui: ActivityDiscussionBinding
     private var database = Firebase.database
-    private var lastMessageIndex: Int = 0
+//    private var lastMessageIndex: Int = 0
     private var messages: MutableList<Discussion>? = null
     private lateinit var discussionAdapter: DiscussionAdapter
 
@@ -53,7 +54,8 @@ class DiscussionActivity : AppCompatActivity() {
         lifecycleScope.launch {
 //            messages = DiscussionService.recupererListDeDiscussions(idChat!!)
             messages = DiscussionService.retreiveMessages(ref)
-            lastMessageIndex = messages!!.size
+            Log.d("Carpooling", "DiscussionActivity:onCreate ---> MESSAGES LENGTH---> ${messages?.size}")
+//            lastMessageIndex = messages!!.size
             discussionAdapter = DiscussionAdapter(messages!!)
             // Mise en place du viewholder
             ui.messagesRecyclerView.apply {
@@ -92,6 +94,7 @@ class DiscussionActivity : AppCompatActivity() {
                 val msg = snapshot.getValue<Discussion>()!!
                 Log.d("Carpooling", "DiscussionActivity:initNewMessageListner ---> CHILD ADDED ---> ${msg}")
                 ajouterMessage(msg)
+//                lastMessageIndex++
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -113,7 +116,7 @@ class DiscussionActivity : AppCompatActivity() {
     }
 
     private fun ajouterMessage(discussion: Discussion) {
-        if (discussion.idExpediteur != UtilisateurService.utilisateurID) {
+        if (discussion.idExpediteur != UserManager.getCurrentUser()?.idUtilisateur) {
 //            messages?.add(discussion)
             discussionAdapter.addDiscussion(discussion)
         }
@@ -124,17 +127,19 @@ class DiscussionActivity : AppCompatActivity() {
         if (messageText.isNotEmpty()) {
             val discussion = Discussion(
                 DiscussionService.generateUniqueKey(),
-                UtilisateurService.utilisateurID!!,
+                UserManager.getCurrentUser()?.idUtilisateur!!,
                 messageText,
                 Date()
             )
             discussionAdapter.addDiscussion(discussion)
 
-            // Add a discussion to the node
-            ref.child("$lastMessageIndex")
-                .setValue(discussion)
+//            // Add a discussion to the node
+//            ref.child("$lastMessageIndex")
+//                .setValue(discussion)
 
-            lastMessageIndex++
+            ref.setValue(discussionAdapter.getDiscussions())
+
+//            lastMessageIndex++
             ui.messageInput.setText("")
         }
     }

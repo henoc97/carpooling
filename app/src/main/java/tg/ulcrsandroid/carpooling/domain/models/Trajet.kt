@@ -13,8 +13,11 @@ class Trajet(
     var placesDisponibles: Int = 0,
     var conducteur: Conducteur? = null,
     var idConducteur: String = "",
-    var creeA: Long = 0 // Timestamp (millisecondes)
+    var creeA: Long = 0, // Timestamp (millisecondes)
+    var reservations: MutableList<Reservation> = mutableListOf(),
+    var reservationsIds: MutableList<String> = mutableListOf()
 ) : Parcelable {
+
     // Constructeur sans arguments (nécessaire pour Firebase)
     constructor() : this("", "", "", 0, 0f, 0, null, "", 0)
 
@@ -62,4 +65,10 @@ class Trajet(
     fun getCreeADate(): Date {
         return Date(creeA)
     }
+
+    override fun toString(): String {
+        return "Trajet(idTrajet='$idTrajet', lieuDepart='$lieuDepart', lieuArrivee='$lieuArrivee', heureDepart=$heureDepart, prixParPassager=$prixParPassager, placesDisponibles=$placesDisponibles, conducteur=$conducteur, idConducteur='$idConducteur', creeA=$creeA)"
+    }
+
+
 }
