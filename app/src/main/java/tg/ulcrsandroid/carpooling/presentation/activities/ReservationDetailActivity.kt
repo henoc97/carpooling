@@ -30,13 +30,6 @@ class ReservationDetailActivity: AppCompatActivity() {
 
         reservation = intent.getParcelableExtra("reservation")
         binding.etat.text = reservation?.statut
-        if (reservation?.statut == ReservationService.EN_ATTENTE) {
-            binding.etat.setBackgroundColor(Color.hsl(44f, 0.87f, 0.50f).toArgb())
-        }
-
-        if (reservation?.statut == ReservationService.REJETEE) {
-            binding.etat.setBackgroundColor(Color.hsl(6f, 0.87f, 0.50f).toArgb())
-        }
 
         binding.etat.setBackgroundColor(0)
 
