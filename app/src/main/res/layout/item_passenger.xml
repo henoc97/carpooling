@@ -60,13 +60,14 @@
             android:layout_marginTop="65dp">
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/confirmer"
                 android:layout_width="4dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/rounded_bottom2"
-                android:text="Annuler"
-                android:onClick="annulerReservationk"/>
+                android:background="@drawable/rounded_bottom3"
+                android:backgroundTint="@color/primary_variant"
+                android:text="Confirmer"/>
+            <!--            android:onClick="annulerReservationk"-->
 
             <View
                 android:layout_width="16dp"
@@ -74,14 +75,14 @@
                 android:layout_height="match_parent"/>
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/rejeter"
                 android:layout_width="4dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/rounded_bottom3"
-                android:backgroundTint="@color/primary_variant"
-                android:text="Confirmer"
-                android:onClick="confirmerReservation"/>
+                android:background="@drawable/rounded_bottom2"
+                android:text="Rejeter"/>
+
+<!--            android:onClick="confirmerReservation"-->
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
