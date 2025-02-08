@@ -104,9 +104,10 @@
                 android:layout_height="wrap_content"
                 android:text="Rechercher"
                 android:textAllCaps="false"
-                android:padding="16dp"
                 app:cornerRadius="24dp"
                 android:backgroundTint="@color/primary"/>
+<!--            android:padding="16dp"-->
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>
