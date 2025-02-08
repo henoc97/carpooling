@@ -87,12 +87,10 @@ class PassengersAdapter(
             )
         }
         if (reservations[position].statut != ReservationService.ACCEPTEE) {
+            Log.d("Carpooling", "trajet -> ${reservations[position]}")
             holder.confirmerButton.setOnClickListener {
-                Log.d("Carpooling", "trajet -> ")
                 confirmerReservation(reservations[position])
                 holder.confirmerButton.text = "Confimé ✓"
-                // ajouterObjetTrajet(reservations[position])
-                // ReservationService.ajouterObjetTrajet(reservations[position])
                 val notificationTitle = "Acceptation de covoiturage"
                 Log.d("Carpooling", "trajet -> ${reservations[position]}")
                 val notificationBody = "Votre demande de covoiturage  a été acceptée ✓"
@@ -121,27 +119,21 @@ class PassengersAdapter(
                     }
                 )
             }
+        } else {
+            holder.confirmerButton.text = "Confimé ✓"
         }
     }
 
     private fun envoyerMessage(reservation: Reservation) {
         Log.d("Carpooling", "PassengersAdapter:onBindViewHolder ---> Click sur le Boutton Message")
         envoyerMessageParent(reservation)
-//        lifecycleScope.launch {
-//            val chat = ChatService.findCommonChat(UserManager.getCurrentUser()!!.mesChats, reservation?.trajet!!.idConducteur)
-//            val intent = Intent(this@ReservationDetailActivity, DiscussionActivity::class.java)
-//            Log.d("Carpooling", "ReservationDetailActivity:envoyerMessage ---> CHAT ---> $chat")
-//            intent.putExtra("idChat", chat.idChat)
-//            intent.putExtra("nomComplet", chat.nomMembreSecondaire)
-//            startActivity(intent)
-//        }
     }
 
     private fun confirmerReservation(reservation: Reservation) {
         reservation.statut = ReservationService.ACCEPTEE
         ReservationService.mettreAJourReservation(reservation)
-        // Supprimer la reservation de la liste des reservations
-        Log.d("Carpooling", "PassengersAdapter:onBindViewHolder ---> Click sur le Boutton Confirmer")
+        confirmerReservationParent()
+        Log.d("Carpooling", "PassengersAdapter:onBindViewHolder ---> Reservation status --> ${reservation.statut}")
     }
 
     private fun rejeterReservation(reservation: Reservation, position: Int) {

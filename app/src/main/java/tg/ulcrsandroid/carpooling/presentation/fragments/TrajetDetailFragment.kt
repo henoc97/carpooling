@@ -72,7 +72,6 @@ class TrajetDetailFragment : Fragment() {
             adapter.supprimerReservationParent = this@TrajetDetailFragment::supprimerReservation
             adapter.envoyerMessageParent = this@TrajetDetailFragment::envoyerMessage
             adapter.confirmerReservationParent = this@TrajetDetailFragment::confirmerReservation
-            // adapter.ajouterObjetTrajet = this@TrajetDetailFragment::ajouterObjetTrajet
         }
 
 
@@ -88,7 +87,6 @@ class TrajetDetailFragment : Fragment() {
                     startActivity(intent)
                 }
             }
-
         }
     }
 
@@ -100,7 +98,9 @@ class TrajetDetailFragment : Fragment() {
 
     private fun confirmerReservation() {
         trajet?.placesDisponibles = trajet?.placesDisponibles!!.minus(1)
+        Log.d("Carpooling", "TrajetDetailFragment:confirmerReservation ---> trajet -> ${trajet?.placesDisponibles} disponibles")
         TrajetService.mettreAJourTrajet(trajet!!)
+        Log.d("Carpooling", "TrajetDetailFragment:confirmerReservation ---> trajet -> ${trajet?.placesDisponibles} disponibles")
         binding.availableSeats.text = "${trajet?.placesDisponibles} places disponibles"
     }
 
@@ -122,27 +122,6 @@ class TrajetDetailFragment : Fragment() {
         trajet?.reservationsIds?.removeAll(listOf(s))
         TrajetService.mettreAJourTrajet(trajet!!)
         Log.d("Carpooling", "TrajetDetailFragment:supprimerReservation ---> trajets -> ${trajet?.reservationsIds}")
-    }
-
-    private fun createDummyPassengers(): List<Passager> {
-        return listOf(
-            Passager(
-                idUtilisateur = "1",
-                email = "john.doe@example.com",
-                nomComplet = "John Doe",
-                motDePasse = "password123",
-                typeUtilisateur = "passager",
-                historiqueReservations = emptyList(), // Vous pouvez ajouter des réservations ici si nécessaire
-            ),
-            Passager(
-                idUtilisateur = "2",
-                email = "jane.smith@example.com",
-                nomComplet = "Jane Smith",
-                motDePasse = "password456",
-                typeUtilisateur = "passager",
-                historiqueReservations = emptyList(), // Vous pouvez ajouter des réservations ici si nécessaire
-            )
-        )
     }
 
     companion object {
