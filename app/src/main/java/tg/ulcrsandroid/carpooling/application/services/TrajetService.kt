@@ -79,16 +79,6 @@ object TrajetService : ITrajet {
     override fun creerTrajet(trajet: Trajet, idConducteur: String) {
         val newTrajetRef = database.push()
         val idTrajet = newTrajetRef.key ?: ""
-//        val trajetMap = mapOf(
-//            "idTrajet" to idTrajet,
-//            "lieuDepart" to trajet.lieuDepart,
-//            "lieuArrivee" to trajet.lieuArrivee,
-//            "heureDepart" to trajet.heureDepart,
-//            "prixParPassager" to trajet.prixParPassager,
-//            "placesDisponibles" to trajet.placesDisponibles,
-//            "idConducteur" to idConducteur,
-//            "creeA" to trajet.creeA
-//        )
         trajet.idConducteur = idConducteur
         trajet.idTrajet = idTrajet
         newTrajetRef.setValue(trajet)
