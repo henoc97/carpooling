@@ -53,7 +53,6 @@ class PassengersAdapter(
     override fun onBindViewHolder(holder: PassengerViewHolder, position: Int) {
         val passenger = reservations[position].passager
         holder.passengerName.text = passenger?.nomComplet
-        // holder.passengerPosition.text = "passenger.position"
         holder.messageButton.setOnClickListener {
             envoyerMessage(reservations[position])
         }
@@ -69,11 +68,13 @@ class PassengersAdapter(
             } else {
                 Log.e("NotificationService", "Le contexte n'est pas une activité.")
             }
+            Log.d("Carpooling", "PassengersAdapter:RejeterButton: Trajet -> ${passenger?.idUtilisateur}")
 
             // Récupérer le token FCM du passager
             UtilisateurService.getFcmTokenById(
                 passenger?.idUtilisateur ?: "", // Utilisez l'ID du passager ici
                 onSuccess = { token ->
+                    Log.d("Carpooling", "PassengersAdapter:RejeterButton: Token -> $token")
                     if (token != null) {
                         // Si le token est récupéré avec succès, envoyer la notification
                         NotificationService.envoyerNotification(token, notificationTitle, notificationBody)
