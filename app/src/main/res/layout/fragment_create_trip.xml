@@ -103,7 +103,6 @@
                 android:layout_height="wrap_content"
                 android:text="Enregistrer"
                 android:textAllCaps="false"
-                android:padding="16dp"
                 app:cornerRadius="24dp"
                 android:backgroundTint="@color/primary"/>
         </LinearLayout>

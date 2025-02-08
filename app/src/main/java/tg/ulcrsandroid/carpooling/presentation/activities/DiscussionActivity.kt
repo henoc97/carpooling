@@ -22,6 +22,7 @@ import com.google.firebase.database.getValue
 import kotlinx.coroutines.launch
 import tg.ulcrsandroid.carpooling.R
 import tg.ulcrsandroid.carpooling.application.services.DiscussionService
+import tg.ulcrsandroid.carpooling.application.services.NotificationService
 import tg.ulcrsandroid.carpooling.application.services.UtilisateurService
 import tg.ulcrsandroid.carpooling.application.utils.UserManager
 import tg.ulcrsandroid.carpooling.databinding.ActivityDiscussionBinding
@@ -132,14 +133,7 @@ class DiscussionActivity : AppCompatActivity() {
                 Date()
             )
             discussionAdapter.addDiscussion(discussion)
-
-//            // Add a discussion to the node
-//            ref.child("$lastMessageIndex")
-//                .setValue(discussion)
-
             ref.setValue(discussionAdapter.getDiscussions())
-
-//            lastMessageIndex++
             ui.messageInput.setText("")
         }
     }

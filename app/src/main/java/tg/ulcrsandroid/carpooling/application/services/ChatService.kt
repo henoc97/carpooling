@@ -33,6 +33,15 @@ object ChatService {
         return chats
     }
 
+//    suspend fun recupererIdsFcmTokens(idChat: String) {
+//        val tokens = mutableListOf<String>()
+//        val ref = Firebase.database.reference.child("chats/$idChat/idInitialisateur")
+//        ref.get().addOnSuccessListener { snapshot ->
+//            val userId1 = snapshot.getValue<String>()
+//            UtilisateurService.getFcmTokenById(userId1!!)
+//        }
+//    }
+
     suspend fun findCommonChat(l: List<String>, idSecondMembre: String) : Chat{
         val database = Firebase.database
         l.forEach { s ->

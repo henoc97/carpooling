@@ -188,9 +188,10 @@ object TrajetService : ITrajet {
         val isDestinationMatch = trajet.lieuArrivee.equals(destination, ignoreCase = true)
 
         // Check if the time is within tolerance
-        val isTimeWithinTolerance = trajet.heureDepart < System.currentTimeMillis()
+        val isTimeWithinTolerance = trajet.heureDepart > System.currentTimeMillis()
+        Log.d("Carpooling", "TrajetService:isTrajetWithinTolerance ---> isTimeWithinTolerance ---> $isTimeWithinTolerance")
 
-        return isDepartureMatch && isDestinationMatch // && isTimeWithinTolerance
+        return isDepartureMatch && isDestinationMatch && isTimeWithinTolerance
     }
 
 }

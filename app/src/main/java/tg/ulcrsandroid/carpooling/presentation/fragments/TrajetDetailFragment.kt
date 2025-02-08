@@ -15,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 import tg.ulcrsandroid.carpooling.DriveMeToActivity
 import tg.ulcrsandroid.carpooling.application.services.ChatService
+import tg.ulcrsandroid.carpooling.application.services.NotificationService
 import tg.ulcrsandroid.carpooling.application.services.ReservationService
 import tg.ulcrsandroid.carpooling.application.services.TrajetService
 import tg.ulcrsandroid.carpooling.application.utils.UserManager
@@ -46,6 +47,9 @@ class TrajetDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         Log.d("Carpooling", "TrajetDetailFragment:onViewCreated ---> Debut de TrajetDetailFragment pour lister les details d'un trajet")
+
+        // Ajout de l'activité à la notification
+        NotificationService.setActivity(requireActivity())
 
         // Récupération des arguments et affichage des données
         arguments?.let { args ->

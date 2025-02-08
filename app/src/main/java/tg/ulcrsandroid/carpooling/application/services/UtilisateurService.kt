@@ -180,6 +180,21 @@ object UtilisateurService : IUtilisateur {
             }
     }
 
+//    suspend fun getFcmTokenById(userId: String): String? {
+//        return suspendCoroutine { continuation ->
+//            database.child("users").child(userId).child("notifications").child("fcmToken")
+//                .get()
+//                .addOnSuccessListener { snapshot ->
+//                    val token = snapshot.value as? String
+//                    continuation.resume(token)
+//                }
+//                .addOnFailureListener { e ->
+//                    Log.e("Carpooling", "Erreur lors de la récupération du token FCM : ${e.message}")
+//                    continuation.resume(null)
+//                }
+//        }
+//    }
+
     fun getCurrentUserId(): String? {
         val currentUser = auth.currentUser
         return currentUser?.let { user -> user.uid}
