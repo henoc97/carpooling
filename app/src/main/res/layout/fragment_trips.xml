@@ -30,8 +30,7 @@
         android:backgroundTint="@color/red"
         android:drawableLeft="@drawable/ic_pompier"
         android:drawablePadding="8dp"
-        android:layout_margin="12dp"
-        android:onClick="appelerUrgences"/>
+        android:layout_margin="12dp"/>
 
     <!-- Liste déroulante des conseils -->
     <TextView

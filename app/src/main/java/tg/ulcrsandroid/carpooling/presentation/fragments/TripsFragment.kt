@@ -1,6 +1,9 @@
 package tg.ulcrsandroid.carpooling.presentation.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
@@ -15,6 +18,7 @@ class TripsFragment : Fragment(R.layout.fragment_trips) {
 
         val spinner: Spinner = view.findViewById(R.id.spinnerConseils)
         val textViewEtapes: TextView = view.findViewById(R.id.textViewEtapes)
+        val bouttonUrgences: TextView = view.findViewById(R.id.buttonUrgences)
 
         val conseils = listOf(
             "Changer un pneu",
@@ -43,68 +47,14 @@ class TripsFragment : Fragment(R.layout.fragment_trips) {
                 textViewEtapes.text = ""
             }
         }
+        bouttonUrgences.setOnClickListener(this::appelerUrgences)
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        // Configuration du RecyclerView avec le binding
-//        binding.passengersRecyclerView.layoutManager = LinearLayoutManager(context)
-////        adapter = TrajetsAdapter(createDummyReservations())
-//        binding.passengersRecyclerView.adapter = adapter
-//
-//        // Récupération des arguments et affichage des données
-//        arguments?.let { args ->
-//            val trajet = args.getParcelable<Trajet>("trajet")
-//            trajet?.let {
-////                binding.destinationTitle.text = it.lieuArrivee
-//                binding.tripTime.text = it.heureDepart.toString()
-//                binding.availableSeats.text = "${it.placesDisponibles} places disponibles"
-//            }
-//        }
-//    }
+    private fun appelerUrgences(view: View?) {
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.setData(Uri.parse("tel:118"))
+        startActivity(intent)
+        Log.d("Carpooling", "TripsFragment:appelerurgences ---> Appeler les urgences")
+    }
 
-//    private fun createDummyReservations(): List<Reservation> {
-//        return listOf(
-//            Reservation(
-//                idReservation = "R001",
-//                passager = Passager.createFromParcel(
-//                    idUtilisateur = "1",
-//                    email = "john.doe@example.com",
-//                    nomComplet = "John Doe",
-//                    motDePasse = "password123",
-//                    typeUtilisateur = "passager",
-//                ),
-//                trajet = Trajet.createFromParcel(
-//                    idTrajet = "T001",
-//                    lieuDepart = "Paris",
-//                    lieuArrivee = "Lyon",
-//                    heureDepart = Date(),
-//                    prixParPassager = 10.0f,
-//                ),
-//                heureReservation = Date(),
-//                statut = "pending"
-//            )
-//
-//            Reservation(
-//                idReservation = "R002",
-//                passager = Passager.createFromParcel(
-//                    idUtilisateur = "2",
-//                    email = "jane.smith@example.com",
-//                    nomComplet = "Jane Smith",
-//                    motDePasse = "password456",
-//                    typeUtilisateur = "passager",
-//                ),
-//                trajet = Trajet.createFromParcel(
-//                    idTrajet = "T002",
-//                    lieuDepart = "Marseille",
-//                    lieuArrivee = "Paris",
-//                    heureDepart = Date(),
-//                    prixParPassager = 15.0f,
-//                ),
-//                heureReservation = Date(),
-//                statut = "accepted"
-//            )
-//        )
-//    }
 }
